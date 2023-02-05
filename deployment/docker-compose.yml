@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  tic-tac-toe-server:
+  meal-mate:
     image: "velox1992/meal-mate"
     ports:
       - "8012:80"
