@@ -9,3 +9,4 @@ node_modules
 frontend/.svelte-kit
 backend/.idea
 backend/api/obj
+backend/api/bin
