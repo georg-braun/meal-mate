@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  tic-tac-toe-server:
+    image: "velox1992/meal-mate"
+    ports:
+      - "8012:80"
+    environment:
+      # necessary for Apple M1. Missing filewatcher.
+      - ASPNETCORE_hostBuilder__reloadConfigOnChange=false
