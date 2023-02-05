@@ -7,3 +7,5 @@ node_modules
 .env.*
 !.env.example
 frontend/.svelte-kit
+backend/.idea
+backend/api/obj
