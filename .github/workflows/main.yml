@@ -5,7 +5,9 @@ on:
     branches: [ main ]
   # trigger manually
   workflow_dispatch:
-  
+
+env:
+  PROJECT_NAME: meal-mate
   
 jobs:
   build:
@@ -46,20 +48,20 @@ jobs:
       - name: Tag built container
         uses: actions-hub/docker/cli@master
         with:
-          args: tag meal-mate-api:1.0.0 registry.hub.docker.com/velox1992/meal-mate-api:${{ github.sha }}
+          args: tag meal-mate:1.0.0 registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
           
       - name: Push built image to the registry
         uses: actions-hub/docker/cli@master
         with:
-          args: push registry.hub.docker.com/velox1992/meal-mate-api:${{ github.sha }}
+          args: push registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
           
       # Change tag of image to able to push it to the correct target and use the latest tag
       - name: Tag built container
         uses: actions-hub/docker/cli@master
         with:
-          args: tag meal-mate-api:1.0.0 registry.hub.docker.com/velox1992/meal-mate-api:latest
+          args: tag meal-mate:1.0.0 registry.hub.docker.com/velox1992/meal-mate:latest
 
       - name: Push built image to the registry
         uses: actions-hub/docker/cli@master
         with:
-          args: push registry.hub.docker.com/velox1992/meal-mate-api:latest
+          args: push registry.hub.docker.com/velox1992/meal-mate:latest
