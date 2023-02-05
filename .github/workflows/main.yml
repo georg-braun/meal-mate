@@ -45,7 +45,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       # Change tag of image to able to push it to the correct target and use a specific version tag
-      - name: Tag built container
+      - name: Tag built container with specfic commit id ${{ github.sha }}
         uses: actions-hub/docker/cli@master
         with:
           args: tag api:1.0.0 registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
@@ -56,10 +56,10 @@ jobs:
           args: push registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
           
       # Change tag of image to able to push it to the correct target and use the latest tag
-      - name: Tag built container
+      - name: Tag built container with latest
         uses: actions-hub/docker/cli@master
         with:
-          args: api:1.0.0 registry.hub.docker.com/velox1992/meal-mate:latest
+          args: tag api:1.0.0 registry.hub.docker.com/velox1992/meal-mate:latest
 
       - name: Push built image to the registry
         uses: actions-hub/docker/cli@master
