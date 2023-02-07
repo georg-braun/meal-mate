@@ -1,0 +1,3 @@
+﻿namespace domain;
+
+interface IAggregateRoot{}
