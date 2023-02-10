@@ -1,3 +1,7 @@
+using api.database;
+using domain;
+using Microsoft.EntityFrameworkCore;
+
 namespace api.commands;
 
 public class GetItemsQuery
@@ -7,8 +11,8 @@ public class GetItemsQuery
 
 public static class GetItemsQueryHandler
 {
-    public static IResult Handle(GetItemsQuery command)
+    public static async Task<List<Item>> Handle(MealMateContext context)
     {
-        return Results.Ok();
+        return await context.Items.Include(_ => _.Category).ToListAsync();
     }
 }

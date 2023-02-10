@@ -1,3 +1,5 @@
+using api.database;
+
 namespace api.commands;
 
 public record CreateItemCommand
@@ -9,8 +11,10 @@ public record CreateItemCommand
 
 public static class CreateItemCommandHandler
 {
-    public static IResult Handle(CreateItemCommand command)
+    public static IResult Handle(CreateItemCommand command, MealMateContext context)
     {
-        return Results.Ok();
+        var item = context.CreateItem(command.Name, command.CategoryId);
+        
+        return Results.Created("todo", item);
     }
 }

@@ -1,3 +1,6 @@
+using api.database;
+using domain;
+
 namespace api.commands;
 
 public record CreateCategoryCommand
@@ -8,8 +11,11 @@ public record CreateCategoryCommand
 
 public static class CreateCategoryCommandHandler
 {
-    public static IResult Handle(CreateCategoryCommand command)
+    public static async Task<IResult> Handle(CreateCategoryCommand command, MealMateContext context)
     {
+        var category = Category.Create(command.Name);
+        context.Categories.Add(category);
+        await context.SaveChangesAsync();
         return Results.Ok();
     }
 }

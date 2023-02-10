@@ -5,20 +5,20 @@ public class ShoppingList : IAggregateRoot, IEntity
     public Guid Id { get; init; }
     public string Name { get; init; }
 
-    private List<Entry> _entries = new();
+    public List<Entry> Entries { get; init; } = new();
 
-    public Entry CreateEntry(Item item, ShoppingList list, string qualifier)
+    public Entry CreateEntry(Item item, string qualifier)
     {
-        var entry = Entry.Create(item, list, qualifier);
-        _entries.Add(entry);
+        var entry = Entry.Create(item, this, qualifier);
+        Entries.Add(entry);
         return entry;
     }
 
     public bool RemoveEntry(Guid entryId)
     {
-        var entryIndex = _entries.FindIndex(_ => _.Id.Equals(entryId));
+        var entryIndex = Entries.FindIndex(_ => _.Id.Equals(entryId));
         if (entryIndex < 0) return false;
-        _entries.RemoveAt(entryIndex);
+        Entries.RemoveAt(entryIndex);
         return true;
     }
 
