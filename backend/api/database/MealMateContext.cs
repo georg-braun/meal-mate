@@ -5,12 +5,8 @@ namespace api.database;
 
 public class MealMateContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite($"Data Source=meal-mate.db");
-        base.OnConfiguring(optionsBuilder);
-    }
 
+    public MealMateContext(DbContextOptions<MealMateContext> contextOptions) : base(contextOptions){}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

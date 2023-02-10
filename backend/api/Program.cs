@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<MealMateContext>();
+builder.Services.AddDbContext<MealMateContext>(optionsBuilder => optionsBuilder.UseSqlite("Data Source=meal-mate.db"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -36,3 +36,7 @@ app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle);
 
 app.Run();
 
+
+public partial class Program
+{
+} /* use for integration tests */
