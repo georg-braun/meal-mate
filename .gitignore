@@ -10,3 +10,4 @@ frontend/.svelte-kit
 backend/.idea
 backend/**/obj
 backend/**/bin
+backend/api/meal-mate.db**
