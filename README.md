@@ -15,12 +15,12 @@ This procedure consumes time that I rather spend somewhere elese. Therefore I cr
 **Roadmap**
 
 🚲 Basic 
-- [ ] Show me shopping lists with the stuff that I have to buy somewhere.
-  - [] Subscriptions only to lists that are connected to the logged in user
-  - [] I can add manually add items to the list.
-  - [] I can check off items on the shopping list during shopping.
-  - [] Show the category of the shopping list entry.
-  - [] Sort the shopping list by category therefore I don't have to run zigzag through the supermarket.
+- [ ] Manage items (like food) in categories
+- [ ] Show me shopping lists with the stuff that I have to buy somewhere.  
+  - [ ] I can add manually add items to the list.
+  - [ ] I can check off items on the shopping list during shopping.
+  - [ ] Show the category of the shopping list entry.
+  - [ ] Sort the shopping list by category therefore I don't have to run zigzag through the supermarket.
 
 - [ ] Manage the meals I like with the corresponding ingredients.
   - [ ] I can select a meal and add the ingredients to the shopping list.
