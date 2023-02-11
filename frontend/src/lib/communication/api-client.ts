@@ -17,6 +17,10 @@ class ApiClient{
 		await this.sendPostAsync("CreateItemCommand", {name: name, categoryId: categoryId});
 	}
 
+	async deleteItemAsync(itemId: string){
+		await this.sendPostAsync("DeleteItemCommand", {itemId: itemId});
+	}
+
 	async getCategoriesDetailsAsync() : Promise<GetCategoriesDetailsQueryDto[]> {
 		const config = {
 		  url: `${serverUrl}/${"GetCategoriesDetailsQuery"}`,

@@ -16,7 +16,7 @@
 </script>
 
 <h1>Kategorie</h1>
-{#each categories as category}  
+{#each categories as category (category.id)}  
     <Category category={category} />
 {/each}
 
