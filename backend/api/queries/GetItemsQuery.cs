@@ -11,8 +11,26 @@ public class GetItemsQuery
 
 public static class GetItemsQueryHandler
 {
-    public static async Task<List<Item>> Handle(MealMateContext context)
+    public static async Task<IEnumerable<GetItemsDto>> Handle(MealMateContext context)
     {
-        return await context.Items.Include(_ => _.Category).ToListAsync();
+        var items = await context.Items.Include(_ => _.Category).ToListAsync();
+        return items.Select(ToDto);
+    }
+    
+    private static GetItemsDto ToDto(Item item)
+    {
+        return new GetItemsDto
+        {
+            Id = item.Id, 
+            CategoryId = item.Category.Id, 
+            Name = item.Name
+        };
+    }
+
+    public record GetItemsDto
+    {
+        public Guid Id { get; init; }
+        public Guid CategoryId { get; init; }
+        public string Name { get; init; }
     }
 }

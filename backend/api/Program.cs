@@ -9,6 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MealMateContext>(optionsBuilder => optionsBuilder.UseSqlite("Data Source=meal-mate.db"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options => 
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyHeader();
+            // policy.AllowAnyMethod();
+        }));
 
 var app = builder.Build();
 
@@ -18,23 +26,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 
 app.MapGet("/", () => Results.Ok("Everything is fine"));
 
-app.MapPost($"/{CreateItemCommand.Route}", CreateItemCommandHandler.Handle);
-app.MapGet($"/{GetItemsQuery.Route}", GetItemsQueryHandler.Handle);
+app.MapPost($"/{CreateItemCommand.Route}", CreateItemCommandHandler.Handle).WithTags("Category");
+app.MapGet($"/{GetItemsQuery.Route}", GetItemsQueryHandler.Handle).WithTags("Category");
 
-app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommandHandler.Handle);
-app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle);
-app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesWithItemsQueryHandler.Handle);
+app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommandHandler.Handle).WithTags("Category");
+app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle).WithTags("Category");
+app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesWithItemsQueryHandler.Handle).WithTags("Category");
 
-app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHandler.Handle);
-app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle);
-
-app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandCommandHandler.Handle);
+app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHandler.Handle).WithTags("ShoppingList");
+app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
+app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandCommandHandler.Handle).WithTags("ShoppingList");
 
 
 

@@ -3,6 +3,7 @@ using domain;
 
 namespace api.commands;
 
+
 public record CreateCategoryCommand
 {
     public static string Route = nameof(CreateCategoryCommand);
