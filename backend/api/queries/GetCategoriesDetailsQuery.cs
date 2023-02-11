@@ -11,7 +11,7 @@ public class GetCategoriesDetailsQuery
 }
 
 
-public static class GetCategoriesWithItemsQueryHandler
+public static class GetCategoriesDetailsQueryHandler
 {
     public static async Task<List<GetCategoriesWithDetailsDto>> Handle(MealMateContext context)
     {

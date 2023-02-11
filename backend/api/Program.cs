@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
-builder.Services.AddDbContext<MealMateContext>(optionsBuilder => optionsBuilder.UseSqlite("Data Source=meal-mate.db"));
+builder.Services.AddDbContext<MealMateContext>(optionsBuilder =>
+    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDatabase")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => 
@@ -38,17 +40,14 @@ app.MapGet($"/{GetItemsQuery.Route}", GetItemsQueryHandler.Handle).WithTags("Cat
 
 app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommandHandler.Handle).WithTags("Category");
 app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle).WithTags("Category");
-app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesWithItemsQueryHandler.Handle).WithTags("Category");
+app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesDetailsQueryHandler.Handle).WithTags("Category");
 
 app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHandler.Handle).WithTags("ShoppingList");
 app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
 app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandCommandHandler.Handle).WithTags("ShoppingList");
 
 
-
-
-
-
+app.MigrateDatabase();
 app.Run();
 
 
