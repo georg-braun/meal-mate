@@ -29,6 +29,7 @@ app.MapGet($"/{GetItemsQuery.Route}", GetItemsQueryHandler.Handle);
 
 app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommandHandler.Handle);
 app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle);
+app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesWithItemsQueryHandler.Handle);
 
 app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHandler.Handle);
 app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle);

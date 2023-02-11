@@ -2,5 +2,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f778b59c_002Ddeed_002D4356_002D9571_002Deaae3eeef8c7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateCategory" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::F37A5F31-11A6-490B-9C51-AF8B3A4661A8::net7.0::api_integration_test.UnitTest1.CreateCategory&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::F37A5F31-11A6-490B-9C51-AF8B3A4661A8::net7.0::api_integration_test.UnitTest1.GetCategoriesWithItemsQuery_WithCorrectData_ShouldReturnTheDesiredDto&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
