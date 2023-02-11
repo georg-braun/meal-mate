@@ -1,3 +1,4 @@
+import type { GetCategoriesDetailsQueryDto } from './dtos/GetCategoriesDetailsQuery';
 import  axios  from 'axios';
 
 
@@ -7,11 +8,26 @@ const serverUrl = import.meta.env.VITE_API_SERVER;
 class ApiClient{
 
 	private baseUrlWithSlash = `${serverUrl}/`;
+
 	async createCategoryAsync(name: string){
 		await this.sendPostAsync("CreateCategoryCommand", {name: name});
 	}
 
-	async makeRequest(config) {
+	async getCategoriesDetailsAsync() : Promise<GetCategoriesDetailsQueryDto[]> {
+		const config = {
+		  url: `${serverUrl}/${"GetCategoriesDetailsQuery"}`,
+		  method: "GET",
+		  headers: {
+			"content-type": "application/json",
+		  },
+		};
+		const response = await this.makeRequest(config);
+		return response.data;
+	  }
+	  
+
+
+	private makeRequest(config) {
 		try {
 		  config.headers = {
 			...config.headers,
@@ -56,15 +72,3 @@ export default new ApiClient();
 
 
 
-export async function getAllData() {
-  const config = {
-    url: `${serverUrl}/api/GetAll`,
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
-  };
-  const response = await makeRequest(config);
-
- 
-}
