@@ -1,0 +1,14 @@
+# Host the backend within a container.
+version: "3.9"
+services:
+  meal-mate:
+    # If you are in the code folder and uncomment this build line and comment the image line, you can build a new image with the current source code. 
+    #build: .
+    image: "velox1992/meal-mate"
+    ports:
+      - "8012:80"
+    environment:
+      # necessary for Apple M1. Missing filewatcher.
+      - ASPNETCORE_hostBuilder__reloadConfigOnChange=false
+      # insert your database data here
+      - ConnectionStrings__PostgresDatabase=Host=localhost;Port=5432;Database=meal-mate;Username=postgres;Password=postgres
