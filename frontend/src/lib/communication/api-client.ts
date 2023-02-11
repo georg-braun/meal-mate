@@ -17,6 +17,12 @@ class ApiClient{
 		await this.sendPostAsync("CreateItemCommand", {name: name, categoryId: categoryId});
 	}
 
+	async createShoppingListAsync(name: string): Promise<string>{
+		let response = await this.sendPostAsync("CreateShoppingListCommand", {name: name});
+		let shoppingListId = response.data.id;
+		return shoppingListId
+	}
+
 	async deleteItemAsync(itemId: string){
 		await this.sendPostAsync("DeleteItemCommand", {itemId: itemId});
 	}
