@@ -1,6 +1,7 @@
 import type { GetCategoriesDetailsQueryDto } from './dtos/GetCategoriesDetailsQuery';
 import type { ShoppingListQueryResponse } from './dtos/ShoppingListQueryResponse';
 import axios from 'axios';
+import { categoriesWithItemsStore } from '../store';
 
 
 const serverUrl = import.meta.env.VITE_API_SERVER;
@@ -18,6 +19,10 @@ class ApiClient {
 		await this.sendPostAsync("CreateItemCommand", { name: name, categoryId: categoryId });
 	}
 
+	async createEntryAsync(itemId: string, shoppingListId: string, qualifier: string) {
+		await this.sendPostAsync("CreateEntryCommand", { itemId: itemId, ShoppingListId: shoppingListId, qualifier: qualifier });
+	}
+
 	async createShoppingListAsync(name: string): Promise<string> {
 		let response = await this.sendPostAsync("CreateShoppingListCommand", { name: name });
 		let shoppingListId = response.data.id;
@@ -28,16 +33,16 @@ class ApiClient {
 		await this.sendPostAsync("DeleteItemCommand", { itemId: itemId });
 	}
 
-	async getCategoriesDetailsAsync(): Promise<GetCategoriesDetailsQueryDto[]> {
+	async refreshCategoriesDetailsStoreAsync(): Promise<void> {
 		const config = {
-			url: `${serverUrl}/GetCategoriesDetailsQuery}`,
+			url: `${serverUrl}/GetCategoriesDetailsQuery`,
 			method: "GET",
 			headers: {
 				"content-type": "application/json",
 			},
 		};
 		const response = await this.makeRequest(config);
-		return response.data;
+		categoriesWithItemsStore.set(response.data);
 	}
 
 	async getShoppingListAsync(id: string): Promise<ShoppingListQueryResponse> {

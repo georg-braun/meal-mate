@@ -13,7 +13,7 @@ public record CreateEntryCommand
     public string Qualifier { get; init; }
 }
 
-public static class CreateEntryCommandCommandHandler
+public static class CreateEntryCommandHandler
 {
     public static async Task<IResult> Handle(CreateEntryCommand command, MealMateContext context)
     {

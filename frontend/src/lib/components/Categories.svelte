@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import apiClient from "../communication/api-client";
   import type { GetCategoriesDetailsQueryDto } from "../communication/dtos/GetCategoriesDetailsQuery";
+    import { categoriesWithItemsStore } from "../store";
   import Category from "./Category.svelte";
     
 
@@ -9,14 +10,13 @@
 
     let categories : GetCategoriesDetailsQueryDto[] = []
     onMount(async () => {
-        categories = await apiClient.getCategoriesDetailsAsync();
-        console.log(categories)
+        await apiClient.refreshCategoriesDetailsStoreAsync();
     })
     
 </script>
 
 <h1>Kategorie</h1>
-{#each categories as category (category.id)}  
+{#each $categoriesWithItemsStore as category (category.id)}  
     <Category category={category} />
 {/each}
 

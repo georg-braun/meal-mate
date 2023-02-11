@@ -55,7 +55,7 @@ app.MapGet($"/{GetCategoriesDetailsQuery.Route}", GetCategoriesDetailsQueryHandl
 app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHandler.Handle).WithTags("ShoppingList");
 app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
 app.MapGet($"/{ShoppingListQuery.Route}", ShoppingListQueryHandler.Handle).WithTags("ShoppingList");
-app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandCommandHandler.Handle).WithTags("ShoppingList");
+app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandHandler.Handle).WithTags("ShoppingList");
 
 
 // Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.pp
