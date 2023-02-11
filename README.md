@@ -32,3 +32,38 @@ This procedure consumes time that I rather spend somewhere elese. Therefore I cr
 - [ ] Manage a meal plan with the meals for the next one to two weeks
 - [ ] Share a shopping list with other user
 
+
+# Setup
+
+## Create a postgre sql database server
+
+Easy setup with a docker container.
+```docker-compose
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  db:
+    driver: local
+```
+
+## Set the connection string for the PostgreSQL database
+
+
+
+## Set the backend-server-url environment variable
