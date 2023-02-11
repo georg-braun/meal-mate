@@ -25,6 +25,21 @@ public static class ClientExtensions
         return JsonConvert.DeserializeObject<CreateItemCommandHandler.CreateItemDto>(responseJson);
     }
     
+    public static async Task DeleteItemAsync(this HttpClient client, Guid itemId)
+    {
+        var command = new DeleteItemCommand(){ItemId = itemId};
+        var response = await client.PostAsync(DeleteItemCommand.Route, Serialize(command));
+    }
+    
+    public static async Task<List<GetItemsQueryHandler.GetItemsDto>> GetItemsAsync(this HttpClient client)
+    {
+        var command = new GetItemsQuery();
+        var response = await client.GetAsync(GetItemsQuery.Route);
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<GetItemsQueryHandler.GetItemsDto>>(responseJson);
+    }
+    
     public static async Task<List<GetCategoriesWithDetailsDto>> GetCategoriesWithItems(this HttpClient client)
     {
         var command = new GetCategoriesDetailsQuery();

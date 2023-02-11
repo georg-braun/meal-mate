@@ -34,7 +34,34 @@ public class UnitTest1
         categoriesWithItems.First().Id.Should().Be(category.Id);
         categoriesWithItems.First().Name.Should().Be(category.Name);
         categoriesWithItems.First().Items.Should().Contain(_ => _.Name.Equals("Zwiebel"));
+    }
+
+    [Fact]
+    public async Task DeletionOfItem_WithNoDependencies_ShouldIsSuccessfull()
+    {
+        // arrange  
+        var client = new ApiBackend().client;
+        var category = await client.CreateCategory("Gemüse");
+        var item = await client.CreateItem(category.Id, "Zwiebel");
+
+        // act
+        await client.DeleteItemAsync(item.Id);
+
+        // assert
+        var items = await client.GetItemsAsync();
+        items.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task DeletionOfItem_WithExistingReferences_ShouldNotBePossible()
+    {
+        // arrange  
         
+
+        // act
+
+
+        // assert
 
 
     }

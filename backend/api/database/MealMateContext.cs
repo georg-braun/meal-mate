@@ -46,6 +46,22 @@ public class MealMateContext : DbContext
         
         return item;
     }
+    
+    public async Task DeleteItemAsync(Guid itemId)
+    {
+        var item = await Items.FindAsync(itemId);
+
+        if (item is null) return;
+
+        var entryWithReferenceToItemExists = await Entries.AnyAsync(_ => _.Item.Id.Equals(itemId));
+        
+        if (entryWithReferenceToItemExists) return;
+
+        // Todo: remove the item from objects?
+        Remove(item);
+        await SaveChangesAsync();
+        
+    }
 
     public async Task CreateEntryAsync(Guid itemId, Guid shoppingListId, string qualifier)
     {

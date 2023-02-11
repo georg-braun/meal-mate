@@ -46,6 +46,7 @@ app.MapGet("/", () => Results.Ok("Everything is fine"));
 
 app.MapPost($"/{CreateItemCommand.Route}", CreateItemCommandHandler.Handle).WithTags("Category");
 app.MapGet($"/{GetItemsQuery.Route}", GetItemsQueryHandler.Handle).WithTags("Category");
+app.MapPost($"/{DeleteItemCommand.Route}", DeleteItemCommandHandler.Handle).WithTags("Category");
 
 app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommandHandler.Handle).WithTags("Category");
 app.MapGet($"/{GetCategoriesQuery.Route}", GetCategoriesQueryHandler.Handle).WithTags("Category");
