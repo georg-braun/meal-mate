@@ -15,5 +15,6 @@ let newListId: string;
 </div>
 
 {#if !!newListId}  
+  Eine neue Liste wurde für dich erstellt. Merke dir den Link zu dieser Liste!
   <Link to={`/shopping-list/${newListId}`}>Zur Liste</Link>
 {/if}
