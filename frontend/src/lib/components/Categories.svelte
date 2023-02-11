@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import apiClient from "../communication/api-client";
   import type { GetCategoriesDetailsQueryDto } from "../communication/dtos/GetCategoriesDetailsQuery";
+  import Category from "./Category.svelte";
     
 
     let newCategoryName: string;
@@ -15,14 +16,12 @@
 </script>
 
 <h1>Kategorie</h1>
-{#each categories as category}
-    <div title={category.id}>{category.name}</div>
-    {#each category.items as item}
-        <div style="margin-left: 10px;" title={item.id}>{item.name}</div>
-    {/each}
+{#each categories as category}  
+    <Category category={category} />
 {/each}
 
 <div>
+    Kategorie
     <input bind:value={newCategoryName} />
     <button
         on:click={async () =>

@@ -13,6 +13,10 @@ class ApiClient{
 		await this.sendPostAsync("CreateCategoryCommand", {name: name});
 	}
 
+	async createItemAsync(categoryId: string, name: string){
+		await this.sendPostAsync("CreateItemCommand", {name: name, categoryId: categoryId});
+	}
+
 	async getCategoriesDetailsAsync() : Promise<GetCategoriesDetailsQueryDto[]> {
 		const config = {
 		  url: `${serverUrl}/${"GetCategoriesDetailsQuery"}`,
