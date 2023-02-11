@@ -17,9 +17,8 @@ This procedure consumes time that I rather spend somewhere elese. Therefore I cr
 🚲 Basic 
 - [ ] Manage items (like food) in categories
   - [x] Add category
-  - [ ] Add item to category
-  - [ ] Delete item
-  - [ ] Move item to another category
+  - [x] Add item to category
+  - [x] Delete item  
 - [ ] Show me shopping lists with the stuff that I have to buy somewhere.  
   - [ ] I can add manually add items to the list.
   - [ ] I can check off/remove items on the shopping list during shopping.
