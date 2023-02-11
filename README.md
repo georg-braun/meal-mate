@@ -62,8 +62,38 @@ volumes:
     driver: local
 ```
 
-## Set the connection string for the PostgreSQL database
+## Run the backend
+Depends on what you want to do :) Here are some possibilities
+- Run the `.csproj` file with dotnet
+- Run a published executable
+- Start a container (see `backend/docker-compose.yml`)
 
+### Configuration
 
+#### Set the connection string for the PostgreSQL database
+There are several possibilties to set the connection string :)
 
-## Set the backend-server-url environment variable
+Option 1: Modifiy the `appsettings*.json` for modification during development
+```json
+"ConnectionStrings": {
+    "PostgresDatabase": "Host=localhost:5432;Database=meal-mate;Username=postgres;Password=postgres"
+}
+```
+
+Option 2: Set an environment variable (e.g. production)
+```
+ConnectionStrings__PostgresDatabase=Host=localhost;Port=5432;Database=meal-mate;Username=postgres;Password=postgres
+```
+
+## Run the frontend
+- Local development: `cd frontend && npm run dev`
+
+### Configuration
+
+#### Set the backend-server-url environment variable
+
+Option 1: Use a `frontend/.env.development`
+```
+VITE_API_SERVER=https://localhost:44352
+```
+
