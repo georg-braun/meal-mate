@@ -23,9 +23,10 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
+            // Todo: This have to be more restrictive!
             policy.AllowAnyOrigin();
             policy.AllowAnyHeader();
-            // policy.AllowAnyMethod();
+            
         }));
 
 var app = builder.Build();
@@ -54,7 +55,7 @@ app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHand
 app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
 app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandCommandHandler.Handle).WithTags("ShoppingList");
 
-// Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.
+// Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.pp
 if (!UsesSqliteDatabase(app))
     app.MigrateDatabase();
 
