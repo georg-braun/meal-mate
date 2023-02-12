@@ -34,7 +34,7 @@
 
   {#each shoppingList.entries as entry (entry.entryId)}
     <div>
-      <ShoppingListEntry {entry} />
+      <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     </div>
   {/each}
 

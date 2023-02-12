@@ -20,10 +20,11 @@ This procedure consumes time that I rather spend somewhere elese. Therefore I cr
   - [x] Add item to category
   - [x] Delete item  
 - [ ] Show me shopping lists with the stuff that I have to buy somewhere.  
-  - [ ] I can add manually add items to the list.
-  - [ ] I can check off/remove items on the shopping list during shopping.
+  - [x] I can add manually add items to the list.
+  - [x] I can check off/remove items on the shopping list during shopping.
   - [ ] Show the category of the shopping list entry.
   - [ ] Sort the shopping list by category therefore I don't have to run zigzag through the supermarket.
+  - [ ] Send live updates to my list and other user of the list
 
 - [ ] Manage the meals I like with the corresponding ingredients.
   - [ ] I can select a meal and add the ingredients to the shopping list.

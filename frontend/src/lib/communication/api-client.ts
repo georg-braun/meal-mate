@@ -33,6 +33,10 @@ class ApiClient {
 		await this.sendPostAsync("DeleteItemCommand", { itemId: itemId });
 	}
 
+	async deleteEntryAsync(shoppingListId: string, entryId: string) {
+		await this.sendPostAsync("DeleteEntryCommand", { shoppingListId: shoppingListId, entryId: entryId});
+	}
+
 	async refreshCategoriesDetailsStoreAsync(): Promise<void> {
 		const config = {
 			url: `${serverUrl}/GetCategoriesDetailsQuery`,

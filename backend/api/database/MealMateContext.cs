@@ -82,4 +82,14 @@ public class MealMateContext : DbContext
 
         await SaveChangesAsync();
     }
+
+    public async Task DeleteEntryAsync(Guid shoppingListId, Guid entryId)
+    {
+        var shoppingList = await ShoppingLists.Include(_ => _.Entries).FirstOrDefaultAsync(_ => _.Id.Equals(shoppingListId));
+
+        if (shoppingList is null) return;
+
+        shoppingList.RemoveEntry(entryId);
+        await SaveChangesAsync();
+    }
 }
