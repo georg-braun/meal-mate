@@ -4,7 +4,7 @@ import axios from 'axios';
 import { categoriesWithItemsStore } from '../store';
 
 
-const serverUrl = import.meta.env.VITE_API_SERVER;
+export const serverUrl = import.meta.env.VITE_API_SERVER;
 
 
 class ApiClient {

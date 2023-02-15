@@ -1,10 +1,24 @@
 <script lang="ts">
-  import App from "../../App.svelte";
+    import { onDestroy } from "svelte";
+
   import apiClient from "../communication/api-client";
   import type { GetCategoriesDetailsQueryItem } from "../communication/dtos/GetCategoriesDetailsQuery";
   import type { ShoppingListQueryResponse } from "../communication/dtos/ShoppingListQueryResponse";
+    import { startListeningToShoppingListChanges, stopListeningToShoppingListChanges } from "../communication/signalRConnection";
   import { categoriesWithItemsStore } from "../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
+
+  let isListeningToChanges = false;
+
+  $:{
+    if (!!shoppingList)
+      startListeningToShoppingListChanges(shoppingList.id).then(isConnected => isListeningToChanges = isConnected);
+  }
+
+
+  onDestroy(async () => {
+    isListeningToChanges = await stopListeningToShoppingListChanges(shoppingList.id)
+  });
 
   $: {
     refreshShoppingList(id);
@@ -30,7 +44,10 @@
 
 {#if !!shoppingList}
   <h1>Einkaufsliste</h1>
+ 
   <h2 title={shoppingList.id}>{shoppingList.name}</h2>
+  Live-Updates:
+  <div class="connection-status {isListeningToChanges ? 'connection-status--connected' : 'connection-status--disconnected'}"></div>
 
   {#each shoppingList.entries as entry (entry.entryId)}
     <div>
@@ -52,3 +69,20 @@
 {:else}
   Lade Liste ({id}) ...
 {/if}
+
+<style>
+  .connection-status{
+    background-color: greenyellow;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+  }
+
+  .connection-status--connected{
+    background-color: greenyellow;
+  }
+
+  .connection-status--disconnected{
+    background-color: orangered;
+  }
+</style>
