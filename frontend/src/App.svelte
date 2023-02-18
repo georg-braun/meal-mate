@@ -9,7 +9,7 @@
   let showCategoriesOverlay: boolean;
 
   onMount(async () => {
-    await startSignalR();
+    
   });
 
 
