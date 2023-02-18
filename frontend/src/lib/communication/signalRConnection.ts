@@ -8,10 +8,20 @@ const connection = new HubConnectionBuilder()
 
 
 
-export async function startSignalR() {
+export async function startSignalR(): Promise<void> {
     try {
         await connection.start();
-        console.log("SignalR Connected.");
+        console.log("SignalR connected.");
+    } catch (err) {
+        console.log(err);
+        setTimeout(startSignalR, 5000);
+    }
+}
+
+export async function stopSignalR(): Promise<void> {
+    try {
+        await connection.stop();
+        console.log("SignalR disconneted.");
     } catch (err) {
         console.log(err);
         setTimeout(startSignalR, 5000);

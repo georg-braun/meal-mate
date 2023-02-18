@@ -4,15 +4,30 @@
   import apiClient from "../communication/api-client";
   import type { GetCategoriesDetailsQueryItem } from "../communication/dtos/GetCategoriesDetailsQuery";
   import type { ShoppingListQueryResponse } from "../communication/dtos/ShoppingListQueryResponse";
-    import { startListeningToShoppingListChanges, stopListeningToShoppingListChanges } from "../communication/signalRConnection";
+    import { startListeningToShoppingListChanges, startSignalR, stopListeningToShoppingListChanges, stopSignalR } from "../communication/signalRConnection";
   import { categoriesWithItemsStore } from "../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
 
   let isListeningToChanges = false;
 
+  async function startSignal(){
+    await startSignalR();
+    await startListeningToShoppingListChanges(shoppingList.id).then(isConnected => isListeningToChanges = isConnected);
+  }
+
+  async function stopSignal(){
+    if (shoppingList != undefined && !!shoppingList.id)
+      await stopListeningToShoppingListChanges(shoppingList.id).then(isConnected => isListeningToChanges = isConnected);
+    await stopSignalR();
+    
+  }
+
   $:{
-    if (!!shoppingList)
-      startListeningToShoppingListChanges(shoppingList.id).then(isConnected => isListeningToChanges = isConnected);
+    if (!!shoppingList){
+      startSignal();
+    }
+    else 
+      stopSignal();    
   }
 
 
