@@ -1,6 +1,6 @@
 namespace domain;
 
-public class ShoppingList : IAggregateRoot, IEntity
+public class ShoppingList : AggregateRoot, IEntity
 {
     public Guid Id { get; init; }
     public string Name { get; init; }
@@ -11,6 +11,8 @@ public class ShoppingList : IAggregateRoot, IEntity
     {
         var entry = Entry.Create(item, this, qualifier);
         Entries.Add(entry);
+        
+        RaiseDomainEvent(new EntryCreatedOnShoppingListDomainEvent(Id, entry.Id));
         return entry;
     }
 
@@ -19,6 +21,9 @@ public class ShoppingList : IAggregateRoot, IEntity
         var entryIndex = Entries.FindIndex(_ => _.Id.Equals(entryId));
         if (entryIndex < 0) return false;
         Entries.RemoveAt(entryIndex);
+        
+        RaiseDomainEvent(new EntryRemovedFromShoppingListDomainEvent(Id, entryId));
+        
         return true;
     }
 

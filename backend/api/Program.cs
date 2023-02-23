@@ -4,20 +4,23 @@ using api.database;
 using api.shopping_list;
 using Microsoft.EntityFrameworkCore;
 
-var UsesSqliteDatabase = (WebApplication app) =>
+var usesSqliteDatabase = (WebApplication app) =>
 {
     var scope = app.Services.CreateScope();
     var ctx = scope.ServiceProvider.GetRequiredService<MealMateContext>();
     return ctx.Database.IsSqlite();
 };
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//builder.Services.AddSingleton<DomainEventInterceptor>();
+
 builder.Services.AddSignalR();
 builder.Services.AddDbContext<MealMateContext>(optionsBuilder =>
-    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDatabase")));
+{
+    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDatabase"));
+    //optionsBuilder.AddInterceptors(new DomainEventInterceptor());
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => 
@@ -64,7 +67,7 @@ app.MapPost($"/{DeleteEntryCommand.Route}", DeleteEntryCommandHandler.Handle).Wi
 
 
 // Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.pp
-if (!UsesSqliteDatabase(app))
+if (!usesSqliteDatabase(app))
     app.MigrateDatabase();
 
 app.MapHub<ShoppingListHub>("/shoppingListHub");
