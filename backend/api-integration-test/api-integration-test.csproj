@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\api\api.csproj" />
+      <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
 </Project>

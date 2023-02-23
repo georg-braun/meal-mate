@@ -3,10 +3,10 @@ using FluentAssertions;
 
 namespace api_integration_test;
 
-public class UnitTest1
+public class CategorySpecs
 {
     [Fact]
-    public async Task CreateCategory()
+    public async Task User_can_create_a_category()
     {
         // arrange
         var client = new ApiBackend().client;
@@ -19,7 +19,7 @@ public class UnitTest1
     }
 
     [Fact]
-    public async Task GetCategoriesWithItemsQuery_WithCorrectData_ShouldReturnTheDesiredDto()
+    public async Task User_can_create_a_category_and_item_and_get_this_data_back()
     {
         // arrange
         var client = new ApiBackend().client;
@@ -37,7 +37,7 @@ public class UnitTest1
     }
 
     [Fact]
-    public async Task DeletionOfItem_WithNoDependencies_ShouldIsSuccessfull()
+    public async Task An_item_without_existing_entries_can_be_deleted()
     {
         // arrange  
         var client = new ApiBackend().client;
@@ -51,19 +51,4 @@ public class UnitTest1
         var items = await client.GetItemsAsync();
         items.Should().HaveCount(0);
     }
-
-    [Fact]
-    public async Task DeletionOfItem_WithExistingReferences_ShouldNotBePossible()
-    {
-        // arrange  
-        
-
-        // act
-
-
-        // assert
-
-
-    }
-
 }
