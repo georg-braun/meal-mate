@@ -36,7 +36,7 @@ public static class ShoppingListQueryHandler
     {
         return new ShoppingListQueryEntryDto()
         {
-            EntryId = entry.Id,
+            Id = entry.Id,
             ItemName = entry.Item.Name,
             ItemId = entry.Item.Id,
             Qualifier = entry.Qualifier
@@ -46,7 +46,7 @@ public static class ShoppingListQueryHandler
 
 public record ShoppingListQueryEntryDto
 {
-    public Guid EntryId { get; init; }
+    public Guid Id { get; init; }
     public Guid ItemId { get; init; }
     public string ItemName { get; init; }
     public string Qualifier { get; init; }

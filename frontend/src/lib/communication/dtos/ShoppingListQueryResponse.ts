@@ -1,12 +1,14 @@
-export type ShoppingListQueryResponse = {
+import type { ItemWithId } from "../../ItemWithId";
+
+export class ShoppingListQueryResponse  {
     id: string;
     name: string;
     entries: ShoppingListQueryResponseEntry[];
 };
 
-export type ShoppingListQueryResponseEntry = {
-    entryId: string,
+export class ShoppingListQueryResponseEntry implements ItemWithId  {
+    id: string;
     itemId: string;
-    itemName: string,
-    qualifier: string
+    itemName: string;
+    qualifier: string;
 }

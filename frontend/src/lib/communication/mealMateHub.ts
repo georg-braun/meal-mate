@@ -1,8 +1,12 @@
 import { HubConnectionState, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { get } from "svelte/store";
 import { shoppingListStore } from "../store";
+import { removeEntryWithId } from "../utilities/array";
 import { serverUrl } from "./api-client";
+import type { ItemWithId } from "../ItemWithId";
 import type { ShoppingListQueryResponseEntry } from "./dtos/ShoppingListQueryResponse";
+
+let connectedShoppingList: string;
 
 const connection = new HubConnectionBuilder()
     .withUrl(`${serverUrl}/shoppingListHub`)
@@ -42,14 +46,20 @@ connection.onclose(async () => {
 
 
 connection.on("RemoveEntryFromShoppingList", (shoppingListId: string, entryId: string) => {
-    console.log(`Remove entry ${entryId} from shopping list ${shoppingListId}.`)
+    console.log(`Remove entry ${entryId} from shopping list ${shoppingListId}.`);
+    shoppingListStore.update(shoppingList => {
+       
+        shoppingList.entries = removeEntryWithId(shoppingList.entries, entryId);
+
+        return shoppingList;
+    })
 
 });
 
 connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entry: ShoppingListQueryResponseEntry) => {
-    console.log(`Add entry ${entry.itemId} to shopping list ${shoppingListId}.`)
-    console.log(entry)
-    console.log(get(shoppingListStore))
+    console.log(`Add entry ${entry.itemId} to shopping list ${shoppingListId} ${JSON.stringify(entry)}).`)
+
+
     shoppingListStore.update(shoppingList => {
         shoppingList.entries.push(entry)
         return shoppingList;
@@ -63,16 +73,27 @@ export async function sendTestMessageAsync() {
 }
 
 export async function startListeningToShoppingListChanges(listId: string): Promise<boolean> {
+    if (!!connectedShoppingList) {
+        console.log(`Already listening to ${listId}`);
+        return;
+    }
+
     // If the connection isn't yet established, then wait some seconds. 
     if (connection.state != HubConnectionState.Connected)
         await new Promise(r => setTimeout(r, 2000));
 
     console.log(`Start listening to shopping list ${listId}`)
     let isConnected = await connection.invoke("StartListeningToShoppingListChanges", listId)
+
+    connectedShoppingList = listId;
+
     return isConnected;
 }
 export async function stopListeningToShoppingListChanges(listId: string): Promise<boolean> {
     console.log(`Stop listening to shopping list ${listId}`)
     let isDisconnceted = await connection.invoke("StopListeningToShoppingListChanges", listId)
+
+    connectedShoppingList = undefined;
+
     return isDisconnceted;
 }

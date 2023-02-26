@@ -1,9 +1,10 @@
 import { assert, expect, test } from 'vitest'
+import type { ItemWithId } from '../ItemWithId';
 import { removeEntryWithId, sortByCategory } from './array';
 
 test("correct element is removed", () => {
     // arrange
-    const data = [{id: 1},{id: 2},{id: 3}];
+    const data : ItemWithId[] = [{id: 1},{id: 2},{id: 3}];
 
     // act
     const modifiedData = removeEntryWithId(data, 2)
