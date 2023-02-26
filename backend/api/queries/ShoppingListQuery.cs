@@ -32,7 +32,7 @@ public static class ShoppingListQueryHandler
         };
     }
 
-    private static ShoppingListQueryEntryDto ToDto(Entry entry)
+    public static ShoppingListQueryEntryDto ToDto(Entry entry)
     {
         return new ShoppingListQueryEntryDto()
         {

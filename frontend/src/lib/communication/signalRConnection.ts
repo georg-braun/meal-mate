@@ -33,6 +33,17 @@ connection.onclose(async () => {
 });
 
 
+connection.on("RemoveEntryFromShoppingList", (shoppingListId: string, entryId: string) => {
+    console.log(`Remove entry ${entryId} from shopping list ${shoppingListId}.`)
+
+});
+
+connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entryId: string) => {
+    console.log(`Add entry ${entryId} to shopping list ${shoppingListId}.`)
+
+});
+
+
 export async function sendTestMessageAsync() {
     console.log("Send test")
     await connection.invoke("Listen", "123")

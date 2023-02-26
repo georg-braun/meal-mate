@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace api.shopping_list;
 
-public class ShoppingListHub : Hub
+public class MealMateHub : Hub<IMealMateHubClientMethods>
 {
     private readonly MealMateContext _mealMateContext;
 
-    public ShoppingListHub(MealMateContext mealMateContext)
+    public MealMateHub(MealMateContext mealMateContext)
     {
         _mealMateContext = mealMateContext;
     }
@@ -37,4 +37,6 @@ public class ShoppingListHub : Hub
         Console.WriteLine($"{Context.ConnectionId} stop listening to shopping list {id}.");
         return true;
     }
+    
+   
 }

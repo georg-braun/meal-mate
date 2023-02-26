@@ -13,7 +13,8 @@ var usesSqliteDatabase = (WebApplication app) =>
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddSingleton<DomainEventInterceptor>();
+builder.Services.AddSingleton<MealMateHubToClients>();
+builder.Services.AddSingleton<DomainEventInterceptor>();
 
 builder.Services.AddSignalR();
 builder.Services.AddDbContext<MealMateContext>(optionsBuilder =>
@@ -35,6 +36,9 @@ builder.Services.AddCors(options =>
             policy.AllowCredentials();
 
         }));
+
+
+
 
 var app = builder.Build();
 
@@ -70,7 +74,7 @@ app.MapPost($"/{DeleteEntryCommand.Route}", DeleteEntryCommandHandler.Handle).Wi
 if (!usesSqliteDatabase(app))
     app.MigrateDatabase();
 
-app.MapHub<ShoppingListHub>("/shoppingListHub");
+app.MapHub<MealMateHub>("/shoppingListHub");
 
 app.Run();
 

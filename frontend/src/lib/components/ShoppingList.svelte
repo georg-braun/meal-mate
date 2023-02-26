@@ -5,14 +5,16 @@
   import type { GetCategoriesDetailsQueryItem } from "../communication/dtos/GetCategoriesDetailsQuery";
   import type { ShoppingListQueryResponse } from "../communication/dtos/ShoppingListQueryResponse";
     import { startListeningToShoppingListChanges, startSignalR, stopListeningToShoppingListChanges, stopSignalR } from "../communication/signalRConnection";
-  import { categoriesWithItemsStore } from "../store";
+  import { categoriesWithItemsStore, shoppingListStore } from "../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
 
   let isListeningToChanges = false;
 
+  $: shoppingList = $shoppingListStore;
+
   async function startSignal(){
     await startSignalR();
-    await startListeningToShoppingListChanges(shoppingList.id).then(isConnected => isListeningToChanges = isConnected);
+    await startListeningToShoppingListChanges(shoppingList?.id).then(isConnected => isListeningToChanges = isConnected);
   }
 
   async function stopSignal(){
@@ -40,12 +42,13 @@
     apiClient.refreshCategoriesDetailsStoreAsync();
   }
 
-  let shoppingList: ShoppingListQueryResponse;
+  //let shoppingList: ShoppingListQueryResponse;
   let qualifier: string;
   let selectedNewEntry: GetCategoriesDetailsQueryItem;
 
-  async function refreshShoppingList(id: string) {
-    shoppingList = await apiClient.getShoppingListAsync(id);
+  async function refreshShoppingList(id: string) {    
+    const shoppingListResponse = await apiClient.getShoppingListAsync(id);
+    shoppingListStore.set(shoppingListResponse);
   }
 
   async function createEntryAsync() {

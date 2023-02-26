@@ -6,9 +6,13 @@ namespace api.database;
 
 public class MealMateContext : DbContext
 {
-    public MealMateContext(DbContextOptions<MealMateContext> contextOptions) : base(contextOptions){}
+    public MealMateContext(DbContextOptions<MealMateContext> contextOptions,
+        DomainEventInterceptor domainEventInterceptor) : base(contextOptions)
+    {
+        _domainEventInterceptor = domainEventInterceptor;
+    }
 
-    private static readonly DomainEventInterceptor _domainEventInterceptor = new DomainEventInterceptor();
+    private readonly DomainEventInterceptor _domainEventInterceptor;
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
