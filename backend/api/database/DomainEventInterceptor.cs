@@ -14,19 +14,7 @@ public class DomainEventInterceptor : SaveChangesInterceptor
     }
 
     private MealMateHubToClients _mealMateHubToClients { get; }
-
-    public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
-    {
-        var dbContext = eventData.Context;
-
-        if (dbContext is null)
-            return base.SavingChanges(eventData, result);
-        
-        HandleShoppingListChanges(dbContext);
-
-        return base.SavingChanges(eventData, result);
-    }
-
+    
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,
         CancellationToken cancellationToken = new CancellationToken())
     {
@@ -46,9 +34,7 @@ public class DomainEventInterceptor : SaveChangesInterceptor
         var shoppingListEvents = dbContext.ChangeTracker.Entries<ShoppingList>().Select(_ => _.Entity).SelectMany(shoppingList =>
         {
             var domainEvents = shoppingList.GetDomainEvents();
-
             
-
             shoppingList.ClearDomainEvents();
             return domainEvents;
         });
@@ -67,7 +53,7 @@ public class DomainEventInterceptor : SaveChangesInterceptor
                 {
                     // todo: send the entity to the cleint
                     _mealMateHubToClients.SendCreateEntryOnShoppingList(entryCreatedEvent.ShoppingListId,
-                        entryCreatedEvent.EntryId, entryCreatedEvent.);
+                        entryCreatedEvent.Entry );
                     break;    
                 }
             }

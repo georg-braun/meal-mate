@@ -1,5 +1,8 @@
 import { HubConnectionState, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
+import { get } from "svelte/store";
+import { shoppingListStore } from "../store";
 import { serverUrl } from "./api-client";
+import type { ShoppingListQueryResponseEntry } from "./dtos/ShoppingListQueryResponse";
 
 const connection = new HubConnectionBuilder()
     .withUrl(`${serverUrl}/shoppingListHub`)
@@ -10,6 +13,11 @@ const connection = new HubConnectionBuilder()
 
 export async function startSignalR(): Promise<void> {
     try {
+        if (connection.state == HubConnectionState.Connected) {
+            console.log("Already connected to the hub.")
+            return;
+        }
+
         await connection.start();
         console.log("SignalR connected.");
     } catch (err) {
@@ -38,9 +46,14 @@ connection.on("RemoveEntryFromShoppingList", (shoppingListId: string, entryId: s
 
 });
 
-connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entryId: string) => {
-    console.log(`Add entry ${entryId} to shopping list ${shoppingListId}.`)
-
+connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entry: ShoppingListQueryResponseEntry) => {
+    console.log(`Add entry ${entry.itemId} to shopping list ${shoppingListId}.`)
+    console.log(entry)
+    console.log(get(shoppingListStore))
+    shoppingListStore.update(shoppingList => {
+        shoppingList.entries.push(entry)
+        return shoppingList;
+    })
 });
 
 

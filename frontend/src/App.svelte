@@ -4,7 +4,7 @@
   import { Router, Link, Route } from "svelte-routing";
   import CreateShoppingList from "./lib/components/CreateShoppingList.svelte";
   import ShoppingList from "./lib/components/ShoppingList.svelte";
-  import { sendTestMessageAsync, startSignalR, stopListeningToShoppingListChanges } from "./lib/communication/signalRConnection";
+  import { sendTestMessageAsync } from "./lib/communication/signalRConnection";
 
   let showCategoriesOverlay: boolean;
 

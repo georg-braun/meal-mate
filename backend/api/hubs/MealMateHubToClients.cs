@@ -1,3 +1,5 @@
+using api.commands;
+using domain;
 using Microsoft.AspNetCore.SignalR;
 
 namespace api.shopping_list;
@@ -22,5 +24,11 @@ public class MealMateHubToClients
     public async Task SendRemoveEntryFromShoppingList(Guid shoppingListId, Guid entryId)
     {
         await _mealMateHub.Clients.Groups(shoppingListId.ToString()).RemoveEntryFromShoppingList(shoppingListId, entryId);
+    }    
+    
+    public async Task SendCreateEntryOnShoppingList(Guid shoppingListId, Entry entry)
+    {
+        var entryDto = ShoppingListQueryHandler.ToDto(entry);
+        await _mealMateHub.Clients.Groups(shoppingListId.ToString()).CreateEntryOnShoppingList(shoppingListId, entryDto);
     }
 }

@@ -13,6 +13,7 @@
   $: shoppingList = $shoppingListStore;
 
   async function startSignal(){
+    
     await startSignalR();
     await startListeningToShoppingListChanges(shoppingList?.id).then(isConnected => isListeningToChanges = isConnected);
   }
@@ -25,11 +26,9 @@
   }
 
   $:{
-    if (!!shoppingList){
+    if (!!shoppingList && shoppingList.id != undefined){
       startSignal();
-    }
-    else 
-      stopSignal();    
+    }   
   }
 
 
@@ -54,7 +53,7 @@
   async function createEntryAsync() {
     if (selectedNewEntry == undefined) return;
 
-    await apiClient.createEntryAsync(selectedNewEntry.id, id, qualifier);
+    await apiClient.createEntryAsync(selectedNewEntry.id, shoppingList.id, qualifier);
   }
 
   export let id: string;

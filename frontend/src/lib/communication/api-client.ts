@@ -38,6 +38,7 @@ class ApiClient {
 	}
 
 	async refreshCategoriesDetailsStoreAsync(): Promise<void> {
+		console.log(`Refresh categories and items.`)
 		const config = {
 			url: `${serverUrl}/GetCategoriesDetailsQuery`,
 			method: "GET",
@@ -50,6 +51,7 @@ class ApiClient {
 	}
 
 	async getShoppingListAsync(id: string): Promise<ShoppingListQueryResponse> {
+		console.log(`Get shopping list ${id}.`)
 		const config = {
 			url: `${serverUrl}/ShoppingListQuery?id=${id}`,
 			method: "GET",

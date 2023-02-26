@@ -28,13 +28,13 @@ public class EntryRemovedFromShoppingListDomainEvent : DomainEvent
 
 public class EntryCreatedOnShoppingListDomainEvent : DomainEvent
 {
-    public EntryCreatedOnShoppingListDomainEvent(Guid shoppingListId, Guid entryId)
+    public EntryCreatedOnShoppingListDomainEvent(Guid shoppingListId, Entry entry)
     {
         ShoppingListId = shoppingListId;
-        EntryId = entryId;
+        Entry = entry;
     }
 
     public Guid ShoppingListId { get; }
-    public Guid EntryId { get; }
+    public Entry Entry { get; }
 
 }

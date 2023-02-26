@@ -12,7 +12,7 @@ public class ShoppingList : AggregateRoot, IEntity
         var entry = Entry.Create(item, this, qualifier);
         Entries.Add(entry);
         
-        RaiseDomainEvent(new EntryCreatedOnShoppingListDomainEvent(Id, entry.Id));
+        RaiseDomainEvent(new EntryCreatedOnShoppingListDomainEvent(Id, entry));
         return entry;
     }
 
