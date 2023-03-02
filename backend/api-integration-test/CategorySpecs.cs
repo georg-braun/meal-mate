@@ -12,7 +12,7 @@ public class CategorySpecs
         var client = new ApiBackend().client;
         
         // act
-        var result = await client.CreateCategory("Gemüse");
+        var result = await client.CreateCategoryAsync("Gemüse");
 
         // assert
         result.Name.Should().Be("Gemüse");
@@ -23,7 +23,7 @@ public class CategorySpecs
     {
         // arrange
         var client = new ApiBackend().client;
-        var category = await client.CreateCategory("Gemüse");
+        var category = await client.CreateCategoryAsync("Gemüse");
         var item = await client.CreateItem(category.Id, "Zwiebel");
         
         // act
@@ -41,7 +41,7 @@ public class CategorySpecs
     {
         // arrange  
         var client = new ApiBackend().client;
-        var category = await client.CreateCategory("Gemüse");
+        var category = await client.CreateCategoryAsync("Gemüse");
         var item = await client.CreateItem(category.Id, "Zwiebel");
 
         // act

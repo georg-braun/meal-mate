@@ -110,4 +110,18 @@ public class MealMateContext : DbContext
         var list = await ShoppingLists.FindAsync(shoppingListId);
         return list != null;
     }
+    
+    public async Task<Item> CreateItemIfDoesntExistAsync(string itemName)
+    {
+        var item = await Items.FirstOrDefaultAsync(_ => _.Name.Equals(itemName));
+
+        if (item is not null)
+            return item;
+
+        var newItem = Item.Create(itemName);
+        await Items.AddAsync(newItem);
+        await SaveChangesAsync();
+
+        return newItem;
+    }
 }

@@ -67,6 +67,7 @@ app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommandHand
 app.MapGet($"/{GetShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
 app.MapGet($"/{ShoppingListQuery.Route}", ShoppingListQueryHandler.Handle).WithTags("ShoppingList");
 app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommandHandler.Handle).WithTags("ShoppingList");
+app.MapPost($"/{CreateEntryWithFreeTextCommand.Route}", CreateEntryWithFreeTextCommandHandler.Handle).WithTags("ShoppingList");
 app.MapPost($"/{DeleteEntryCommand.Route}", DeleteEntryCommandHandler.Handle).WithTags("ShoppingList");
 
 

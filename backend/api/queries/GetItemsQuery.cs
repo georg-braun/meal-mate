@@ -22,7 +22,7 @@ public static class GetItemsQueryHandler
         return new GetItemsDto
         {
             Id = item.Id, 
-            CategoryId = item.Category.Id, 
+            CategoryId = item.Category?.Id ?? Guid.Empty, 
             Name = item.Name
         };
     }

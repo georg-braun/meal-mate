@@ -5,7 +5,7 @@ public class Item : IEntity
     public Guid Id { get; init; }
     public string Name { get; set; }
 
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
     public void SetCategory(Category category)
     {
