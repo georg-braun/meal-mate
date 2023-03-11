@@ -49,14 +49,8 @@ public static class CreateEntryWithFreeTextCommandHandler
         }
         else
         {
-            var itemNameBuilder = new StringBuilder();
-            for (int i = 0; i < parts.Length - 2; i++)
-            {
-                itemNameBuilder.Append(parts[i]);
-            }
-
-            itemName = itemNameBuilder.ToString();
-            qualifier = parts[^2];
+            itemName = string.Join(" ", parts[..^1]);
+            qualifier = parts[^1];
         }
 
         var item = await context.CreateItemIfDoesntExistAsync(itemName);

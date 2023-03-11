@@ -63,7 +63,6 @@ public class ShoppingListSpecs
         var list = await client.CreateShoppingListAsync("MyList");
         
         // act
-
         const string itemName = "Sugar";
         const string itemQualifier = "300g";
         const string entryFreeText = $"{itemName} {itemQualifier}";
@@ -85,7 +84,6 @@ public class ShoppingListSpecs
         var list = await client.CreateShoppingListAsync("MyList");
         
         // act
-
         const string itemName = "Hot chocolate";
         const string itemQualifier = "200ml";
         const string entryFreeText = $"{itemName} {itemQualifier}";
