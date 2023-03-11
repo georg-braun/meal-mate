@@ -1,20 +1,25 @@
 ﻿namespace domain;
 
-
 public abstract class AggregateRoot : IAggregateRoot
 {
-    private List<IDomainEvent> _domainEvents = new();
+    private readonly List<IDomainEvent> _domainEvents = new();
 
     protected void RaiseDomainEvent(IDomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
 
-    public List<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
+    public List<IDomainEvent> GetDomainEvents()
+    {
+        return _domainEvents.ToList();
+    }
 
     public void ClearDomainEvents()
     {
         _domainEvents.Clear();
     }
 }
-interface IAggregateRoot{}
+
+internal interface IAggregateRoot
+{
+}

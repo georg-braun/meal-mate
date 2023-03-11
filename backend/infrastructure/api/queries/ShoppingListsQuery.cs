@@ -1,13 +1,12 @@
-using api.database;
 using domain;
-using Microsoft.AspNetCore.Http.HttpResults;
+using infrastructure.database;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.commands;
+namespace infrastructure.api.queries;
 
-public class GetShoppingListsQuery
+public class ShoppingListsQuery
 {
-    public static string Route = nameof(GetShoppingListsQuery);
+    public static string Route = nameof(ShoppingListsQuery);
 }
 
 public static class GetShoppingListsQueryHandler
@@ -15,6 +14,5 @@ public static class GetShoppingListsQueryHandler
     public static async Task<List<ShoppingList>> Handle(MealMateContext context)
     {
         return await context.ShoppingLists.ToListAsync();
-        
     }
 }

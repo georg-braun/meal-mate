@@ -10,7 +10,7 @@ public class CategorySpecs
     {
         // arrange
         var client = new ApiBackend().client;
-        
+
         // act
         var result = await client.CreateCategoryAsync("Gemüse");
 
@@ -25,10 +25,10 @@ public class CategorySpecs
         var client = new ApiBackend().client;
         var category = await client.CreateCategoryAsync("Gemüse");
         var item = await client.CreateItem(category.Id, "Zwiebel");
-        
+
         // act
         var categoriesWithItems = await client.GetCategoriesWithItems();
-        
+
 
         // assert
         categoriesWithItems.First().Id.Should().Be(category.Id);

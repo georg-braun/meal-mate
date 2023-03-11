@@ -1,6 +1,6 @@
 namespace domain;
 
-interface IEntity
+internal interface IEntity
 {
     Guid Id { get; }
 }

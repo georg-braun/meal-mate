@@ -1,14 +1,13 @@
-using api.database;
 using domain;
+using infrastructure.database;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.commands;
+namespace infrastructure.api.queries;
 
 public static class ShoppingListQuery
 {
     public const string Route = nameof(ShoppingListQuery);
 }
-
 
 public static class ShoppingListQueryHandler
 {
@@ -18,13 +17,13 @@ public static class ShoppingListQueryHandler
             .FirstOrDefaultAsync(_ => _.Id.Equals(id));
 
         if (shoppingList is null) return null;
-        
+
         return ToDto(shoppingList);
     }
 
     private static ShoppingListQueryResponse ToDto(ShoppingList shoppingList)
     {
-        return new ShoppingListQueryResponse()
+        return new ShoppingListQueryResponse
         {
             Id = shoppingList.Id,
             Name = shoppingList.Name,
@@ -34,7 +33,7 @@ public static class ShoppingListQueryHandler
 
     public static ShoppingListQueryEntryDto ToDto(Entry entry)
     {
-        return new ShoppingListQueryEntryDto()
+        return new ShoppingListQueryEntryDto
         {
             Id = entry.Id,
             ItemName = entry.Item.Name,

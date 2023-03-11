@@ -1,7 +1,7 @@
-using api.database;
+using infrastructure.database;
 using Microsoft.AspNetCore.SignalR;
 
-namespace api.shopping_list;
+namespace infrastructure.shopping_list;
 
 public class MealMateHub : Hub<IMealMateHubClientMethods>
 {
@@ -16,18 +16,18 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
     {
         Console.WriteLine(id);
     }
-    
+
     public async Task<bool> StartListeningToShoppingListChanges(string id)
     {
         var shoppingListId = Guid.Parse(id);
         if (!await _mealMateContext.ShoppingListExistsAsync(shoppingListId))
             return false;
-        
+
         await Groups.AddToGroupAsync(Context.ConnectionId, id);
         Console.WriteLine($"{Context.ConnectionId} starts listening to shopping list {id}.");
         return true;
     }
-    
+
     public async Task<bool> StopListeningToShoppingListChanges(string id)
     {
         var shoppingListId = Guid.Parse(id);
@@ -37,6 +37,4 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
         Console.WriteLine($"{Context.ConnectionId} stop listening to shopping list {id}.");
         return true;
     }
-    
-   
 }

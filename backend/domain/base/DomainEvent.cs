@@ -1,6 +1,5 @@
 namespace domain;
 
-
 public interface IDomainEvent
 {
     public Guid Id { get; }
@@ -8,9 +7,8 @@ public interface IDomainEvent
 
 public abstract class DomainEvent : IDomainEvent
 {
-    public Guid Id { get; } = Guid.NewGuid();
-    
     public DateTime OccurredUtc { get; } = DateTime.Now.ToUniversalTime();
+    public Guid Id { get; } = Guid.NewGuid();
 }
 
 public class EntryRemovedFromShoppingListDomainEvent : DomainEvent
@@ -23,7 +21,6 @@ public class EntryRemovedFromShoppingListDomainEvent : DomainEvent
 
     public Guid ShoppingListId { get; }
     public Guid EntryId { get; }
-
 }
 
 public class EntryCreatedOnShoppingListDomainEvent : DomainEvent
@@ -36,5 +33,4 @@ public class EntryCreatedOnShoppingListDomainEvent : DomainEvent
 
     public Guid ShoppingListId { get; }
     public Entry Entry { get; }
-
 }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace api.database;
+namespace infrastructure.database;
 
 public static class MigrationManager
 {
@@ -10,19 +10,11 @@ public static class MigrationManager
         {
             using (var appContext = scope.ServiceProvider.GetRequiredService<MealMateContext>())
             {
-                try
-                {
-                    // Ensure that the database is created and the migrations are applied
-                    appContext.Database.Migrate();
-                      
-                }
-                catch (Exception ex)
-                {
-                    //Log errors or do anything you think it's needed
-                    throw;
-                }
+                // Ensure that the database is created and the migrations are applied
+                appContext.Database.Migrate();
             }
         }
+
         return webApp;
     }
 }

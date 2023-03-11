@@ -1,19 +1,19 @@
-using api.database;
-using domain;
+using infrastructure.database;
 
-namespace api.commands;
+namespace infrastructure.api.commands;
 
 public record DeleteEntryCommand
 {
     public const string Route = nameof(DeleteEntryCommand);
     public Guid ShoppingListId { get; init; }
     public Guid EntryId { get; init; }
-}
-
-public static class DeleteEntryCommandHandler
-{
-    public static async Task Handle(DeleteEntryCommand command, MealMateContext context)
+    
+    public static class Handler
     {
-        await context.DeleteEntryAsync(command.ShoppingListId, command.EntryId);
+        public static async Task Handle(DeleteEntryCommand command, MealMateContext context)
+        {
+            await context.DeleteEntryAsync(command.ShoppingListId, command.EntryId);
+        }
     }
 }
+

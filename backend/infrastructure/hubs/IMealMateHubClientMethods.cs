@@ -1,6 +1,6 @@
-using api.commands;
+using infrastructure.api.queries;
 
-namespace api.shopping_list;
+namespace infrastructure.shopping_list;
 
 public interface IMealMateHubClientMethods
 {

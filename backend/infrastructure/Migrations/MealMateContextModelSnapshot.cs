@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using api.database;
+using infrastructure.database;
 
 #nullable disable
 
-namespace api.Migrations
+namespace infrastructure.Migrations
 {
     [DbContext(typeof(MealMateContext))]
     partial class MealMateContextModelSnapshot : ModelSnapshot
