@@ -6,7 +6,7 @@ namespace infrastructure.api.queries;
 
 public class CategoriesDetailsQuery
 {
-    public static string Route = nameof(CategoriesDetailsQuery);
+    public const string Route = nameof(CategoriesDetailsQuery);
     
     public static class Handler
     {

@@ -4,7 +4,7 @@ namespace infrastructure.api.commands;
 
 public record DeleteItemCommand
 {
-    public static string Route = nameof(DeleteItemCommand);
+    public const string Route = nameof(DeleteItemCommand);
     public Guid ItemId { get; init; }
     
     public static class Handler

@@ -6,7 +6,7 @@ namespace infrastructure.api.queries;
 
 public class ShoppingListsQuery
 {
-    public static string Route = nameof(ShoppingListsQuery);
+    public const string Route = nameof(ShoppingListsQuery);
 }
 
 public static class GetShoppingListsQueryHandler

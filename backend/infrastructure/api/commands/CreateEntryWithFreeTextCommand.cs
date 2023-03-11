@@ -4,7 +4,7 @@ namespace infrastructure.api.commands;
 
 public record CreateEntryWithFreeTextCommand
 {
-    public static string Route = nameof(CreateEntryWithFreeTextCommand);
+    public const string Route = nameof(CreateEntryWithFreeTextCommand);
     public Guid ShoppingListId { get; init; }
 
     public string FreeText { get; init; }

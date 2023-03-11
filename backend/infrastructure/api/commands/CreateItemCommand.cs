@@ -5,7 +5,7 @@ namespace infrastructure.api.commands;
 
 public record CreateItemCommand
 {
-    public static string Route = nameof(CreateItemCommand);
+    public const string Route = nameof(CreateItemCommand);
     public string Name { get; init; }
     public Guid CategoryId { get; init; }
 

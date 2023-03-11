@@ -4,7 +4,7 @@ namespace infrastructure.api.commands;
 
 public record CreateEntryCommand
 {
-    public static string Route = nameof(CreateEntryCommand);
+    public const string Route = nameof(CreateEntryCommand);
 
     public Guid ItemId { get; init; }
 

@@ -53,23 +53,8 @@ app.UseCors();
 
 app.MapGet("/", () => Results.Ok("Everything is fine"));
 
-app.MapPost($"/{CreateItemCommand.Route}", CreateItemCommand.Handler.Handle).WithTags("Category");
-app.MapGet($"/{ItemsQuery.Route}", ItemsQuery.Handler.Handle).WithTags("Category");
-app.MapPost($"/{DeleteItemCommand.Route}", DeleteItemCommand.Handler.Handle).WithTags("Category");
-
-app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommand.Handler.Handle)
-    .WithTags("Category");
-app.MapGet($"/{CategoriesQuery.Route}", CategoriesQuery.Handler.Handle).WithTags("Category");
-app.MapGet($"/{CategoriesDetailsQuery.Route}", CategoriesDetailsQuery.Handler.Handle).WithTags("Category");
-
-app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommand.Handler.Handle).WithTags("ShoppingList");
-app.MapGet($"/{ShoppingListsQuery.Route}", GetShoppingListsQueryHandler.Handle).WithTags("ShoppingList");
-app.MapGet($"/{ShoppingListQuery.Route}", ShoppingListQueryHandler.Handle).WithTags("ShoppingList");
-app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommand.Handler.Handle).WithTags("ShoppingList");
-app.MapPost($"/{CreateEntryWithFreeTextCommand.Route}", CreateEntryWithFreeTextCommand.Handler.Handle)
-    .WithTags("ShoppingList");
-app.MapPost($"/{DeleteEntryCommand.Route}", DeleteEntryCommand.Handler.Handle).WithTags("ShoppingList");
-
+app.MapCommands();
+app.MapQueries();
 
 // Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.
 if (!usesSqliteDatabase(app))

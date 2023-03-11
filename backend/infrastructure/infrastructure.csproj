@@ -24,8 +24,4 @@
       <ProjectReference Include="..\domain\domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="api" />
-    </ItemGroup>
-
 </Project>

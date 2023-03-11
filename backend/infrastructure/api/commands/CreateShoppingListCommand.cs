@@ -5,7 +5,7 @@ namespace infrastructure.api.commands;
 
 public record CreateShoppingListCommand
 {
-    public static string Route = nameof(CreateShoppingListCommand);
+    public const string Route = nameof(CreateShoppingListCommand);
     public string Name { get; init; }
     
     public static class Handler

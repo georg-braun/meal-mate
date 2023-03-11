@@ -5,7 +5,7 @@ namespace infrastructure.api.commands;
 
 public record CreateCategoryCommand
 {
-    public static string Route = nameof(CreateCategoryCommand);
+    public const string Route = nameof(CreateCategoryCommand);
     public string Name { get; init; }
 
     public static class Handler
