@@ -1,4 +1,4 @@
-namespace domain;
+namespace domain.shopping_list;
 
 public class Entry : IEntity
 {

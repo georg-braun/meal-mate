@@ -1,3 +1,5 @@
+using domain.shopping_list;
+
 namespace domain;
 
 public interface IDomainEvent

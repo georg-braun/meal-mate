@@ -1,6 +1,6 @@
 using System.Text;
-using infrastructure.api.commands;
-using infrastructure.api.queries;
+using WebApi.api.commands;
+using WebApi.api.queries;
 using domain;
 using Newtonsoft.Json;
 

@@ -1,3 +1,5 @@
+using domain.shopping_list;
+
 namespace domain;
 
 public class ShoppingList : AggregateRoot, IEntity
