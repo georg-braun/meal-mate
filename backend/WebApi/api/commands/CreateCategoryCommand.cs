@@ -1,5 +1,6 @@
 using domain;
 using Infrastructure.database;
+using MediatR;
 
 namespace WebApi.api.commands;
 
@@ -10,11 +11,9 @@ public record CreateCategoryCommand
 
     public static class Handler
     {
-        public static async Task<Category> Handle(CreateCategoryCommand command, MealMateContext context)
+        public static async Task<Category> Handle(CreateCategoryCommand command, IMediator mediator)
         {
-            var category = Category.Create(command.Name);
-            context.Categories.Add(category);
-            await context.SaveChangesAsync();
+            var category = await mediator.Send(new application.Commands.CreateCategoryCommand() {Name = command.Name});
             return category;
         }
     }
