@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.api.queries;
 
-public class CategoriesDetailsQuery
+public class CategoriesWithDetailQuery
 {
-    public const string Route = nameof(CategoriesDetailsQuery);
+    public const string Route = nameof(CategoriesWithDetailQuery);
     
     public static class Handler
     {
-        public static async Task<List<Response>> Handle(MealMateContext context)
+        public static async Task<List<CategoriesWithDetailResponse>> Handle(MealMateContext context)
         {
             var categories = await context.Categories.Include(_ => _.Items).ToListAsync();
             var dtos = categories.Select(ToDto);
             return dtos.ToList();
         }
 
-        private static Response ToDto(Category category)
+        private static CategoriesWithDetailResponse ToDto(Category category)
         {
-            return new Response
+            return new CategoriesWithDetailResponse
             {
                 Id = category.Id,
                 Name = category.Name,
@@ -43,7 +43,7 @@ public class CategoriesDetailsQuery
         public string Name { get; init; }
     }
 
-    public record Response
+    public record CategoriesWithDetailResponse
     {
         public Guid Id { get; init; }
         public string Name { get; init; }

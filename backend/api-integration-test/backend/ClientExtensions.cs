@@ -18,14 +18,14 @@ public static class ClientExtensions
     }
 
 
-    public static async Task<CreateShoppingListCommand.Handler.Response>
+    public static async Task<CreateShoppingListCommand.Handler.CreateShoppingListCommandResponse>
         CreateShoppingListAsync(this HttpClient client, string name)
     {
         var command = new CreateShoppingListCommand {Name = name};
         var response = await client.PostAsync(CreateShoppingListCommand.Route, Serialize(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<CreateShoppingListCommand.Handler.Response>(
+        return JsonConvert.DeserializeObject<CreateShoppingListCommand.Handler.CreateShoppingListCommandResponse>(
             responseJson);
     }
 
@@ -38,14 +38,14 @@ public static class ClientExtensions
         //return JsonConvert.DeserializeObject<ShoppingListQueryEntryDto>(responseJson);
     }
 
-    public static async Task<CreateItemCommand.Handler.Response> CreateItem(this HttpClient client, Guid categoryId,
+    public static async Task<CreateItemCommand.Handler.CreateItemCommandResponse> CreateItem(this HttpClient client, Guid categoryId,
         string name)
     {
         var command = new CreateItemCommand {CategoryId = categoryId, Name = name};
         var response = await client.PostAsync(CreateItemCommand.Route, Serialize(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<CreateItemCommand.Handler.Response>(responseJson);
+        return JsonConvert.DeserializeObject<CreateItemCommand.Handler.CreateItemCommandResponse>(responseJson);
     }
 
     public static async Task DeleteItemAsync(this HttpClient client, Guid itemId)
@@ -54,13 +54,13 @@ public static class ClientExtensions
         var response = await client.PostAsync(DeleteItemCommand.Route, Serialize(command));
     }
 
-    public static async Task<List<ItemsQuery.Handler.Response>> GetItemsAsync(this HttpClient client)
+    public static async Task<List<ItemsQuery.Handler.ItemsQueryResponse>> GetItemsAsync(this HttpClient client)
     {
         var command = new ItemsQuery();
         var response = await client.GetAsync(ItemsQuery.Route);
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<List<ItemsQuery.Handler.Response>>(responseJson);
+        return JsonConvert.DeserializeObject<List<ItemsQuery.Handler.ItemsQueryResponse>>(responseJson);
     }
 
     public static async Task<ShoppingListQueryResponse> GetShoppingListAsync(this HttpClient client, Guid listId)
@@ -72,12 +72,12 @@ public static class ClientExtensions
     }
 
 
-    public static async Task<List<CategoriesDetailsQuery.Response>> GetCategoriesWithItems(this HttpClient client)
+    public static async Task<List<CategoriesWithDetailQuery.CategoriesWithDetailResponse>> GetCategoriesWithItems(this HttpClient client)
     {
-        var response = await client.GetAsync(CategoriesDetailsQuery.Route);
+        var response = await client.GetAsync(CategoriesWithDetailQuery.Route);
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<List<CategoriesDetailsQuery.Response>>(responseJson);
+        return JsonConvert.DeserializeObject<List<CategoriesWithDetailQuery.CategoriesWithDetailResponse>>(responseJson);
     }
 
 

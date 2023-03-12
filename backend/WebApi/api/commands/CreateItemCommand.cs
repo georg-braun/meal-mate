@@ -11,7 +11,7 @@ public record CreateItemCommand
 
     public static class Handler
     {
-        public static async Task<Response> Handle(CreateItemCommand command, IMediator mediator)
+        public static async Task<CreateItemCommandResponse> Handle(CreateItemCommand command, IMediator mediator)
         {
             var item = await mediator.Send(new application.Commands.CreateItemCommand
                 {CategoryId = command.CategoryId, Name = command.Name});
@@ -19,9 +19,9 @@ public record CreateItemCommand
             return ToDto(item);
         }
 
-        private static Response ToDto(Item item)
+        private static CreateItemCommandResponse ToDto(Item item)
         {
-            return new Response
+            return new CreateItemCommandResponse
             {
                 Id = item.Id,
                 CategoryId = item.Category.Id,
@@ -29,7 +29,7 @@ public record CreateItemCommand
             };
         }
 
-        public record Response
+        public record CreateItemCommandResponse
         {
             public Guid Id { get; init; }
             public Guid CategoryId { get; init; }

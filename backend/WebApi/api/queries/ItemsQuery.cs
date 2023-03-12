@@ -10,13 +10,13 @@ public class ItemsQuery
     
     public static class Handler
     {
-        public static async Task<IEnumerable<Response>> Handle(MealMateContext context)
+        public static async Task<IEnumerable<ItemsQueryResponse>> Handle(MealMateContext context)
         {
             var items = await context.Items.Include(_ => _.Category).ToListAsync();
             return items.Select(ToDto);
         }
 
-        private static Response ToDto(Item item) =>
+        private static ItemsQueryResponse ToDto(Item item) =>
             new()
             {
                 Id = item.Id,
@@ -24,7 +24,7 @@ public class ItemsQuery
                 Name = item.Name
             };
 
-        public record Response
+        public record ItemsQueryResponse
         {
             public Guid Id { get; init; }
             public Guid CategoryId { get; init; }

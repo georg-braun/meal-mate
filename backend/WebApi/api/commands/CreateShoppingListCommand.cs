@@ -19,16 +19,16 @@ public record CreateShoppingListCommand
                 : Results.Created($"GetShoppingList/?id={shoppingList.Id}", ToDto(shoppingList));
         }
 
-        private static Response ToDto(ShoppingList shoppingList)
+        private static CreateShoppingListCommandResponse ToDto(ShoppingList shoppingList)
         {
-            return new Response
+            return new CreateShoppingListCommandResponse
             {
                 Name = shoppingList.Name,
                 Id = shoppingList.Id
             };
         }
 
-        public record Response
+        public record CreateShoppingListCommandResponse
         {
             public string Name { get; init; }
             public Guid Id { get; init; }
