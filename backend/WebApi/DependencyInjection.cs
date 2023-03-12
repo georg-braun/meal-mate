@@ -5,14 +5,22 @@ namespace WebApi;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddSolutionDependencies(this IServiceCollection services)
+    public static WebApplicationBuilder AddSolutionDependencies(this WebApplicationBuilder builder)
     {
-        services.AddApplication();
-        services.AddInfrastructure();
+        var connectionString = builder.Configuration.GetConnectionString("PostgresDatabase");
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            // Todo: Handle empty string. FluentValidator. 
+        }
+        
+        builder.Services.AddApplication();
+        builder.Services.AddInfrastructure(connectionString!);
         
         var assembly = typeof(DependencyInjection).Assembly;
-        services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(assembly));
+        builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(assembly));
      
-        return services;
+        return builder;
     }
+    
+
 }

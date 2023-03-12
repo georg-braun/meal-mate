@@ -13,20 +13,16 @@ var usesSqliteDatabase = (WebApplication app) =>
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddSolutionDependencies();
+builder.AddSolutionDependencies();
 
 builder.Services.AddSingleton<MealMateHubToClients>();
 builder.Services.AddSingleton<DomainEventInterceptor>();
 
 builder.Services.AddSignalR();
-builder.Services.AddDbContext<MealMateContext>(optionsBuilder =>
-{
-    optionsBuilder.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDatabase"));
-    //optionsBuilder.AddInterceptors(new DomainEventInterceptor());
-});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
