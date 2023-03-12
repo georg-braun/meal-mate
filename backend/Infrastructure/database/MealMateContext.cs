@@ -74,26 +74,7 @@ public class MealMateContext : DbContext
         Remove(item);
         await SaveChangesAsync();
     }
-
-    public async Task CreateEntryAsync(Guid itemId, Guid shoppingListId, string qualifier)
-    {
-        var item = await Items.FindAsync(itemId);
-        var shoppingList = await ShoppingLists.FindAsync(shoppingListId);
-
-        // Todo: Use result object
-        if (item is null || shoppingList is null)
-            return;
-
-        //var entry = domain.Entry.Create(item, shoppingList, qualifier);
-        shoppingList.CreateEntry(item, qualifier);
-        // update the shopping list aggregate
-        ShoppingLists.Update(shoppingList);
-
-        // todo: check change tracker
-
-
-        await SaveChangesAsync();
-    }
+    
 
     public async Task DeleteEntryAsync(Guid shoppingListId, Guid entryId)
     {
@@ -121,8 +102,6 @@ public class MealMateContext : DbContext
 
         var newItem = Item.Create(itemName);
         await Items.AddAsync(newItem);
-        await SaveChangesAsync();
-
         return newItem;
     }
 }

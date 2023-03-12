@@ -8,11 +8,11 @@ public record CreateCategoryCommand : IRequest<Category>
 {
     public required string Name { get; init; }
 
-    public class CreateCategoryCommamndHandler : IRequestHandler<CreateCategoryCommand, Category>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Category>
     {
         private readonly MealMateContext _context;
 
-        public CreateCategoryCommamndHandler(MealMateContext context)
+        public CreateCategoryCommandHandler(MealMateContext context)
         {
             _context = context;
         }

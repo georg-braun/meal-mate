@@ -1,4 +1,5 @@
 using Infrastructure.database;
+using MediatR;
 
 namespace WebApi.api.commands;
 
@@ -9,14 +10,21 @@ public record CreateEntryCommand
     public Guid ItemId { get; init; }
 
     public Guid ShoppingListId { get; init; }
+    
     public string Qualifier { get; init; }
 
     public static class Handler
     {
-        public static async Task<IResult> Handle(CreateEntryCommand command, MealMateContext context)
+        public static async Task<IResult> Handle(CreateEntryCommand command, IMediator mediator)
         {
-            await context.CreateEntryAsync(command.ItemId, command.ShoppingListId, command.Qualifier);
-            return Results.Ok();
+            await mediator.Send(new application.Commands.CreateEntryCommand()
+            {
+                ItemId = command.ItemId,
+                ShoppingListId = command.ShoppingListId,
+                Qualifier = command.Qualifier
+            });
+            
+            return Results.Empty;
         }
     }
 }
