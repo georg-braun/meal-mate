@@ -1,5 +1,5 @@
 using domain;
-using Infrastructure.database;
+using MediatR;
 
 namespace WebApi.api.commands;
 
@@ -7,26 +7,26 @@ public record CreateShoppingListCommand
 {
     public const string Route = nameof(CreateShoppingListCommand);
     public string Name { get; init; }
-    
+
     public static class Handler
     {
-        public static async Task<IResult> Handle(CreateShoppingListCommand command, MealMateContext context)
+        public static async Task<IResult> Handle(CreateShoppingListCommand command, IMediator mediator)
         {
-            var shoppingList = ShoppingList.Create(command.Name);
-            var createdList = await context.ShoppingLists.AddAsync(shoppingList);
-            await context.SaveChangesAsync();
+            var shoppingList = await mediator.Send(new application.Commands.CreateShoppingListCommand {Name = command.Name});
 
-            return createdList is null
+            return shoppingList is null
                 ? Results.UnprocessableEntity()
-                : Results.Created($"GetShoppingList/?id={createdList.Entity.Id}", ToDto(createdList.Entity));
+                : Results.Created($"GetShoppingList/?id={shoppingList.Id}", ToDto(shoppingList));
         }
 
-        private static Response ToDto(ShoppingList shoppingList) =>
-            new()
+        private static Response ToDto(ShoppingList shoppingList)
+        {
+            return new Response
             {
                 Name = shoppingList.Name,
                 Id = shoppingList.Id
             };
+        }
 
         public record Response
         {
@@ -35,4 +35,3 @@ public record CreateShoppingListCommand
         }
     }
 }
-

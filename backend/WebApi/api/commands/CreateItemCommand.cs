@@ -1,5 +1,5 @@
 using domain;
-using Infrastructure.database;
+using MediatR;
 
 namespace WebApi.api.commands;
 
@@ -11,9 +11,11 @@ public record CreateItemCommand
 
     public static class Handler
     {
-        public static async Task<Response> Handle(CreateItemCommand command, MealMateContext context)
+        public static async Task<Response> Handle(CreateItemCommand command, IMediator mediator)
         {
-            var item = await context.CreateItem(command.Name, command.CategoryId);
+            var item = await mediator.Send(new application.Commands.CreateItemCommand
+                {CategoryId = command.CategoryId, Name = command.Name});
+
             return ToDto(item);
         }
 

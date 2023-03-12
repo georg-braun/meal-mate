@@ -1,4 +1,4 @@
-using Infrastructure.database;
+using MediatR;
 
 namespace WebApi.api.commands;
 
@@ -6,12 +6,13 @@ public record DeleteItemCommand
 {
     public const string Route = nameof(DeleteItemCommand);
     public Guid ItemId { get; init; }
-    
+
     public static class Handler
     {
-        public static async Task Handle(DeleteItemCommand command, MealMateContext context)
+        public static async Task<IResult> Handle(DeleteItemCommand command, IMediator mediator)
         {
-            await context.DeleteItemAsync(command.ItemId);
+            await mediator.Send(new application.Commands.DeleteItemCommand {ItemId = command.ItemId});
+            return Results.Ok();
         }
     }
 }
