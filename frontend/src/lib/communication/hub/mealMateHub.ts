@@ -1,11 +1,11 @@
 import { HubConnectionState, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { get } from "svelte/store";
-import { shoppingListStore } from "../store";
-import { removeEntryWithId } from "../utilities/array";
-import { serverUrl } from "./api-client";
-import type { ItemWithId } from "../ItemWithId";
-import type { ShoppingListQueryResponseEntry } from "./ShoppingListQueryResponse";
-import type { EntryCreatedDto } from "./hub/EntryCreatedDto";
+import { shoppingListStore } from "../../store";
+import { removeEntryWithId } from "../../utilities/array";
+import { serverUrl } from "../api/api-client";
+import type { ItemWithId } from "../../ItemWithId";
+import { ShoppingListQueryResponseEntry } from "../api/queries/ShoppingListQueryResponseEntry";
+import type { EntryCreatedDto } from "./EntryCreatedDto";
 
 let connectedShoppingList: string;
 

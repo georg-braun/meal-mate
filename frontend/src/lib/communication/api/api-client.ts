@@ -1,6 +1,6 @@
-import type { ShoppingListQueryResponse } from './ShoppingListQueryResponse';
+import type { ShoppingListQueryResponse } from './queries/ShoppingListQueryResponse';
 import axios from 'axios';
-import { itemsStore } from '../store';
+import { itemsStore } from '../../store';
 
 
 export const serverUrl = import.meta.env.VITE_API_SERVER;

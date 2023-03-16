@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import apiClient from "../../communication/api-client";
+    import apiClient from "../../communication/api/api-client";
+
     import { itemsStore } from "../../store";
     import Item from "./Item.svelte";
 

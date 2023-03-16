@@ -4,7 +4,7 @@
   import { Router, Link, Route, navigate } from "svelte-routing";
   import CreateShoppingList from "./lib/components/shopping-list/CreateShoppingList.svelte";
   import ShoppingList from "./lib/components/shopping-list/ShoppingList.svelte";
-  import { sendTestMessageAsync } from "./lib/communication/mealMateHub";
+  import { sendTestMessageAsync } from "./lib/communication/hub/mealMateHub";
 
   let showItems: boolean;
 

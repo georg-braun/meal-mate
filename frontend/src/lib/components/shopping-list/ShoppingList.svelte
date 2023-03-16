@@ -1,17 +1,15 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
 
-  import apiClient from "../../communication/api-client";
-  import type { GetCategoriesDetailsQueryItem } from "../../communication/queries/ItemsQuery";
-  import type { ShoppingListQueryResponse } from "../../communication/ShoppingListQueryResponse";
   import {
     startListeningToShoppingListChanges,
     startSignalR,
     stopListeningToShoppingListChanges,
     stopSignalR,
-  } from "../../communication/mealMateHub";
+  } from "../../communication/hub/mealMateHub";
   import { itemsStore, shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
+    import apiClient from "../../communication/api/api-client";
 
   let isListeningToChanges = false;
 

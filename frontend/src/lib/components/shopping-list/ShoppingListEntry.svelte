@@ -1,14 +1,17 @@
 <script lang="ts">
-  import apiClient from "../../communication/api-client";
-
-  import type { ShoppingListQueryResponseEntry } from "../../communication/ShoppingListQueryResponse";
+  import apiClient from "../../communication/api/api-client";
+    import type { ShoppingListQueryResponseEntry } from "../../communication/api/queries/ShoppingListQueryResponseEntry";
 
   export let shoppingListId: string;
   export let entry: ShoppingListQueryResponseEntry;
 </script>
 
-<button class="item" placeholder={entry.id} on:click={async () =>
-  await apiClient.deleteEntryAsync(shoppingListId, entry.id)}>
+<button
+  class="item"
+  placeholder={entry.id}
+  on:click={async () =>
+    await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
+>
   <div class="item__name">
     {entry.itemName}
   </div>
@@ -16,10 +19,10 @@
     {entry.qualifier}
   </div>
 
-<!--   <button
+  <!--   <button
     Check</button
   > -->
-    </button>
+</button>
 
 <style>
   .item {

@@ -1,20 +1,22 @@
 <script lang="ts">
   import { Link } from "svelte-routing";
-  import apiClient from "../../communication/api-client";
+    import apiClient from "../../communication/api/api-client";
 
-
-
-let name:string =""
-let newListId: string;
+  let name: string = "";
+  let newListId: string;
 </script>
 
 <div class="center">
-  <input bind:value={name} placeholder="Name der Liste"/>
+  <input bind:value={name} placeholder="Name der Liste" />
   <div>
-      <button on:click={async () => newListId = await apiClient.createShoppingListAsync(name)}>Erstellen</button>
+    <button
+      on:click={async () =>
+        (newListId = await apiClient.createShoppingListAsync(name))}
+      >Erstellen</button
+    >
   </div>
-  
-  {#if !!newListId}  
+
+  {#if !!newListId}
     Eine neue Liste wurde für dich erstellt. Merke dir den Link zu dieser Liste!
     <Link to={`/shopping-list/${newListId}`}>Zur Liste</Link>
   {/if}
@@ -23,6 +25,5 @@ let newListId: string;
 <style>
   .center {
     text-align: center;
-
   }
 </style>

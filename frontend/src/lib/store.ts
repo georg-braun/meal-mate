@@ -1,6 +1,6 @@
-import type { ShoppingListQueryResponse } from './communication/ShoppingListQueryResponse';
+import type { ShoppingListQueryResponse } from './communication/api/queries/ShoppingListQueryResponse';
 import { writable } from "svelte/store";
-import type { GetCategoriesDetailsQueryDto } from "./communication/queries/ItemsQuery";
+import type { GetCategoriesDetailsQueryDto } from "./communication/api/queries/ItemsQueryResponse";
 
 export const itemsStore = writable<GetCategoriesDetailsQueryDto[]>([]);
 
