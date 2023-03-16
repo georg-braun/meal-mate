@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@iconify/svelte": "^3.1.0",
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
     "@tsconfig/svelte": "^3.0.0",
     "svelte": "^3.54.0",

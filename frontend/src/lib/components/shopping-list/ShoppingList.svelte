@@ -9,7 +9,7 @@
   } from "../../communication/hub/mealMateHub";
   import { shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
-    import apiClient from "../../communication/api/api-client";
+  import apiClient from "../../communication/api/api-client";
 
   let isListeningToChanges = false;
 
@@ -83,11 +83,13 @@
   </div>
 
   <div class="new-entry">
-    <input class="new-entry__input" bind:value={newEntry} />
-    <button
-      class="new-entry__add"
-      on:click={async () => await createEntryAsync()}>+</button
-    >
+    <div>
+      <input class="new-entry__input" bind:value={newEntry} />
+      <button
+        class="new-entry__add"
+        on:click={async () => await createEntryAsync()}>+</button
+      >
+    </div>
   </div>
 {:else}
   Lade Liste ({id}) ...
@@ -97,6 +99,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   .connection-status {
     display: block;
@@ -120,17 +123,15 @@
     width: 100%;
     bottom: 0px;
     left: 0px;
-   
+
     margin: 20px 0px;
 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
-
     text-align: center;
     padding: 5px;
-
   }
 
   .new-entry__input {
@@ -143,26 +144,24 @@
     border-width: 1px 0px 1px 1px;
     border-radius: 15px 0px 0px 15px;
     flex-shrink: 1;
- 
   }
 
   .new-entry__add {
-
     height: 34px;
     padding: 0px 20px;
     font-size: x-large;
-  
 
     border: solid;
     border-width: 1px 1px 1px 0px;
     border-radius: 0px 15px 15px 0px;
 
     background-color: greenyellow;
-
   }
 
   .items {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
   }
 </style>
