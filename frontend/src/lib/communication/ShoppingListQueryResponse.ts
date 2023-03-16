@@ -1,4 +1,4 @@
-import type { ItemWithId } from "../../ItemWithId";
+import type { ItemWithId } from "../ItemWithId";
 
 export class ShoppingListQueryResponse  {
     id: string;

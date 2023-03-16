@@ -21,6 +21,7 @@ public class ItemsQuery
             {
                 Id = item.Id,
                 CategoryId = item.Category?.Id ?? Guid.Empty,
+                CategoryName = item.Category?.Name ?? string.Empty,
                 Name = item.Name
             };
 
@@ -28,6 +29,7 @@ public class ItemsQuery
         {
             public Guid Id { get; init; }
             public Guid CategoryId { get; init; }
+            public string CategoryName { get; init; }
             public string Name { get; init; }
         }
     }

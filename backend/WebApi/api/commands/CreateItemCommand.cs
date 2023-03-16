@@ -24,7 +24,7 @@ public record CreateItemCommand
             return new CreateItemCommandResponse
             {
                 Id = item.Id,
-                CategoryId = item.Category.Id,
+                CategoryId = item.Category?.Id ?? Guid.Empty,
                 Name = item.Name
             };
         }

@@ -19,21 +19,18 @@ public class CategorySpecs
     }
 
     [Fact]
-    public async Task User_can_create_a_category_and_item_and_get_this_data_back()
+    public async Task User_can_create_an_item_without_category()
     {
         // arrange
         var client = new ApiBackend().client;
-        var category = await client.CreateCategoryAsync("Gemüse");
-        var item = await client.CreateItem(category.Id, "Zwiebel");
+        var item = await client.CreateItemAsync("Zwiebel");
 
         // act
-        var categoriesWithItems = await client.GetCategoriesWithItems();
-
-
+        var items = await client.GetItemsAsync();
+        
         // assert
-        categoriesWithItems.First().Id.Should().Be(category.Id);
-        categoriesWithItems.First().Name.Should().Be(category.Name);
-        categoriesWithItems.First().Items.Should().Contain(_ => _.Name.Equals("Zwiebel"));
+        items.First().Id.Should().Be(item.Id);
+        items.First().Name.Should().Be(item.Name);
     }
 
     [Fact]
@@ -42,7 +39,7 @@ public class CategorySpecs
         // arrange  
         var client = new ApiBackend().client;
         var category = await client.CreateCategoryAsync("Gemüse");
-        var item = await client.CreateItem(category.Id, "Zwiebel");
+        var item = await client.CreateItemAsync(category.Id, "Zwiebel");
 
         // act
         await client.DeleteItemAsync(item.Id);

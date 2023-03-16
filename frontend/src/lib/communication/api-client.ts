@@ -1,11 +1,16 @@
-import type { GetCategoriesDetailsQueryDto } from './dtos/GetCategoriesDetailsQuery';
-import type { ShoppingListQueryResponse } from './dtos/ShoppingListQueryResponse';
+import type { ShoppingListQueryResponse } from './ShoppingListQueryResponse';
 import axios from 'axios';
-import { categoriesWithItemsStore } from '../store';
+import { itemsStore } from '../store';
 
 
 export const serverUrl = import.meta.env.VITE_API_SERVER;
 
+
+
+interface CreateShoppingListCommandResponse{
+	id: string;
+	name: string;
+}
 
 class ApiClient {
 
@@ -23,9 +28,15 @@ class ApiClient {
 		await this.sendPostAsync("CreateEntryCommand", { itemId: itemId, ShoppingListId: shoppingListId, qualifier: qualifier });
 	}
 
+	async createEntryWithFreeTextAsync(shoppingListId: string, text: string) {
+		console.log(`Create entry ${text} for list ${shoppingListId}.`)
+		await this.sendPostAsync("CreateEntryWithFreeTextCommand", { ShoppingListId: shoppingListId, freeText: text });
+	}
+
 	async createShoppingListAsync(name: string): Promise<string> {
 		let response = await this.sendPostAsync("CreateShoppingListCommand", { name: name });
-		let shoppingListId = response.data.id;
+		let responseData = response.data as CreateShoppingListCommandResponse;
+		let shoppingListId = responseData.id;
 		return shoppingListId
 	}
 
@@ -37,17 +48,17 @@ class ApiClient {
 		await this.sendPostAsync("DeleteEntryCommand", { shoppingListId: shoppingListId, entryId: entryId});
 	}
 
-	async refreshCategoriesDetailsStoreAsync(): Promise<void> {
-		console.log(`Refresh categories and items.`)
+	async refreshItemsStoreAsync(): Promise<void> {
+		console.log(`Refresh items.`)
 		const config = {
-			url: `${serverUrl}/GetCategoriesDetailsQuery`,
+			url: `${serverUrl}/ItemsQuery`,
 			method: "GET",
 			headers: {
 				"content-type": "application/json",
 			},
 		};
 		const response = await this.makeRequest(config);
-		categoriesWithItemsStore.set(response.data);
+		itemsStore.set(response.data);
 	}
 
 	async getShoppingListAsync(id: string): Promise<ShoppingListQueryResponse> {

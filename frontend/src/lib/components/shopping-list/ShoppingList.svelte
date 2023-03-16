@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
 
-  import apiClient from "../communication/api-client";
-  import type { GetCategoriesDetailsQueryItem } from "../communication/dtos/GetCategoriesDetailsQuery";
-  import type { ShoppingListQueryResponse } from "../communication/dtos/ShoppingListQueryResponse";
+  import apiClient from "../../communication/api-client";
+  import type { GetCategoriesDetailsQueryItem } from "../../communication/queries/ItemsQuery";
+  import type { ShoppingListQueryResponse } from "../../communication/ShoppingListQueryResponse";
   import {
     startListeningToShoppingListChanges,
     startSignalR,
     stopListeningToShoppingListChanges,
     stopSignalR,
-  } from "../communication/mealMateHub";
-  import { categoriesWithItemsStore, shoppingListStore } from "../store";
+  } from "../../communication/mealMateHub";
+  import { itemsStore, shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
 
   let isListeningToChanges = false;
@@ -39,23 +39,20 @@
   }
 
   onDestroy(async () => {
-    if (!!id){
+    if (!!id) {
       isListeningToChanges = await stopListeningToShoppingListChanges(id);
-    }
-    else {
+    } else {
       isListeningToChanges = false;
     }
-    
   });
 
   $: {
     console.log(`Current shopping list is ${id}.`);
     getInitialShoppingList(id);
-    apiClient.refreshCategoriesDetailsStoreAsync();
+    apiClient.refreshItemsStoreAsync();
   }
 
-  let qualifier: string;
-  let selectedNewEntry: GetCategoriesDetailsQueryItem;
+  let newEntry: string;
 
   async function getInitialShoppingList(id: string) {
     const shoppingListResponse = await apiClient.getShoppingListAsync(id);
@@ -63,56 +60,53 @@
   }
 
   async function createEntryAsync() {
-    if (selectedNewEntry == undefined) return;
+    if (newEntry == "") return;
 
-    await apiClient.createEntryAsync(
-      selectedNewEntry.id,
-      shoppingList.id,
-      qualifier
-    );
+    await apiClient.createEntryWithFreeTextAsync(shoppingList.id, newEntry);
   }
 
   export let id: string;
 </script>
 
 {#if !!shoppingList}
-  <h1>Einkaufsliste</h1>
+  <div class="header">
+    <div
+      class="connection-status {isListeningToChanges
+        ? 'connection-status--connected'
+        : 'connection-status--disconnected'}"
+    />
+    <h2 title={shoppingList.id}>{shoppingList.name}</h2>
+  </div>
 
-  <h2 title={shoppingList.id}>{shoppingList.name}</h2>
-  Live-Updates:
-  <div
-    class="connection-status {isListeningToChanges
-      ? 'connection-status--connected'
-      : 'connection-status--disconnected'}"
-  />
-
-  {#each shoppingList.entries as entry (entry.id)}
-    <div>
+  <div class="items">
+    {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
-    </div>
-  {/each}
-
-  <input bind:value={qualifier} />
-  <select bind:value={selectedNewEntry}>
-    {#each $categoriesWithItemsStore as categoryWithItems (categoryWithItems.id)}
-      <optgroup label={categoryWithItems.name}>
-        {#each categoryWithItems.items as item (item.id)}
-          <option value={item}>{item.name}</option>
-        {/each}
-      </optgroup>
     {/each}
-  </select>
-  <button on:click={async () => await createEntryAsync()}>Hinzufügen</button>
+  </div>
+
+  <div class="new-entry">
+    <input class="new-entry__input" bind:value={newEntry} />
+    <button
+      class="new-entry__add"
+      on:click={async () => await createEntryAsync()}>+</button
+    >
+  </div>
 {:else}
   Lade Liste ({id}) ...
 {/if}
 
 <style>
+  .header {
+    display: flex;
+    align-items: center;
+  }
   .connection-status {
+    display: block;
     background-color: greenyellow;
     width: 10px;
     height: 10px;
     border-radius: 5px;
+    margin-right: 5px;
   }
 
   .connection-status--connected {
@@ -121,5 +115,25 @@
 
   .connection-status--disconnected {
     background-color: orangered;
+  }
+
+  .new-entry {
+    position: absolute;
+    bottom: 0px;
+    height: 40px;
+    background-color: aquamarine;
+  }
+
+  .new-entry__input {
+    height: 100%;
+  }
+
+  .new-entry__add {
+    height: 100%;
+  }
+
+  .items {
+    display: flex;
+    gap: 10px;
   }
 </style>

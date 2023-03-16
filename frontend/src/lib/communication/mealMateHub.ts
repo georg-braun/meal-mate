@@ -4,7 +4,8 @@ import { shoppingListStore } from "../store";
 import { removeEntryWithId } from "../utilities/array";
 import { serverUrl } from "./api-client";
 import type { ItemWithId } from "../ItemWithId";
-import type { ShoppingListQueryResponseEntry } from "./dtos/ShoppingListQueryResponse";
+import type { ShoppingListQueryResponseEntry } from "./ShoppingListQueryResponse";
+import type { EntryCreatedDto } from "./hub/EntryCreatedDto";
 
 let connectedShoppingList: string;
 
@@ -56,9 +57,8 @@ connection.on("RemoveEntryFromShoppingList", (shoppingListId: string, entryId: s
 
 });
 
-connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entry: ShoppingListQueryResponseEntry) => {
+connection.on("CreateEntryOnShoppingList", (shoppingListId: string, entry: EntryCreatedDto) => {
     console.log(`Add entry ${entry.itemId} to shopping list ${shoppingListId} ${JSON.stringify(entry)}).`)
-
 
     shoppingListStore.update(shoppingList => {
         shoppingList.entries.push(entry)

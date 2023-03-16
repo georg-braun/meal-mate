@@ -1,39 +1,37 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import Categories from "./lib/components/Categories.svelte";
-  import { Router, Link, Route } from "svelte-routing";
-  import CreateShoppingList from "./lib/components/CreateShoppingList.svelte";
-  import ShoppingList from "./lib/components/ShoppingList.svelte";
+  import Categories from "./lib/components/items/Items.svelte";
+  import { Router, Link, Route, navigate } from "svelte-routing";
+  import CreateShoppingList from "./lib/components/shopping-list/CreateShoppingList.svelte";
+  import ShoppingList from "./lib/components/shopping-list/ShoppingList.svelte";
   import { sendTestMessageAsync } from "./lib/communication/mealMateHub";
 
-  let showCategoriesOverlay: boolean;
+  let showItems: boolean;
 
-  onMount(async () => {
-    
-  });
-
-
+  onMount(async () => {});
 
   export let url = "";
 </script>
 
-<h1>Meal Plan</h1>
-<button on:click={() => (showCategoriesOverlay = !showCategoriesOverlay)}
-  >Kategorien {showCategoriesOverlay ? "schließen" : "bearbeiten"}</button
->
 <Router {url}>
-  {#if !showCategoriesOverlay}
-    <nav>
-      <Link to="/create-shopping-list">Neue Liste erstellen</Link>
-    </nav>
-  {/if}
+  <nav>
+    <button on:click={() => (showItems = !showItems)}
+      >Gegenstände {showItems ? "ausblenden" : "einblenden"}</button
+    >
+    <button
+      on:click={() => {
+        showItems = false;
+        navigate("/create-shopping-list");
+      }}
+    >
+      Neue Liste erstellen
+    </button>
+  </nav>
 
-  <button on:click={async () => await sendTestMessageAsync() }>Send test message</button>
   <main>
-    {#if showCategoriesOverlay}
+    {#if showItems}
       <Categories />
     {:else}
-      <!-- <Route path="/categories" component={Categories} />   -->
       <Route path="/create-shopping-list" component={CreateShoppingList} />
       <Route path="/shopping-list/:id" component={ShoppingList} />
     {/if}

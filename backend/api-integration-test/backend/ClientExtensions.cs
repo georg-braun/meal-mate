@@ -38,10 +38,20 @@ public static class ClientExtensions
         //return JsonConvert.DeserializeObject<ShoppingListQueryEntryDto>(responseJson);
     }
 
-    public static async Task<CreateItemCommand.Handler.CreateItemCommandResponse> CreateItem(this HttpClient client, Guid categoryId,
+    public static async Task<CreateItemCommand.Handler.CreateItemCommandResponse> CreateItemAsync(this HttpClient client, Guid categoryId,
         string name)
     {
         var command = new CreateItemCommand {CategoryId = categoryId, Name = name};
+        var response = await client.PostAsync(CreateItemCommand.Route, Serialize(command));
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<CreateItemCommand.Handler.CreateItemCommandResponse>(responseJson);
+    }
+    
+    public static async Task<CreateItemCommand.Handler.CreateItemCommandResponse> CreateItemAsync(this HttpClient client,
+        string name)
+    {
+        var command = new CreateItemCommand { Name = name};
         var response = await client.PostAsync(CreateItemCommand.Route, Serialize(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
@@ -79,8 +89,7 @@ public static class ClientExtensions
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<List<CategoriesWithDetailQuery.CategoriesWithDetailResponse>>(responseJson);
     }
-
-
+    
     private static StringContent Serialize(object command)
     {
         var json = JsonConvert.SerializeObject(command);

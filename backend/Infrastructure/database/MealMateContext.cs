@@ -47,13 +47,14 @@ public class MealMateContext : DbContext
     {
         var category = await Categories.FindAsync(categoryId);
 
-        // Todo: Use result object
-        if (category is null)
-            return null;
-
         var item = Item.Create(itemName);
-        item.SetCategory(category);
-        category.AddItem(item);
+
+        if (category != null)
+        {
+            item.SetCategory(category);
+            category.AddItem(item);
+        }
+        
         await Items.AddAsync(item);
         await SaveChangesAsync();
 
