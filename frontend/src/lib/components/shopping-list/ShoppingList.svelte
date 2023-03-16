@@ -7,7 +7,7 @@
     stopListeningToShoppingListChanges,
     stopSignalR,
   } from "../../communication/hub/mealMateHub";
-  import { itemsStore, shoppingListStore } from "../../store";
+  import { shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
     import apiClient from "../../communication/api/api-client";
 
@@ -116,18 +116,49 @@
   }
 
   .new-entry {
-    position: absolute;
+    position: fixed;
+    width: 100%;
     bottom: 0px;
-    height: 40px;
-    background-color: aquamarine;
+    left: 0px;
+   
+    margin: 20px 0px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+    text-align: center;
+    padding: 5px;
+
   }
 
   .new-entry__input {
-    height: 100%;
+    height: 30px;
+
+    width: 60vw;
+    text-align: center;
+    font-size: x-large;
+    border: solid;
+    border-width: 1px 0px 1px 1px;
+    border-radius: 15px 0px 0px 15px;
+    flex-shrink: 1;
+ 
   }
 
   .new-entry__add {
-    height: 100%;
+
+    height: 34px;
+    padding: 0px 20px;
+    font-size: x-large;
+  
+
+    border: solid;
+    border-width: 1px 1px 1px 0px;
+    border-radius: 0px 15px 15px 0px;
+
+    background-color: greenyellow;
+
   }
 
   .items {
