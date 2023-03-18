@@ -48,7 +48,7 @@ jobs:
       - name: Tag built container with specfic commit id ${{ github.sha }}
         uses: actions-hub/docker/cli@master
         with:
-          args: tag api:1.0.0 registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
+          args: tag webapi:1.0.0 registry.hub.docker.com/velox1992/meal-mate:${{ github.sha }}
           
       - name: Push built image to the registry
         uses: actions-hub/docker/cli@master
@@ -59,7 +59,7 @@ jobs:
       - name: Tag built container with latest
         uses: actions-hub/docker/cli@master
         with:
-          args: tag api:1.0.0 registry.hub.docker.com/velox1992/meal-mate:latest
+          args: tag webapi:1.0.0 registry.hub.docker.com/velox1992/meal-mate:latest
 
       - name: Push built image to the registry
         uses: actions-hub/docker/cli@master
