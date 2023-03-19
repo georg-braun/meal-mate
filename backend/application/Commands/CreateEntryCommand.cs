@@ -24,8 +24,24 @@ public record CreateEntryCommand : IRequest
 
         public async Task Handle(CreateEntryCommand request, CancellationToken cancellationToken)
         {
+            if (request.ItemId == Guid.Empty)
+            {
+                Console.WriteLine("Can't create an entry. The provided ItemId is null.");
+                return;
+            }
             var item = await _context.Items.FindAsync(request.ItemId);
             var shoppingList = await _context.ShoppingLists.FindAsync(request.ShoppingListId);
+
+            if (item is null)
+            {
+                Console.WriteLine($"Can't find item {request.ItemId}.");
+                return;
+            }
+            if (shoppingList is null)
+            {
+                Console.WriteLine($"Can't find shopping list {request.ShoppingListId}.");
+                return;
+            }
             
             shoppingList.CreateEntry(item, request.Qualifier);
             // update the shopping list aggregate

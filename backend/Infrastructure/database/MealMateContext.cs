@@ -15,11 +15,10 @@ public class MealMateContext : DbContext
         _domainEventInterceptor = domainEventInterceptor;
     }
 
-    public DbSet<Item> Items { get; init; }
-    public DbSet<Category> Categories { get; init; }
-    public DbSet<ShoppingList> ShoppingLists { get; init; }
-
-    public DbSet<Entry> Entries { get; init; }
+    public DbSet<Item> Items { get; init; } = null!;
+    public DbSet<Category> Categories { get; init; } = null!;
+    public DbSet<ShoppingList> ShoppingLists { get; init; } = null!;
+    public DbSet<Entry> Entries { get; init; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

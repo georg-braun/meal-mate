@@ -20,6 +20,12 @@ public record CreateEntryWithFreeTextCommand : IRequest
 
         public async Task Handle(CreateEntryWithFreeTextCommand request, CancellationToken cancellationToken)
         {
+            if (request.ShoppingListId == Guid.Empty)
+            {
+                Console.WriteLine("Can't create an entry because the provided shopping list id is empty.");
+                return;
+            }
+            
             var itemName = string.Empty;
             var qualifier = string.Empty;
             var parts = request.FreeText.Split(" ");
@@ -37,6 +43,13 @@ public record CreateEntryWithFreeTextCommand : IRequest
             var item = await _context.CreateItemIfDoesntExistAsync(itemName);
 
             var shoppingList = await _context.ShoppingLists.FindAsync(request.ShoppingListId);
+            
+            if (shoppingList is null)
+            {
+                Console.WriteLine($"Can't find shopping list {request.ShoppingListId}.");
+                return;
+            }
+            
             shoppingList.CreateEntry(item, qualifier);
             // update the shopping list aggregate
             _context.ShoppingLists.Update(shoppingList);

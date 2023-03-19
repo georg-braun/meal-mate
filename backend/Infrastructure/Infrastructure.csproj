@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>Infrastructure</RootNamespace>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <NoWarn>8981</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

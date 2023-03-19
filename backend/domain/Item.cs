@@ -2,7 +2,7 @@ namespace domain;
 
 public class Item : IEntity
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public Category? Category { get; set; }
     public Guid Id { get; init; }
