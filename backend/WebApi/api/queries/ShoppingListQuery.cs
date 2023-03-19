@@ -19,7 +19,7 @@ public static class ShoppingListQueryHandler
 
         if (shoppingList is null) return Results.NoContent();
 
-        return Results.Ok(shoppingList);
+        return Results.Ok(ToDto(shoppingList));
     }
 
     private static ShoppingListQueryResponse ToDto(ShoppingList shoppingList)
