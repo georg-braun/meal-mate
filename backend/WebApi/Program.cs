@@ -4,6 +4,16 @@ using WebApi;
 using WebApi.api;
 using WebApi.hubs;
 
+
+// if (args.Contains("--run-migration"))
+// {
+//     var optionsBuilder = new DbContextOptionsBuilder<MealMateContext>();
+//     optionsBuilder.UseNpgsql(connectionString);
+//
+//     await using var dbContext = new MealMateContext(optionsBuilder.Options);
+//     await dbContext.Database.MigrateAsync();
+// }
+
 var usesSqliteDatabase = (WebApplication app) =>
 {
     var scope = app.Services.CreateScope();
@@ -35,7 +45,6 @@ builder.Services.AddCors(options =>
             policy.AllowCredentials();
         }));
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +52,17 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (args.Contains("--run-migration"))
+{
+    Console.WriteLine("Run migration.");
+    // Migrate the database. 
+    // This is just used here because there is only one backend instance. If there will be multiple intances
+    // the migration should be moved to the deployment process.
+    var scope = app.Services.CreateScope();
+    await using var dbContext = scope.ServiceProvider.GetRequiredService<MealMateContext>();
+    await dbContext.Database.MigrateAsync();
 }
 
 app.UseHttpsRedirection();
