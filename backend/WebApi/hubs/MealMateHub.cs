@@ -12,11 +12,6 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
         _mealMateContext = mealMateContext;
     }
 
-    public async Task Listen(string id)
-    {
-        Console.WriteLine(id);
-    }
-
     public async Task<bool> StartListeningToShoppingListChanges(string id)
     {
         var shoppingListId = Guid.Parse(id);

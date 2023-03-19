@@ -6,7 +6,7 @@ public record CreateEntryWithFreeTextCommand
 {
     public const string Route = nameof(CreateEntryWithFreeTextCommand);
     public Guid ShoppingListId { get; init; }
-    public string FreeText { get; init; }
+    public string FreeText { get; init; } = null!;
 
     public static class Handler
     {

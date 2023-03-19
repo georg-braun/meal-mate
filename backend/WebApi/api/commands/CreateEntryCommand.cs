@@ -11,7 +11,7 @@ public record CreateEntryCommand
 
     public Guid ShoppingListId { get; init; }
     
-    public string Qualifier { get; init; }
+    public string Qualifier { get; init; } = null!;
 
     public static class Handler
     {

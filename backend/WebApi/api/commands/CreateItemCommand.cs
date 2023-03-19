@@ -6,7 +6,7 @@ namespace WebApi.api.commands;
 public record CreateItemCommand
 {
     public const string Route = nameof(CreateItemCommand);
-    public string Name { get; init; }
+    public string Name { get; init; } = null!;
     public Guid CategoryId { get; init; }
 
     public static class Handler
@@ -33,7 +33,7 @@ public record CreateItemCommand
         {
             public Guid Id { get; init; }
             public Guid CategoryId { get; init; }
-            public string Name { get; init; }
+            public string Name { get; init; } = null!;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace WebApi.api.commands;
 public record CreateCategoryCommand
 {
     public const string Route = nameof(CreateCategoryCommand);
-    public string Name { get; init; }
+    public string Name { get; init; } = null!;
 
     public static class Handler
     {

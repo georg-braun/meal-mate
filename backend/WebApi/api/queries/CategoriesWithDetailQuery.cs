@@ -40,14 +40,14 @@ public class CategoriesWithDetailQuery
     public record ItemDto
     {
         public Guid Id { get; init; }
-        public string Name { get; init; }
+        public string Name { get; init; } = null!;
     }
 
     public record CategoriesWithDetailResponse
     {
         public Guid Id { get; init; }
-        public string Name { get; init; }
-        public List<ItemDto> Items { get; init; }
+        public string Name { get; init; } = null!;
+        public List<ItemDto> Items { get; init; } = new();
     }
 }
 

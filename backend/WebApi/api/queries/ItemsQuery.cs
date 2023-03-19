@@ -29,8 +29,8 @@ public class ItemsQuery
         {
             public Guid Id { get; init; }
             public Guid CategoryId { get; init; }
-            public string CategoryName { get; init; }
-            public string Name { get; init; }
+            public string CategoryName { get; init; } = null!;
+            public string Name { get; init; } = null!;
         }
     }
 }

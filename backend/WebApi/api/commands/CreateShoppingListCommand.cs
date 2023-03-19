@@ -6,7 +6,7 @@ namespace WebApi.api.commands;
 public record CreateShoppingListCommand
 {
     public const string Route = nameof(CreateShoppingListCommand);
-    public string Name { get; init; }
+    public string Name { get; init; } = null!;
 
     public static class Handler
     {
@@ -30,7 +30,7 @@ public record CreateShoppingListCommand
 
         public record CreateShoppingListCommandResponse
         {
-            public string Name { get; init; }
+            public string Name { get; init; } = null!;
             public Guid Id { get; init; }
         }
     }
