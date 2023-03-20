@@ -54,16 +54,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if (args.Contains("--run-migration"))
-{
-    Console.WriteLine("Run migration.");
-    // Migrate the database. 
-    // This is just used here because there is only one backend instance. If there will be multiple intances
-    // the migration should be moved to the deployment process.
-    var scope = app.Services.CreateScope();
-    await using var dbContext = scope.ServiceProvider.GetRequiredService<MealMateContext>();
-    await dbContext.Database.MigrateAsync();
-}
 
 app.UseHttpsRedirection();
 
@@ -73,6 +63,9 @@ app.MapGet("/", () => Results.Ok("Everything is fine"));
 app.MapCommands();
 app.MapQueries();
 
+// Migrate the database. 
+// This is just used here because there is only one backend instance. If there will be multiple intances
+// the migration should be moved to the deployment process.
 // Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.
 if (!usesSqliteDatabase(app))
     app.MigrateDatabase();
