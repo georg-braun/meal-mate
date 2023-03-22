@@ -1,18 +1,9 @@
 using Infrastructure.database;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WebApi;
 using WebApi.api;
 using WebApi.hubs;
-
-
-// if (args.Contains("--run-migration"))
-// {
-//     var optionsBuilder = new DbContextOptionsBuilder<MealMateContext>();
-//     optionsBuilder.UseNpgsql(connectionString);
-//
-//     await using var dbContext = new MealMateContext(optionsBuilder.Options);
-//     await dbContext.Database.MigrateAsync();
-// }
 
 var usesSqliteDatabase = (WebApplication app) =>
 {
@@ -21,7 +12,16 @@ var usesSqliteDatabase = (WebApplication app) =>
     return ctx.Database.IsSqlite();
 };
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.AddSolutionDependencies();
 

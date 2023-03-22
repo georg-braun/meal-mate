@@ -12,3 +12,4 @@ backend/**/obj
 backend/**/bin
 backend/api/meal-mate.db**
 frontend/dist
+backend/logs
