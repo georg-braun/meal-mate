@@ -82,6 +82,10 @@
     {/each}
   </div>
 
+  <!-- Placeholder so that the new entry isn't in the foreground of a list entry -->
+  <div class="bottom-placeholder"></div>
+
+  <!-- New entry menu that stick at the bottom -->
   <div class="new-entry">
     <div>
       <input class="new-entry__input" bind:value={newEntry} />
@@ -156,6 +160,11 @@
     border-radius: 0px 15px 15px 0px;
 
     background-color: greenyellow;
+  }
+
+  .bottom-placeholder{
+    height: 70px;
+    background-color: transparent;
   }
 
   .items {
