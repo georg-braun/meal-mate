@@ -28,7 +28,10 @@
   {#if menuIsVisible}
     <div class="menu">
       <div>
-        <button class="menu_button" on:click={() => (showItems = !showItems)}
+        <button class="menu_button" on:click={() => {
+          showItems = !showItems
+          menuIsVisible = false;
+        }}
           >Gegenstände {showItems ? "ausblenden" : "einblenden"}</button
         >
       </div>
@@ -37,6 +40,7 @@
           class="menu_button"
           on:click={() => {
             showItems = false;
+            menuIsVisible = false;
             navigate("/create-shopping-list");
           }}
         >
