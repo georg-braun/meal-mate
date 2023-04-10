@@ -16,7 +16,7 @@ public class MealMateHubToClients
         _mealMateHub = mealMateHub;
     }
 
-    private IHubContext<MealMateHub, IMealMateHubClientMethods> _mealMateHub;
+    private readonly IHubContext<MealMateHub, IMealMateHubClientMethods> _mealMateHub;
 
 
     /// <summary>

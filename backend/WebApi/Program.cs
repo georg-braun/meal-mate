@@ -60,6 +60,7 @@ app.UseHttpsRedirection();
 app.UseCors();
 
 app.MapGet("/", () => Results.Ok("Everything is fine"));
+app.MapGet("/connections", () => Results.Ok(MealMateHub.ConnectedIds));
 app.MapCommands();
 app.MapQueries();
 

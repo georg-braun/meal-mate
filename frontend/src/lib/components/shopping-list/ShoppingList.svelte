@@ -30,6 +30,12 @@
     await stopSignalR();
   }
 
+  window.addEventListener("beforeunload", (event) => {
+    if (!!id) {
+      stopSignal(id);
+    }
+  });
+
   $: {
     if (!!id) {
       startSignal(id);
@@ -37,11 +43,7 @@
   }
 
   onDestroy(async () => {
-    if (!!id) {
-      isListeningToChanges = await stopListeningToShoppingListChanges(id);
-    } else {
-      isListeningToChanges = false;
-    }
+    await stopSignal(id);
   });
 
   $: {
@@ -83,7 +85,7 @@
   </div>
 
   <!-- Placeholder so that the new entry isn't in the foreground of a list entry -->
-  <div class="bottom-placeholder"></div>
+  <div class="bottom-placeholder" />
 
   <!-- New entry menu that stick at the bottom -->
   <div class="new-entry">
@@ -162,7 +164,7 @@
     background-color: greenyellow;
   }
 
-  .bottom-placeholder{
+  .bottom-placeholder {
     height: 70px;
     background-color: transparent;
   }

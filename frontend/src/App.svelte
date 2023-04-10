@@ -1,16 +1,12 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
   import Icon from "@iconify/svelte";
   import Categories from "./lib/components/items/Items.svelte";
   import { Router, Link, Route, navigate } from "svelte-routing";
   import CreateShoppingList from "./lib/components/shopping-list/CreateShoppingList.svelte";
   import ShoppingList from "./lib/components/shopping-list/ShoppingList.svelte";
-  import { sendTestMessageAsync } from "./lib/communication/hub/mealMateHub";
 
   let showItems: boolean;
   let menuIsVisible;
-
-  onMount(async () => {});
 
   export let url = "";
 </script>
