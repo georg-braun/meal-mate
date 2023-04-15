@@ -59,10 +59,12 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+
 app.MapGet("/", () => Results.Ok("Everything is fine"));
 app.MapGet("/connections", () => Results.Ok(MealMateHub.ConnectedIds));
 app.MapCommands();
 app.MapQueries();
+app.MapTemplateEndpoints();
 
 // Migrate the database. 
 // This is just used here because there is only one backend instance. If there will be multiple intances
