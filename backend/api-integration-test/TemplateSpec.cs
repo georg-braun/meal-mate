@@ -84,5 +84,38 @@ public class TemplateSpec
         updatedTemplates.First().Name.Should().Be("Updated Template");
         updatedTemplates.First().Items.Should().Contain(_ => _.Name.Equals("Tomate"));
     }
+    
+    // write a test to check if the template is deleted correctly
+    [Fact]
+    public async Task User_can_delete_a_template()
+    {
+        // arrange
+        var client = new ApiBackend().client;
+        var template = new TemplateDto()
+        {
+            Name = "Test Template",
+            Instructions = "Test Instructions",
+            Items = new List<TemplateItemDto>()
+            {
+                new()
+                {
+                    Name = "Zwiebel",
+                    Amount = "1kg"
+                }
+            }
+        };
+        
+        await client.PostTemplateAsync(template);
+        
+        var templates = await client.GetTemplatesAsync();
+        var templateId = templates.First().Id;
+        
+        // act
+        await client.DeleteTemplateAsync(templateId);
+        
+        // assert
+        var updatedTemplates = await client.GetTemplatesAsync();
+        updatedTemplates.Should().BeEmpty();
+    }
 
 }

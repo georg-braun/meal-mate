@@ -1,6 +1,7 @@
 using domain;
 using Infrastructure.database;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace application.Commands.Template;
 
@@ -22,8 +23,14 @@ public class DeleteTemplateCommandHandler : IRequestHandler<DeleteTemplateComman
 
     public async Task<bool> Handle(DeleteTemplateCommand request, CancellationToken cancellationToken)
     {
-        var template = await _context.Templates.FindAsync(new object?[] { request.Id }, cancellationToken: cancellationToken);
+        var template = await _context.Templates.Include(_ => _.TemplateItems).FirstOrDefaultAsync(_ => _.Id.Equals(request.Id), cancellationToken: cancellationToken);
         if (template == null) return false;
+
+        // Delete the template items
+        foreach (var templateItem in template.TemplateItems)
+        {
+            _context.Remove(templateItem);
+        }
 
         _context.Templates.Remove(template);
         await _context.SaveChangesAsync(cancellationToken);

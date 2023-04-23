@@ -121,4 +121,10 @@ public static class ClientExtensions
         // var responseJson = await response.Content.ReadAsStringAsync();
         // return JsonConvert.DeserializeObject<List<TemplateDto>>(responseJson);
     }
+    
+    // delete a template
+    public static async Task DeleteTemplateAsync(this HttpClient client, Guid templateId)
+    {
+        var response = await client.DeleteAsync($"/template/{templateId}");
+    }
 }
