@@ -3,6 +3,7 @@ using WebApi.api.commands;
 using WebApi.api.queries;
 using domain;
 using Newtonsoft.Json;
+using WebApi.api.templates;
 
 namespace api_integration_test;
 
@@ -94,5 +95,30 @@ public static class ClientExtensions
     {
         var json = JsonConvert.SerializeObject(command);
         return new StringContent(json, Encoding.UTF8, "application/json");
+    }
+    
+    public static async Task PostTemplateAsync(this HttpClient client, TemplateDto template)
+    {
+       
+        var response = await client.PostAsync("/template", Serialize(template));
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        //return JsonConvert.DeserializeObject<Category>(responseJson);
+    }
+
+    public static async Task<List<TemplateDto>> GetTemplatesAsync(this HttpClient client)
+    {
+        var response = await client.GetAsync("/template");
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<TemplateDto>>(responseJson);
+    }
+    
+    public static async Task UpdateTemplateAsync(this HttpClient client, TemplateDto template)
+    {
+        var response = await client.PutAsync($"/template/{template.Id}", Serialize(template));
+
+        // var responseJson = await response.Content.ReadAsStringAsync();
+        // return JsonConvert.DeserializeObject<List<TemplateDto>>(responseJson);
     }
 }

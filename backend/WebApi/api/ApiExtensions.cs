@@ -41,7 +41,7 @@ public static class ApiExtensions
         // get endpoint for templates
         app.MapGet("/template", async (MealMateContext context) =>
         {
-            var templates = await context.Templates.ToListAsync();
+            var templates = await context.Templates.Include(_ => _.TemplateItems).ToListAsync();
             var templateDtos = templates.Select(TemplateDto.FromEntity);
             return templateDtos;
         }).WithTags("Template");
@@ -63,7 +63,7 @@ public static class ApiExtensions
                 {
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items
+                    Items = templateDto.Items.Select(_ => (_.ItemId, _.Name, _.Amount)).ToList()
                 });
 
                 return Results.CreatedAtRoute("/template", new {id = template.Id}, template);
@@ -77,7 +77,7 @@ public static class ApiExtensions
                 Id = id,
                 Name = templateDto.Name,
                 Instructions = templateDto.Instructions,
-                Items = templateDto.Items
+                Items = templateDto.Items.Select(_ => (_.Id, _.ItemId, _.Name, _.Amount)).ToList()
             });
 
 

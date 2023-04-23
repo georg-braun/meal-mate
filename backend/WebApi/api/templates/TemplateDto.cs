@@ -2,13 +2,27 @@ using domain;
 
 namespace WebApi.api.templates;
 
+public class TemplateItemDto
+{
+    public Guid Id { get; set; }
+    
+    /// <summary>
+    ///     Can be null if the item is not in the database yet.
+    ///     In this case the <see cref="Name"/> property should be filled.
+    /// </summary>
+    public Guid ItemId { get; set; }
+    
+    public string Name { get; set; } = null!;
+    
+    public string Amount { get; set; } = null!;
+}
 public class TemplateDto
 {
     public Guid Id { get; set; }
     
     public string Name { get; set; } = null!;
 
-    public List<Guid> Items { get; set; } = new();
+    public List<TemplateItemDto> Items { get; set; } = new();
 
     public string Instructions { get; set; } = null!;
 
@@ -18,7 +32,7 @@ public class TemplateDto
         {
             Id = template.Id,
             Name = template.Name,
-            Items = template.Items.Select(_ => _.Id).ToList(),
+            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Amount = _.Amount}).ToList(),
             Instructions = template.Instructions
         };
     }
