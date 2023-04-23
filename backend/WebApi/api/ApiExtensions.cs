@@ -36,10 +36,11 @@ public static class ApiExtensions
     }
 
 
+    public const string TemplateRoute = "template";
     public static void MapTemplateEndpoints(this WebApplication app)
     {
         // get endpoint for templates
-        app.MapGet("/template", async (MealMateContext context) =>
+        app.MapGet($"/{TemplateRoute}", async (MealMateContext context) =>
         {
             var templates = await context.Templates.Include(_ => _.TemplateItems).ToListAsync();
             var templateDtos = templates.Select(TemplateDto.FromEntity);
@@ -47,7 +48,7 @@ public static class ApiExtensions
         }).WithTags("Template");
 
         // get endpoint for single template
-        app.MapGet("/template/{id}", new Func<MealMateContext, Guid, Task<IResult>>(async (context, id) =>
+        app.MapGet($"/{TemplateRoute}/{{id}}", new Func<MealMateContext, Guid, Task<IResult>>(async (context, id) =>
         {
             var template = await context.Templates.FindAsync(id);
             if (template == null) return Results.NotFound();
@@ -56,7 +57,7 @@ public static class ApiExtensions
         })).WithTags("Template");
 
         // post endpoint for template
-        app.MapPost("/template", new Func<IMediator, TemplateDto, Task<IResult>>(
+        app.MapPost($"/{TemplateRoute}", new Func<IMediator, TemplateDto, Task<IResult>>(
             async (mediator, templateDto) =>
             {
                 var template = await mediator.Send(new CreateTemplateCommand
@@ -70,7 +71,7 @@ public static class ApiExtensions
             })).WithTags("Template");
         
         // endpoint for updating template
-        app.MapPut("/template/{id}", new Func<IMediator, Guid, TemplateDto, Task<IResult>>(async (mediator, id, templateDto) =>
+        app.MapPut($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, TemplateDto, Task<IResult>>(async (mediator, id, templateDto) =>
         {
             var template = await mediator.Send(new UpdateTemplateCommand()
             {
@@ -85,7 +86,7 @@ public static class ApiExtensions
         })).WithTags("Template");
         
         // endpoint for deletion of template
-        app.MapDelete("/template/{id}", new Func<IMediator, Guid, Task<IResult>>(async (mediator, id) =>
+        app.MapDelete($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, Task<IResult>>(async (mediator, id) =>
         {
             var deletionSuccessful = await mediator.Send(new DeleteTemplateCommand() {Id = id});
             
