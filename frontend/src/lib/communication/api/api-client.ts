@@ -1,6 +1,7 @@
 import type { ShoppingListQueryResponse } from './queries/ShoppingListQueryResponse';
 import axios from 'axios';
 import { itemsStore } from '../../store';
+import type { Template } from '../../components/template/Template';
 
 
 export const serverUrl = import.meta.env.VITE_API_SERVER;
@@ -74,7 +75,26 @@ class ApiClient {
 		return response.data;
 	}
 
+	async createTemplateAsync(template: Template){
+		await this.sendPostAsync("template", template);
+	}
 
+	async updateTemplateAsync(template: Template){
+		await this.sendPutAsync(`template/${template.id}`, template);
+	}
+
+	async getTemplatesAsync(): Promise<Template[]> {
+		console.log(`Get templates.`)
+		const data = await this.getRequestAsync("template");
+		return data;
+	}
+
+	async getTemplateAsync(id: string): Promise<Template> {
+		console.log(`Get template ${id}.`)
+		const data = await this.getRequestAsync(`template/${id}`);
+		console.log(data);
+		return data;
+	}
 
 	private makeRequest(config) {
 		try {
@@ -85,6 +105,23 @@ class ApiClient {
 			const response = axios.request(config);
 			return response;
 		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async getRequestAsync(path: string) {
+		try {
+			const config = {
+				url: `${serverUrl}/${path}`,
+				method: "GET",
+				headers: {
+					"content-type": "application/json",
+				},
+			};
+			const response = await this.makeRequest(config);
+			return response.data;
+		}
+		catch (error) {
 			console.log(error);
 		}
 	}
@@ -101,6 +138,32 @@ class ApiClient {
 
 			try {
 				const response = await axios.post(
+					`${this.baseUrlWithSlash}${endpoint}`,
+					data,
+					config
+				);
+				return response;
+			} catch (error) {
+				console.log(`${error.response.status}: ${error.response.data}`);
+				return error.response;
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async sendPutAsync(endpoint, data) {
+		try {
+			const config = {
+				url: `${serverUrl}/${endpoint}`,
+				method: "PUT",
+				headers: {
+					"content-type": "application/json",
+				},
+			};
+
+			try {
+				const response = await axios.put(
 					`${this.baseUrlWithSlash}${endpoint}`,
 					data,
 					config

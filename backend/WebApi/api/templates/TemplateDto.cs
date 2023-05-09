@@ -4,7 +4,7 @@ namespace WebApi.api.templates;
 
 public class TemplateItemDto
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
     
     /// <summary>
     ///     Can be null if the item is not in the database yet.
@@ -32,7 +32,7 @@ public class TemplateDto
         {
             Id = template.Id,
             Name = template.Name,
-            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Amount = _.Amount}).ToList(),
+            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Amount = _.Amount}).ToList(),
             Instructions = template.Instructions
         };
     }

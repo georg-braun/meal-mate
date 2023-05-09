@@ -50,7 +50,10 @@ public static class ApiExtensions
         // get endpoint for single template
         app.MapGet($"/{TemplateRoute}/{{id}}", new Func<MealMateContext, Guid, Task<IResult>>(async (context, id) =>
         {
-            var template = await context.Templates.FindAsync(id);
+            var template = await context.Templates
+                .Include(_ => _.TemplateItems)
+                .ThenInclude(_ => _.Item).FirstOrDefaultAsync(_ => _.Id == id);
+            
             if (template == null) return Results.NotFound();
 
             return Results.Ok(TemplateDto.FromEntity(template));
@@ -84,6 +87,7 @@ public static class ApiExtensions
 
             return Results.Ok();
         })).WithTags("Template");
+
         
         // endpoint for deletion of template
         app.MapDelete($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, Task<IResult>>(async (mediator, id) =>

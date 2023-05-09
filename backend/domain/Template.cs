@@ -40,9 +40,7 @@ public class Template : IEntity
 public class TemplateItem
 {
     public Guid Id { get; set; }
-   
     public Item? Item { get; set; } = null!;
-    
     public string Amount { get; set; } = null!;
     public string Name { get; set; } = null!;
 }

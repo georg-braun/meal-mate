@@ -104,7 +104,14 @@ public static class ClientExtensions
         var response = await client.PostAsync($"/{ApiExtensions.TemplateRoute}", Serialize(template));
 
         var responseJson = await response.Content.ReadAsStringAsync();
-        //return JsonConvert.DeserializeObject<Category>(responseJson);
+    }
+    
+    public static async Task PutTemplateAsync(this HttpClient client, TemplateDto template)
+    {
+       
+        var response = await client.PutAsync($"/{ApiExtensions.TemplateRoute}/{template.Id}", Serialize(template));
+
+        var responseJson = await response.Content.ReadAsStringAsync();
     }
 
     public static async Task<List<TemplateDto>> GetTemplatesAsync(this HttpClient client)

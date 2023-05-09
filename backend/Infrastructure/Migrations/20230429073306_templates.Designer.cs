@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MealMateContext))]
-    [Migration("20230415191431_template")]
-    partial class template
+    [Migration("20230429073306_templates")]
+    partial class templates
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,19 +24,19 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ItemTemplate", b =>
+            modelBuilder.Entity("TemplateTemplateItem", b =>
                 {
-                    b.Property<string>("ItemsId")
-                        .HasColumnType("character varying(36)");
-
                     b.Property<string>("TemplateId")
                         .HasColumnType("character varying(36)");
 
-                    b.HasKey("ItemsId", "TemplateId");
+                    b.Property<string>("TemplateItemsId")
+                        .HasColumnType("character varying(36)");
 
-                    b.HasIndex("TemplateId");
+                    b.HasKey("TemplateId", "TemplateItemsId");
 
-                    b.ToTable("ItemTemplate");
+                    b.HasIndex("TemplateItemsId");
+
+                    b.ToTable("TemplateTemplateItem");
                 });
 
             modelBuilder.Entity("domain.Category", b =>
@@ -106,6 +106,29 @@ namespace Infrastructure.Migrations
                     b.ToTable("Templates");
                 });
 
+            modelBuilder.Entity("domain.TemplateItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("character varying(36)");
+
+                    b.Property<string>("Amount")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ItemId")
+                        .HasColumnType("character varying(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("TemplateItem");
+                });
+
             modelBuilder.Entity("domain.shopping_list.Entry", b =>
                 {
                     b.Property<string>("Id")
@@ -132,17 +155,17 @@ namespace Infrastructure.Migrations
                     b.ToTable("Entries");
                 });
 
-            modelBuilder.Entity("ItemTemplate", b =>
+            modelBuilder.Entity("TemplateTemplateItem", b =>
                 {
-                    b.HasOne("domain.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("domain.Template", null)
                         .WithMany()
                         .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("domain.TemplateItem", null)
+                        .WithMany()
+                        .HasForeignKey("TemplateItemsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -154,6 +177,15 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("domain.TemplateItem", b =>
+                {
+                    b.HasOne("domain.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId");
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("domain.shopping_list.Entry", b =>

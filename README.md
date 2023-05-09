@@ -95,3 +95,14 @@ Option 1: Use a `frontend/.env.development`
 VITE_API_SERVER=https://localhost:44352
 ```
 
+
+# Dev notes
+
+## Create a database migration
+```bash
+# navigate to the infrastructure project containing the DbContext
+cd backend/Infrastructure
+
+# run the dotnet ef tool with providing the startup project information. This is necessary to get the connection information (connection string) to the database.
+dotnet ef --startup-project=../WebApi migrations ...
+```

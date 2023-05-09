@@ -45,19 +45,24 @@ public class UpdateTemplateCommandHandler : IRequestHandler<UpdateTemplateComman
         return existingTemplate;
     }
 
+    /// <summary>
+    ///     Removes template items from the template which aren't used anymore.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="existingTemplate"></param>
     private static void RemoveTemplateItems(UpdateTemplateCommand request, domain.Template existingTemplate)
     {
-        // Remove the item in the database if it's not in the request anymore
-        foreach (var existingTemplateItemId in existingTemplate.TemplateItems.Where(_ => _.Item != null)
-                     .Select(_ => _.Item!.Id))
+        var oldTemplateItems= existingTemplate.TemplateItems.Select(_ => _.Id).ToList();
+        var newTemplateItems = request.Items.Select(_ => _.Id).ToHashSet();
+        foreach (var oldTemplateItem in oldTemplateItems)
         {
-            if (request.Items.Select(_ => _.ItemId).Contains(existingTemplateItemId))
+            // Skip if the TemplateItem should still be there.
+            if (newTemplateItems.Contains(oldTemplateItem))
             {
                 continue;
             }
-
-            // todo: check if this is enough or the item should be removed explicitly from the database.
-            existingTemplate.RemoveTemplateItem(existingTemplateItemId);
+            
+            existingTemplate.RemoveTemplateItem(oldTemplateItem);
         }
     }
 

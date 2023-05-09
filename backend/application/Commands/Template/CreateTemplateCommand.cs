@@ -32,7 +32,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
         {
             Id = Guid.NewGuid(),
             Name = request.Name,
-            Instructions = request.Instructions,
+            Instructions = request.Instructions ?? string.Empty,
         };
         
         // Get the items from the database
