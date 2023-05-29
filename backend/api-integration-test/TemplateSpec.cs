@@ -197,5 +197,37 @@ public class TemplateSpec
         var updatedTemplates = await client.GetTemplatesAsync();
         updatedTemplates.Should().BeEmpty();
     }
+    
+    // write a unit test that applies a template
+    [Fact]
+    public async Task User_can_apply_a_template()
+    {
+        // arrange 
+        var client = new ApiBackend().client;
+        var template = new TemplateDto()
+        {
+            Name = "Test Template",
+            Instructions = "Test Instructions",
+            Items = new List<TemplateItemDto>()
+            {
+                new()
+                {
+                    Id = Guid.Empty,
+                    Name = "Zwiebel",
+                    Amount = "1kg"
+                }
+            }
+        };
+        
+        await client.PostTemplateAsync(template);
+        var listToApply = await client.CreateShoppingListAsync("MyList");
+        
+        // act 
+        client.ApplyTemplateAsync(listToApply.Id, template.Id);
+        
+        // assert
+        var list = await client.GetShoppingListAsync(listToApply.Id);
+        list.Entries.Should().Contain(_ => _.ItemName.Equals("Zwiebel"));
+    }
 
 }

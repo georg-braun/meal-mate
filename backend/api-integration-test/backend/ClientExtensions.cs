@@ -135,4 +135,13 @@ public static class ClientExtensions
     {
         var response = await client.DeleteAsync($"/{ApiExtensions.TemplateRoute}/{templateId}");
     }
+    
+    // apply a template
+    public static async Task<TemplateDto> ApplyTemplateAsync(this HttpClient client, Guid templateId)
+    {
+        var response = await client.PostAsync($"/{ApiExtensions.TemplateRoute}/{templateId}", null);
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<TemplateDto>(responseJson);
+    }
 }
