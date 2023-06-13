@@ -24,6 +24,8 @@ public static class ApiExtensions
         app.MapPost($"/{CreateEntryWithFreeTextCommand.Route}", CreateEntryWithFreeTextCommand.Handler.Handle)
             .WithTags("ShoppingList");
         app.MapPost($"/{DeleteEntryCommand.Route}", DeleteEntryCommand.Handler.Handle).WithTags("ShoppingList");
+       
+        app.MapPost($"/{ApplyTemplateCommand.Route}", ApplyTemplateCommand.Handler.Handle).WithTags("Template");
     }
 
     public static void MapQueries(this WebApplication app)
@@ -37,6 +39,7 @@ public static class ApiExtensions
 
 
     public const string TemplateRoute = "template";
+
     public static void MapTemplateEndpoints(this WebApplication app)
     {
         // get endpoint for templates
@@ -53,7 +56,7 @@ public static class ApiExtensions
             var template = await context.Templates
                 .Include(_ => _.TemplateItems)
                 .ThenInclude(_ => _.Item).FirstOrDefaultAsync(_ => _.Id == id);
-            
+
             if (template == null) return Results.NotFound();
 
             return Results.Ok(TemplateDto.FromEntity(template));
@@ -67,33 +70,34 @@ public static class ApiExtensions
                 {
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items.Select(_ => (_.ItemId, _.Name, _.Amount)).ToList()
+                    Items = templateDto.Items.Select(_ => (_.ItemId, _.Name, Amount: _.Qualifier)).ToList()
                 });
 
-                return Results.CreatedAtRoute("/template", new {id = template.Id}, template);
+                return Results.Ok(TemplateDto.FromEntity(template));
+                
             })).WithTags("Template");
-        
         // endpoint for updating template
-        app.MapPut($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, TemplateDto, Task<IResult>>(async (mediator, id, templateDto) =>
-        {
-            var template = await mediator.Send(new UpdateTemplateCommand()
+        app.MapPut($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, TemplateDto, Task<IResult>>(
+            async (mediator, id, templateDto) =>
             {
-                Id = id,
-                Name = templateDto.Name,
-                Instructions = templateDto.Instructions,
-                Items = templateDto.Items.Select(_ => (_.Id, _.ItemId, _.Name, _.Amount)).ToList()
-            });
+                var template = await mediator.Send(new UpdateTemplateCommand()
+                {
+                    Id = id,
+                    Name = templateDto.Name,
+                    Instructions = templateDto.Instructions,
+                    Items = templateDto.Items.Select(_ => (_.Id, _.ItemId, _.Name, Amount: _.Qualifier)).ToList()
+                });
 
 
-            return Results.Ok();
-        })).WithTags("Template");
+                return Results.Ok();
+            })).WithTags("Template");
 
-        
+
         // endpoint for deletion of template
         app.MapDelete($"/{TemplateRoute}/{{id}}", new Func<IMediator, Guid, Task<IResult>>(async (mediator, id) =>
         {
             var deletionSuccessful = await mediator.Send(new DeleteTemplateCommand() {Id = id});
-            
+
             return deletionSuccessful ? Results.NoContent() : Results.NotFound();
         })).WithTags("Template");
     }

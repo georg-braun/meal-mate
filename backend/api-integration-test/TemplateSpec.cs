@@ -23,7 +23,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -53,7 +53,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -74,7 +74,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Tomate",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -104,13 +104,13 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 },
                 new()
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -131,7 +131,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -180,7 +180,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -214,19 +214,19 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
         
-        await client.PostTemplateAsync(template);
-        var listToApply = await client.CreateShoppingListAsync("MyList");
+        var createdTemplate = await client.PostTemplateAsync(template);
+        var shoppingList = await client.CreateShoppingListAsync("MyList");
         
         // act 
-        client.ApplyTemplateAsync(listToApply.Id, template.Id);
+        await client.ApplyTemplateAsync(shoppingList.Id, createdTemplate.Id);
         
         // assert
-        var list = await client.GetShoppingListAsync(listToApply.Id);
+        var list = await client.GetShoppingListAsync(shoppingList.Id);
         list.Entries.Should().Contain(_ => _.ItemName.Equals("Zwiebel"));
     }
 

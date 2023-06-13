@@ -14,7 +14,7 @@ public class TemplateItemDto
     
     public string Name { get; set; } = null!;
     
-    public string Amount { get; set; } = null!;
+    public string Qualifier { get; set; } = null!;
 }
 public class TemplateDto
 {
@@ -32,8 +32,9 @@ public class TemplateDto
         {
             Id = template.Id,
             Name = template.Name,
-            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Amount = _.Amount}).ToList(),
+            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Qualifier = _.Qualifier}).ToList(),
             Instructions = template.Instructions
         };
     }
 }
+
