@@ -35,6 +35,7 @@ public static class ApiExtensions
         app.MapGet($"/{CategoriesWithDetailQuery.Route}", CategoriesWithDetailQuery.Handler.Handle)
             .WithTags("Category");
         app.MapGet($"/{ShoppingListQuery.Route}", ShoppingListQueryHandler.Handle).WithTags("ShoppingList");
+        app.MapGet($"/{AvailableTemplatesQuery.Route}", AvailableTemplatesQuery.Handler.Handle).WithTags("Template");
     }
 
 

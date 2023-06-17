@@ -96,6 +96,17 @@ class ApiClient {
 		return data;
 	}
 
+	async getAvailableTemplatesAsync(): Promise<Template[]> {
+		console.log(`Get available templates.`)
+		const data = await this.getRequestAsync("AvailableTemplatesQuery");
+		return data;
+	}
+
+	async applyTemplate(templateId, listId): Promise<void> {
+		console.log(`Apply template.`)
+		await this.sendPostAsync("ApplyTemplateCommand", {listId: listId, templateId: templateId});
+	}
+
 	private makeRequest(config) {
 		try {
 			config.headers = {

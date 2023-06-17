@@ -10,10 +10,13 @@
   import { shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
   import apiClient from "../../communication/api/api-client";
+  import ActionButton from "../ActionButton.svelte";
 
   let isListeningToChanges = false;
+  let selectedTemplate;
 
   $: shoppingList = $shoppingListStore;
+  let templates = [];
 
   async function startSignal(shoppingListId: string) {
     await startSignalR();
@@ -49,6 +52,7 @@
   $: {
     console.log(`Current shopping list is ${id}.`);
     getInitialShoppingList(id);
+    getAvailableTemplates();
     apiClient.refreshItemsStoreAsync();
   }
 
@@ -59,8 +63,20 @@
     shoppingListStore.set(shoppingListResponse);
   }
 
+  async function getAvailableTemplates() {
+    const templatesFromServer = await apiClient.getAvailableTemplatesAsync();
+    console.log(templatesFromServer);
+    templates = templatesFromServer;
+  }
+
   async function createEntryAsync() {
+    console.log(selectedTemplate)
     if (newEntry == "") return;
+    if (selectedTemplate != undefined) {
+      await apiClient.applyTemplate(selectedTemplate, shoppingList.id);
+      return;
+    } 
+   
 
     await apiClient.createEntryWithFreeTextAsync(shoppingList.id, newEntry);
   }
@@ -90,10 +106,22 @@
   <!-- New entry menu that stick at the bottom -->
   <div class="new-entry">
     <div>
-      <input class="new-entry__input" bind:value={newEntry} />
-      <button
-        class="new-entry__add"
-        on:click={async () => await createEntryAsync()}>+</button
+      <input
+        class="border-2 text-xl"
+        placeholder="Quark"
+        bind:value={newEntry}
+      />
+      {#if !!templates && templates.length > 0}
+        <select bind:value={selectedTemplate} placeholder="nicht">
+          <option />
+          {#each templates as template (template.templateId)}
+            <option value={template.templateId}>{template.name}</option>
+          {/each}
+        </select>
+      {/if}
+      <ActionButton
+        background="bg-yellow-300"
+        action={async () => await createEntryAsync()}>+</ActionButton
       >
     </div>
   </div>
@@ -170,6 +198,5 @@
   }
 
   .items {
-
   }
 </style>

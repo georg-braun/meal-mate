@@ -50,4 +50,3 @@ public class CategoriesWithDetailQuery
         public List<ItemDto> Items { get; init; } = new();
     }
 }
-
