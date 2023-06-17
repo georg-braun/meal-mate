@@ -69,7 +69,7 @@
 </script>
 
 {#if !!shoppingList}
-  <div class="header">
+  <div class="flex justify-center items-center text-3xl mb-4">
     <div
       class="connection-status {isListeningToChanges
         ? 'connection-status--connected'
@@ -170,9 +170,6 @@
   }
 
   .items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+
   }
 </style>
