@@ -22,7 +22,7 @@ public class Template : IEntity
         
         templateItem.Item = item;
         templateItem.Name = templateItemsName;
-        templateItem.Amount = templateItemsAmount;
+        templateItem.Qualifier = templateItemsAmount;
     }
 
     public void AddTemplateItem(Item item, string newItemName, string newItemAmount)
@@ -32,7 +32,7 @@ public class Template : IEntity
             Id = Guid.NewGuid(),
             Item = item,
             Name = newItemName,
-            Amount = newItemAmount
+            Qualifier = newItemAmount
         });
     }
 }
@@ -41,6 +41,6 @@ public class TemplateItem
 {
     public Guid Id { get; set; }
     public Item? Item { get; set; } = null!;
-    public string Amount { get; set; } = null!;
+    public string Qualifier { get; set; } = null!;
     public string Name { get; set; } = null!;
 }

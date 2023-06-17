@@ -23,7 +23,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -53,7 +53,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -74,7 +74,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Tomate",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -104,13 +104,13 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 },
                 new()
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -131,7 +131,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -180,7 +180,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Amount = "1kg"
+                    Qualifier = "1kg"
                 }
             }
         };
@@ -196,6 +196,38 @@ public class TemplateSpec
         // assert
         var updatedTemplates = await client.GetTemplatesAsync();
         updatedTemplates.Should().BeEmpty();
+    }
+    
+    // write a unit test that applies a template
+    [Fact]
+    public async Task User_can_apply_a_template()
+    {
+        // arrange 
+        var client = new ApiBackend().client;
+        var template = new TemplateDto()
+        {
+            Name = "Test Template",
+            Instructions = "Test Instructions",
+            Items = new List<TemplateItemDto>()
+            {
+                new()
+                {
+                    Id = Guid.Empty,
+                    Name = "Zwiebel",
+                    Qualifier = "1kg"
+                }
+            }
+        };
+        
+        var createdTemplate = await client.PostTemplateAsync(template);
+        var shoppingList = await client.CreateShoppingListAsync("MyList");
+        
+        // act 
+        await client.ApplyTemplateAsync(shoppingList.Id, createdTemplate.Id);
+        
+        // assert
+        var list = await client.GetShoppingListAsync(shoppingList.Id);
+        list.Entries.Should().Contain(_ => _.ItemName.Equals("Zwiebel"));
     }
 
 }

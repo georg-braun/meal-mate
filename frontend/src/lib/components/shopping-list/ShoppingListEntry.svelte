@@ -1,43 +1,30 @@
 <script lang="ts">
   import apiClient from "../../communication/api/api-client";
-    import type { ShoppingListQueryResponseEntry } from "../../communication/api/queries/ShoppingListQueryResponseEntry";
+  import type { ShoppingListQueryResponseEntry } from "../../communication/api/queries/ShoppingListQueryResponseEntry";
+    import ActionButton from "../ActionButton.svelte";
 
   export let shoppingListId: string;
   export let entry: ShoppingListQueryResponseEntry;
 </script>
 
-<button
-  class="item"
-  placeholder={entry.id}
-  on:click={async () =>
-    await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
->
-  <div class="item__name">
-    {entry.itemName}
-  </div>
-  <div class="item__qualifier">
+<div class="grid grid-cols-3 gap-4 my-4 p-2 border rounded-md border-black ">
+  <div class="justify-self-end">
     {entry.qualifier}
   </div>
-
-  <!--   <button
-    Check</button
-  > -->
-</button>
+  <div class="text-xl">
+    {entry.itemName}
+  </div>
+  <div>
+    <ActionButton
+      background="bg-yellow-300"
+      placeholder={entry.id}
+      action={async () =>
+        await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
+    >
+      Check
+      </ActionButton>
+  </div>
+</div>
 
 <style>
-  .item {
-    border: none;
-    height: 100px;
-    width: 100px;
-    background-color: firebrick;
-    text-align: center;
-    color: white;
-  }
-
-  .item__name {
-    font-weight: bold;
-  }
-
-  .item__qualifier {
-  }
 </style>

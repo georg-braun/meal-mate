@@ -25,6 +25,7 @@ builder.Logging.AddSerilog(logger);
 
 builder.AddSolutionDependencies();
 
+builder.Services.AddLogging();
 builder.Services.AddSingleton<MealMateHubToClients>();
 builder.Services.AddSingleton<DomainEventInterceptor>();
 
@@ -46,6 +47,7 @@ builder.Services.AddCors(options =>
         }));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -13,7 +13,7 @@ public static class ClientExtensions
     public static async Task<Category> CreateCategoryAsync(this HttpClient client, string name)
     {
         var command = new CreateCategoryCommand {Name = name};
-        var response = await client.PostAsync(CreateCategoryCommand.Route, Serialize(command));
+        var response = await client.PostAsync(CreateCategoryCommand.Route, SerializeAsJson(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Category>(responseJson);
@@ -24,7 +24,7 @@ public static class ClientExtensions
         CreateShoppingListAsync(this HttpClient client, string name)
     {
         var command = new CreateShoppingListCommand {Name = name};
-        var response = await client.PostAsync(CreateShoppingListCommand.Route, Serialize(command));
+        var response = await client.PostAsync(CreateShoppingListCommand.Route, SerializeAsJson(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<CreateShoppingListCommand.Handler.CreateShoppingListCommandResponse>(
@@ -34,7 +34,7 @@ public static class ClientExtensions
     public static async Task CreateEntryAsync(this HttpClient client, Guid listId, string freeText)
     {
         var command = new CreateEntryWithFreeTextCommand {ShoppingListId = listId, FreeText = freeText};
-        var response = await client.PostAsync(CreateEntryWithFreeTextCommand.Route, Serialize(command));
+        var response = await client.PostAsync(CreateEntryWithFreeTextCommand.Route, SerializeAsJson(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
         //return JsonConvert.DeserializeObject<ShoppingListQueryEntryDto>(responseJson);
@@ -44,7 +44,7 @@ public static class ClientExtensions
         string name)
     {
         var command = new CreateItemCommand {CategoryId = categoryId, Name = name};
-        var response = await client.PostAsync(CreateItemCommand.Route, Serialize(command));
+        var response = await client.PostAsync(CreateItemCommand.Route, SerializeAsJson(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<CreateItemCommand.Handler.CreateItemCommandResponse>(responseJson);
@@ -54,7 +54,7 @@ public static class ClientExtensions
         string name)
     {
         var command = new CreateItemCommand { Name = name};
-        var response = await client.PostAsync(CreateItemCommand.Route, Serialize(command));
+        var response = await client.PostAsync(CreateItemCommand.Route, SerializeAsJson(command));
 
         var responseJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<CreateItemCommand.Handler.CreateItemCommandResponse>(responseJson);
@@ -63,7 +63,7 @@ public static class ClientExtensions
     public static async Task DeleteItemAsync(this HttpClient client, Guid itemId)
     {
         var command = new DeleteItemCommand {ItemId = itemId};
-        var response = await client.PostAsync(DeleteItemCommand.Route, Serialize(command));
+        var response = await client.PostAsync(DeleteItemCommand.Route, SerializeAsJson(command));
     }
 
     public static async Task<List<ItemsQuery.Handler.ItemsQueryResponse>> GetItemsAsync(this HttpClient client)
@@ -92,24 +92,25 @@ public static class ClientExtensions
         return JsonConvert.DeserializeObject<List<CategoriesWithDetailQuery.CategoriesWithDetailResponse>>(responseJson);
     }
     
-    private static StringContent Serialize(object command)
+    private static StringContent SerializeAsJson(object command)
     {
         var json = JsonConvert.SerializeObject(command);
         return new StringContent(json, Encoding.UTF8, "application/json");
     }
     
-    public static async Task PostTemplateAsync(this HttpClient client, TemplateDto template)
+    public static async Task<TemplateDto> PostTemplateAsync(this HttpClient client, TemplateDto template)
     {
        
-        var response = await client.PostAsync($"/{ApiExtensions.TemplateRoute}", Serialize(template));
+        var response = await client.PostAsync($"/{ApiExtensions.TemplateRoute}", SerializeAsJson(template));
 
         var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<TemplateDto>(responseJson);
     }
     
     public static async Task PutTemplateAsync(this HttpClient client, TemplateDto template)
     {
        
-        var response = await client.PutAsync($"/{ApiExtensions.TemplateRoute}/{template.Id}", Serialize(template));
+        var response = await client.PutAsync($"/{ApiExtensions.TemplateRoute}/{template.Id}", SerializeAsJson(template));
 
         var responseJson = await response.Content.ReadAsStringAsync();
     }
@@ -124,7 +125,7 @@ public static class ClientExtensions
     
     public static async Task UpdateTemplateAsync(this HttpClient client, TemplateDto template)
     {
-        var response = await client.PutAsync($"/{ApiExtensions.TemplateRoute}/{template.Id}", Serialize(template));
+        var response = await client.PutAsync($"/{ApiExtensions.TemplateRoute}/{template.Id}", SerializeAsJson(template));
 
         // var responseJson = await response.Content.ReadAsStringAsync();
         // return JsonConvert.DeserializeObject<List<TemplateDto>>(responseJson);
@@ -134,5 +135,19 @@ public static class ClientExtensions
     public static async Task DeleteTemplateAsync(this HttpClient client, Guid templateId)
     {
         var response = await client.DeleteAsync($"/{ApiExtensions.TemplateRoute}/{templateId}");
+    }
+    
+    // apply a template
+    public static async Task<TemplateDto> ApplyTemplateAsync(this HttpClient client, Guid listId, Guid templateId)
+    {
+        var command = new ApplyTemplateCommand()
+        {
+            TemplateId = templateId,
+            ListId = listId
+        };
+        var response = await client.PostAsync($"/{ApplyTemplateCommand.Route}", SerializeAsJson(command));
+
+        var responseJson = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<TemplateDto>(responseJson);
     }
 }
