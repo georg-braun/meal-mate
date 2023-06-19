@@ -15,28 +15,23 @@
     }
 </script>
 
-
 <div class="flex justify-center gap-8">
-
-
-{#each templates as template}
-    <div class=" border-2 p-8 hover:border-black">
-        <div class="text-2xl">{template.name}</div>
-        <button
+    {#each templates as template}
+        <div
+            class=" border-2 p-8 hover:border-black"
             on:click={() => {
                 navigate(`/template/${template.id}`);
             }}
         >
- 
-
-            Bearbeiten
-    
-        </button>
-    </div>
-{/each}
+            <div class="text-2xl">
+                {template.name}
+            </div>
+        </div>
+    {/each}
 </div>
 
 <div class="flex justify-center mt-10">
-
-    <ActionButton background="bg-yellow-300" action={createNewTemplate}>Neues Rezept</ActionButton>
+    <ActionButton background="bg-yellow-300" action={createNewTemplate}
+        >Neues Rezept</ActionButton
+    >
 </div>

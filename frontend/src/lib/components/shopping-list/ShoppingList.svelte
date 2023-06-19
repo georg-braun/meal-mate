@@ -56,7 +56,8 @@
     apiClient.refreshItemsStoreAsync();
   }
 
-  let newEntry: string;
+  let newEntryName: string;
+  let newEntryQualifier: string;
 
   async function getInitialShoppingList(id: string) {
     const shoppingListResponse = await apiClient.getShoppingListAsync(id);
@@ -70,15 +71,17 @@
   }
 
   async function createEntryAsync() {
-    console.log(selectedTemplate)
-    if (newEntry == "") return;
-    if (selectedTemplate != undefined) {
+    console.log(selectedTemplate);
+    if (newEntryName == "") return;
+    /*     if (selectedTemplate !== undefined) {
       await apiClient.applyTemplate(selectedTemplate, shoppingList.id);
       return;
-    } 
-   
+    }  */
 
-    await apiClient.createEntryWithFreeTextAsync(shoppingList.id, newEntry);
+    await apiClient.createEntryWithFreeTextAsync(
+      shoppingList.id,
+      `${newEntryName} ${newEntryQualifier ?? ""}`
+    );
   }
 
   export let id: string;
@@ -94,36 +97,36 @@
     <h2 title={shoppingList.id}>{shoppingList.name}</h2>
   </div>
 
-  <div class="items">
+  <!-- New entry menu that stick at the bottom -->
+  <div class="flex border mx-auto w-fit text-center my-10">
+    <div>
+      <div>
+        <input
+          class=" text-xl text-center w-max h-[40px] p-2 outline-none"
+          placeholder="Produkt"
+          bind:value={newEntryName}
+        />
+      </div>
+      <div>
+        <input
+          class="w-max text-center h-[40px] p-2 outline-none"
+          placeholder="Menge"
+          bind:value={newEntryQualifier}
+        />
+      </div>
+    </div>
+    <div
+      class="bg-amber-300 text-center w-20"
+      on:click={async () => await createEntryAsync()}
+    >
+      <div class="text-2xl my-auto">+</div>
+    </div>
+  </div>
+
+  <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 justify-center">
     {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     {/each}
-  </div>
-
-  <!-- Placeholder so that the new entry isn't in the foreground of a list entry -->
-  <div class="bottom-placeholder" />
-
-  <!-- New entry menu that stick at the bottom -->
-  <div class="new-entry">
-    <div>
-      <input
-        class="border-2 text-xl"
-        placeholder="Quark"
-        bind:value={newEntry}
-      />
-      {#if !!templates && templates.length > 0}
-        <select bind:value={selectedTemplate} placeholder="nicht">
-          <option />
-          {#each templates as template (template.templateId)}
-            <option value={template.templateId}>{template.name}</option>
-          {/each}
-        </select>
-      {/if}
-      <ActionButton
-        background="bg-yellow-300"
-        action={async () => await createEntryAsync()}>+</ActionButton
-      >
-    </div>
   </div>
 {:else}
   Lade Liste ({id}) ...

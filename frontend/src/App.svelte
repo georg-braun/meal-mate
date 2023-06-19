@@ -15,7 +15,7 @@
 <Router {url}>
   <main>
 
-    <div class="flex flex-row gap-6 justify-center items-center bg-neutral-100">
+    <div class="flex flex-row gap-6 justify-center items-center h-16 bg-slate-700 text-slate-100">
       <div>
         <button
           class="{buttonStyle}"

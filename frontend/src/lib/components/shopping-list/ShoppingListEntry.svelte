@@ -1,28 +1,22 @@
 <script lang="ts">
   import apiClient from "../../communication/api/api-client";
   import type { ShoppingListQueryResponseEntry } from "../../communication/api/queries/ShoppingListQueryResponseEntry";
-    import ActionButton from "../ActionButton.svelte";
+  import ActionButton from "../ActionButton.svelte";
 
   export let shoppingListId: string;
   export let entry: ShoppingListQueryResponseEntry;
 </script>
 
-<div class="grid grid-cols-3 gap-4 my-4 p-2 border rounded-md border-black ">
-  <div class="justify-self-end">
-    {entry.qualifier}
-  </div>
-  <div class="text-xl">
+<div
+  class="pt-2 pb-0 border border-black text-center min-h-[80px]"
+  on:click={async () =>
+    await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
+>
+  <p class=" text-xl text-center text-ellipsis">
     {entry.itemName}
-  </div>
-  <div>
-    <ActionButton
-      background="bg-yellow-300"
-      placeholder={entry.id}
-      action={async () =>
-        await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
-    >
-      Check
-      </ActionButton>
+  </p>
+  <div class="">
+    {entry.qualifier}
   </div>
 </div>
 

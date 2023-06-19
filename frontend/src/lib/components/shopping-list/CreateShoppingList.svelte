@@ -11,7 +11,7 @@
   <div class="mb-8">
     <input
       bind:value={name}
-      class="text-center underline text-xl w-2/3"
+      class="text-center underline text-xl w-2/3 outline-none"
       placeholder="Name der Liste"
     />
   </div>
