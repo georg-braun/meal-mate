@@ -68,15 +68,22 @@
     const templatesFromServer = await apiClient.getAvailableTemplatesAsync();
     console.log(templatesFromServer);
     templates = templatesFromServer;
+    // select the first template
+    if (templatesFromServer.length > 0) {
+      selectedTemplate = templates[0].templateId;
+    }
+  }
+
+  async function applySelectedTemplate() {
+    if (selectedTemplate !== undefined) {
+      await apiClient.applyTemplate(selectedTemplate, shoppingList.id);
+      return;
+    }
   }
 
   async function createEntryAsync() {
     console.log(selectedTemplate);
     if (newEntryName == "") return;
-    /*     if (selectedTemplate !== undefined) {
-      await apiClient.applyTemplate(selectedTemplate, shoppingList.id);
-      return;
-    }  */
 
     await apiClient.createEntryWithFreeTextAsync(
       shoppingList.id,
@@ -89,12 +96,13 @@
 
 {#if !!shoppingList}
   <div class="flex justify-center items-center text-3xl mb-4">
+    <h2 title={shoppingList.id}>Liste {shoppingList.name}</h2>
     <div
       class="connection-status {isListeningToChanges
         ? 'connection-status--connected'
-        : 'connection-status--disconnected'}"
+        : 'connection-status--disconnected'}
+        ml-4"
     />
-    <h2 title={shoppingList.id}>{shoppingList.name}</h2>
   </div>
 
   <!-- New entry menu that stick at the bottom -->
@@ -123,11 +131,35 @@
     </div>
   </div>
 
+
   <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 justify-center">
+
     {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     {/each}
   </div>
+
+  {#if !!templates && templates.length > 0}
+  <div class="mt-10">
+    <p class="text-2xl text-center">Rezepte</p>
+    <div class="text-center mt-4">
+      <span class="mr-4">Rezept</span>
+      <select
+        class="bg-slate-100 text-center"
+        bind:value={selectedTemplate}
+        placeholder="nicht"
+      >
+        <option />
+        {#each templates as template (template.templateId)}
+          <option value={template.templateId}>{template.name}</option>
+        {/each}
+      </select>
+      <button on:click={applySelectedTemplate} class="ml-4 border p-1"
+        >hinzufügen</button
+      >
+    </div>
+    </div>  
+  {/if}
 {:else}
   Lade Liste ({id}) ...
 {/if}
