@@ -10,7 +10,6 @@
   import { shoppingListStore } from "../../store";
   import ShoppingListEntry from "./ShoppingListEntry.svelte";
   import apiClient from "../../communication/api/api-client";
-  import ActionButton from "../ActionButton.svelte";
 
   let isListeningToChanges = false;
   let selectedTemplate;
@@ -105,71 +104,64 @@
     />
   </div>
 
-  <!-- New entry menu that stick at the bottom -->
-  <div class="flex border mx-auto w-fit text-center my-10">
-    <div>
-      <div>
-        <input
-          class=" text-xl text-center w-max h-[40px] p-2 outline-none"
-          placeholder="Produkt"
-          bind:value={newEntryName}
-        />
-      </div>
-      <div>
-        <input
-          class="w-max text-center h-[40px] p-2 outline-none"
-          placeholder="Menge"
-          bind:value={newEntryQualifier}
-        />
-      </div>
+  <!-- New entry menu -->
+  <div class=" border w-max mx-auto p-4 mb-10">
+    Produkt hinzufügen
+
+    <div class="mx-auto mt-4 w-fit text-center">
+      <input
+        class=" text-xl text-center w-max bg-slate-100 outline-none"
+        placeholder="Produkt"
+        bind:value={newEntryName}
+      />
+
+      <input
+        class=" text-xl w-max text-center bg-slate-100 outline-none"
+        placeholder="Menge"
+        bind:value={newEntryQualifier}
+      />
+
+      <button
+        class="border boder-black px-2 text-lg bg-slate-700 text-white text-center"
+        on:click={async () => await createEntryAsync()}
+      >
+        +
+      </button>
     </div>
-    <div
-      class="bg-amber-300 text-center w-20"
-      on:click={async () => await createEntryAsync()}
-    >
-      <div class="text-2xl my-auto">+</div>
-    </div>
+
+    {#if !!templates && templates.length > 0}
+      <div class="mt-8">
+        <p class="">Produkte von Rezept hinzufügen</p>
+        <div class="mt-4">
+          <select
+            class="bg-slate-100 text-xl text-center"
+            bind:value={selectedTemplate}
+            placeholder="nicht"
+          >
+            <option />
+            {#each templates as template (template.templateId)}
+              <option value={template.templateId}>{template.name}</option>
+            {/each}
+          </select>
+          <button
+            on:click={applySelectedTemplate}
+            class="border boder-black px-2 text-lg bg-slate-700 text-white text-center">+</button
+          >
+        </div>
+      </div>
+    {/if}
   </div>
 
-
   <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 justify-center">
-
     {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     {/each}
   </div>
-
-  {#if !!templates && templates.length > 0}
-  <div class="mt-10">
-    <p class="text-2xl text-center">Rezepte</p>
-    <div class="text-center mt-4">
-      <span class="mr-4">Rezept</span>
-      <select
-        class="bg-slate-100 text-center"
-        bind:value={selectedTemplate}
-        placeholder="nicht"
-      >
-        <option />
-        {#each templates as template (template.templateId)}
-          <option value={template.templateId}>{template.name}</option>
-        {/each}
-      </select>
-      <button on:click={applySelectedTemplate} class="ml-4 border p-1"
-        >hinzufügen</button
-      >
-    </div>
-    </div>  
-  {/if}
 {:else}
   Lade Liste ({id}) ...
 {/if}
 
 <style>
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   .connection-status {
     display: block;
     background-color: greenyellow;
@@ -185,53 +177,5 @@
 
   .connection-status--disconnected {
     background-color: orangered;
-  }
-
-  .new-entry {
-    position: fixed;
-    width: 100%;
-    bottom: 0px;
-    left: 0px;
-
-    margin: 20px 0px;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    text-align: center;
-    padding: 5px;
-  }
-
-  .new-entry__input {
-    height: 30px;
-
-    width: 60vw;
-    text-align: center;
-    font-size: x-large;
-    border: solid;
-    border-width: 1px 0px 1px 1px;
-    border-radius: 15px 0px 0px 15px;
-    flex-shrink: 1;
-  }
-
-  .new-entry__add {
-    height: 34px;
-    padding: 0px 20px;
-    font-size: x-large;
-
-    border: solid;
-    border-width: 1px 1px 1px 0px;
-    border-radius: 0px 15px 15px 0px;
-
-    background-color: greenyellow;
-  }
-
-  .bottom-placeholder {
-    height: 70px;
-    background-color: transparent;
-  }
-
-  .items {
   }
 </style>
