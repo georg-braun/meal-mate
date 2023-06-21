@@ -9,9 +9,7 @@
   const dispatch = createEventDispatcher();
 
   function handleSubmit() {
-
-    if (template.instructions == undefined)
-      template.instructions = '';
+    if (template.instructions == undefined) template.instructions = "";
 
     dispatch("submit", template);
   }
@@ -42,44 +40,56 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-  <label>
-    <div>
-      Name:
-      <input type="text" bind:value={template.name} />
-    </div>
-  </label>
-  <label>
-    <div>
-      Zutaten:
+  <div class="text-lg text-center">
+    <input type="text" bind:value={template.name} />
+  </div>
+
+  <div class="text-xl text-center mt-10">Zutaten</div>
+  <div class="border">
+    <div class="grid grid-cols-3 mt-4 text-center">
+      <div class="border-b">Zutat</div>
+      <div class="border-b">Menge</div>
+      <div class="border-b"></div>
+      <div class="col-span-3 mb-4" />
       {#if !!template.items}
         {#each template.items as item (item.id)}
-          <div title={item.id}>
-            <label>Name</label>
-            <input type="text" bind:value={item.name} />
-            <label>Menge</label>
-            <input type="text" bind:value={item.amount} />
-            <button on:click={() => deleteTemplateItem(item.id)}>X</button>
+          <div title={item.id} class="border-r-black border-r">
+            <input type="text" class="text-center" bind:value={item.name} />
+          </div>
+          <div>
+            <input type="text" class="text-center" bind:value={item.amount} />
+          </div>
+          <div>
+            <button on:click={() => deleteTemplateItem(item.id)} class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center">X</button>
           </div>
         {/each}
       {/if}
-      <button
-        type="button"
-        on:click={() => {
-          addItem();
-          // assign the same object to trigger a re-render
-          template = { ...template };
-        }}
-      >
-        Zutat hinzufügen
-      </button>
     </div>
-  </label>
-  <label>
-    <div>
-      Schritte:
-      <textarea bind:value={template.instructions} rows="20" />
-    </div>
-  </label>
+    <button
+      class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center w-full"
+      type="button"
+      on:click={() => {
+        addItem();
+        // assign the same object to trigger a re-render
+        template = { ...template };
+      }}
+    >
+      Zutat hinzufügen
+    </button>
+  </div>
 
-  <button type="submit">Submit</button>
+  <div class="text-xl text-center mt-10 mb-4">Beschreibung</div>
+  <div>
+    <textarea
+      class="bg-slate-200 w-full"
+      bind:value={template.instructions}
+      rows="20"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center w-full"
+    >Speichern</button
+  >
 </form>
