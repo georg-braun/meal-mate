@@ -8,7 +8,7 @@
 </script>
 
 <div
-  class="pt-2 pb-0 border border-black text-center min-h-[80px]"
+  class="pt-2 pb-0 px-2 border border-black text-center min-w-[80px] min-h-[80px]"
   on:click={async () =>
     await apiClient.deleteEntryAsync(shoppingListId, entry.id)}
 >

@@ -105,34 +105,38 @@
   </div>
 
   <!-- New entry menu -->
-  <div class=" border w-max mx-auto p-4 mb-10">
+  <div class="border border-black w-max mx-auto p-4 mb-10">
     Produkt hinzufügen
 
-    <div class="mx-auto mt-4 w-fit text-center">
-      <input
-        class=" text-xl text-center w-max bg-slate-100 outline-none"
-        placeholder="Produkt"
-        bind:value={newEntryName}
-      />
-
-      <input
-        class=" text-xl w-max text-center bg-slate-100 outline-none"
-        placeholder="Menge"
-        bind:value={newEntryQualifier}
-      />
-
-      <button
-        class="border boder-black px-2 text-lg bg-slate-700 text-white text-center"
-        on:click={async () => await createEntryAsync()}
-      >
-        +
-      </button>
+    <div class="mt-4 text-center">
+      <div>
+        <input
+          class=" text-xl text-center bg-slate-100 outline-none"
+          placeholder="Produkt"
+          bind:value={newEntryName}
+        />
+      </div>
+      <div>
+        <input
+          class="text-xl text-center bg-slate-100 outline-none"
+          placeholder="Menge"
+          bind:value={newEntryQualifier}
+        />
+      </div>
+      <div>
+        <button
+          class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center"
+          on:click={async () => await createEntryAsync()}
+        >
+          hinzufügen
+        </button>
+      </div>
     </div>
 
     {#if !!templates && templates.length > 0}
       <div class="mt-8">
         <p class="">Produkte von Rezept hinzufügen</p>
-        <div class="mt-4">
+        <div class="mt-4 text-center">
           <select
             class="bg-slate-100 text-xl text-center"
             bind:value={selectedTemplate}
@@ -143,20 +147,23 @@
               <option value={template.templateId}>{template.name}</option>
             {/each}
           </select>
+        </div>
+        <div class="text-center">
           <button
             on:click={applySelectedTemplate}
-            class="border boder-black px-2 text-lg bg-slate-700 text-white text-center">+</button
+            class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center"
+            >hinzufügen</button
           >
         </div>
       </div>
     {/if}
   </div>
 
-  <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4 justify-center">
+   <div class="flex flex-wrap gap-4 justify-center">
     {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     {/each}
-  </div>
+  </div> 
 {:else}
   Lade Liste ({id}) ...
 {/if}
