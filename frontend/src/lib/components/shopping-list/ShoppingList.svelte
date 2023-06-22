@@ -94,18 +94,24 @@
 </script>
 
 {#if !!shoppingList}
-  <div class="flex justify-center items-center text-3xl mb-4">
-    <h2 title={shoppingList.id}>Liste {shoppingList.name}</h2>
-    <div
-      class="connection-status {isListeningToChanges
-        ? 'connection-status--connected'
-        : 'connection-status--disconnected'}
-        ml-4"
-    />
+
+    <p class="text-center text-2xl" title={shoppingList.id}>Liste {shoppingList.name}</p>
+  
+
+
+  {#if isListeningToChanges}
+  <div class="border rounded text-xs w-fit px-2 bg-teal-400 mx-auto">
+    Verbunden
   </div>
+  {:else}
+  <div class="border rounded text-xs w-fit px-2 bg-amber-300 mx-auto">
+    Nicht verbunden
+  </div>
+  {/if}
+
 
   <!-- New entry menu -->
-  <div class="border border-black w-max mx-auto p-4 mb-10">
+  <div class="border border-black w-max mx-auto p-4 mb-10 mt-4">
     Produkt hinzufügen
 
     <div class="mt-4 text-center">
