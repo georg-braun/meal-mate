@@ -7,9 +7,9 @@ namespace application.Commands;
 
 public record CreateEntryCommand : IRequest
 {
-    public required Guid ItemId { get; init; }
-
     public required Guid ShoppingListId { get; init; }
+    
+    public required string Name { get; init; }
     
     public required string Qualifier { get; init; }
 
@@ -24,17 +24,14 @@ public record CreateEntryCommand : IRequest
 
         public async Task Handle(CreateEntryCommand request, CancellationToken cancellationToken)
         {
-            if (request.ItemId == Guid.Empty)
-            {
-                Console.WriteLine("Can't create an entry. The provided ItemId is null.");
-                return;
-            }
-            var item = await _context.Items.FindAsync(request.ItemId);
+            
+            var item = await _context.CreateItemIfDoesntExistAsync(request.Name);
+ 
             var shoppingList = await _context.ShoppingLists.FindAsync(request.ShoppingListId);
 
             if (item is null)
             {
-                Console.WriteLine($"Can't find item {request.ItemId}.");
+                Console.WriteLine($"Can't find item {request.Name}.");
                 return;
             }
             if (shoppingList is null)

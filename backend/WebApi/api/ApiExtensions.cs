@@ -56,7 +56,7 @@ public static class ApiExtensions
         {
             var template = await context.Templates
                 .Include(_ => _.TemplateItems)
-                .ThenInclude(_ => _.Item).FirstOrDefaultAsync(_ => _.Id == id);
+                .FirstOrDefaultAsync(_ => _.Id == id);
 
             if (template == null) return Results.NotFound();
 
@@ -71,7 +71,7 @@ public static class ApiExtensions
                 {
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items.Select(_ => (_.ItemId, _.Name, Amount: _.Qualifier)).ToList()
+                    Items = templateDto.Items.Select(_ => (_.Name, Amount: _.Qualifier)).ToList()
                 });
 
                 return Results.Ok(TemplateDto.FromEntity(template));
@@ -86,7 +86,7 @@ public static class ApiExtensions
                     Id = id,
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items.Select(_ => (_.Id, _.ItemId, _.Name, Amount: _.Qualifier)).ToList()
+                    Items = templateDto.Items.Select(_ => (_.Id, _.Name, _.Qualifier)).ToList()
                 });
 
 

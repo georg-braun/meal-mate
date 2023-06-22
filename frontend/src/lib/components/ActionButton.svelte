@@ -4,6 +4,6 @@
     export let hoverBackground;
 </script>
 
-<button on:click={action} class="{background} {hoverBackground} p-2 border ">
+<button on:click={action} class="border boder-black px-2 text-lg bg-slate-700 mt-2 text-white text-center">
     <slot />
 </button>

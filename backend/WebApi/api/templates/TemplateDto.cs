@@ -32,7 +32,7 @@ public class TemplateDto
         {
             Id = template.Id,
             Name = template.Name,
-            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, ItemId = _.Item?.Id ?? Guid.Empty, Name = _.Item?.Name ?? _.Name, Qualifier = _.Qualifier}).ToList(),
+            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, Name = _.Name, Qualifier = _.Qualifier}).ToList(),
             Instructions = template.Instructions
         };
     }

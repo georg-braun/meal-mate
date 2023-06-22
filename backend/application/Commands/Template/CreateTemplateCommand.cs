@@ -9,7 +9,7 @@ public class CreateTemplateCommand : IRequest<domain.Template>
 
     public required string Name { get; init; }
             
-    public required List<(Guid ItemId, string Name, string Amount)> Items { get; init; }
+    public required List<(string Name, string Qualifier)> Items { get; init; }
             
     public required string Instructions { get; init; }
 
@@ -33,26 +33,15 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
             Id = Guid.NewGuid(),
             Name = request.Name,
             Instructions = request.Instructions ?? string.Empty,
+            
         };
         
         // Get the items from the database
-        var items = new List<TemplateItem>();
         foreach(var templateItemInfos in request.Items)
         {
-            // Try to get the item from the database
-            var item = await _context.Items.FindAsync(new object?[] { templateItemInfos.ItemId }, cancellationToken: cancellationToken);
-
-            // If the item is not in the database yet, create a new one.
-            if (item is null)
-            {
-                item = Item.Create(templateItemInfos.Name);
-                await _context.AddAsync(item, cancellationToken);
-            };
-            
-            template.AddTemplateItem(item, templateItemInfos.Name, templateItemInfos.Amount);
+            template.AddTemplateItem(templateItemInfos.Name, templateItemInfos.Qualifier);
         }
-
-
+        
         await _context.Templates.AddAsync(template, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -11,6 +11,8 @@ public record CreateEntryCommand
 
     public Guid ShoppingListId { get; init; }
     
+    public string Name { get; init; } = null!;
+    
     public string Qualifier { get; init; } = null!;
 
     public static class Handler
@@ -19,7 +21,7 @@ public record CreateEntryCommand
         {
             await mediator.Send(new application.Commands.CreateEntryCommand()
             {
-                ItemId = command.ItemId,
+                Name = command.Name,
                 ShoppingListId = command.ShoppingListId,
                 Qualifier = command.Qualifier
             });

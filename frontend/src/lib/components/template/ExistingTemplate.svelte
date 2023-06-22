@@ -20,7 +20,6 @@
         console.log(event.detail)
         const modifiedTemplate = event.detail as Template;
         await apiClient.updateTemplateAsync(modifiedTemplate);
-        navigate('/templates');
     }
 
 

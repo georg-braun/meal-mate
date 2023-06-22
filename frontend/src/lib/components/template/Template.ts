@@ -8,5 +8,5 @@ export class Template {
 export class TemplateItem {
     id: string;
     name: string;
-    amount: string;
+    qualifier: string;
 }

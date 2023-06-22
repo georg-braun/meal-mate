@@ -1,9 +1,6 @@
-using System.Runtime.Versioning;
 using Infrastructure.database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace application.Commands;
 
@@ -15,17 +12,18 @@ public record ApplyTemplateCommand : IRequest
     public class ApplyTemplateCommandHandler : IRequestHandler<ApplyTemplateCommand>
     {
         private readonly MealMateContext _context;
+        private readonly IMediator _mediator;
 
-        public ApplyTemplateCommandHandler(MealMateContext context)
+        public ApplyTemplateCommandHandler(MealMateContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
         }
 
         public async Task Handle(ApplyTemplateCommand request, CancellationToken cancellationToken)
         {
-            // todo: Apply the template
             // find the template
-            var template = await _context.Templates.Include(_ => _.TemplateItems).ThenInclude(_ => _.Item).FirstOrDefaultAsync(_ => _.Id == request.TemplateId, cancellationToken);
+            var template = await _context.Templates.Include(_ => _.TemplateItems).FirstOrDefaultAsync(_ => _.Id == request.TemplateId, cancellationToken);
             
             if (template is null)
             {
@@ -42,14 +40,13 @@ public record ApplyTemplateCommand : IRequest
            
             foreach (var templateItem in template.TemplateItems)
             {
-                // check for empty item
-                if (templateItem.Item is null)
+
+                await _mediator.Send(new CreateEntryCommand()
                 {
-                    Log.Logger.Warning($"Template item {templateItem.Id} has no item");
-                    continue;
-                }
-                
-                list.CreateEntry(templateItem.Item, templateItem.Qualifier);
+                    Name = templateItem.Name,
+                    Qualifier = templateItem.Qualifier,
+                    ShoppingListId = list.Id
+                }, cancellationToken);
             }
 
             await _context.SaveChangesAsync(cancellationToken);

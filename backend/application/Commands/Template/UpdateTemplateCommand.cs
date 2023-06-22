@@ -11,7 +11,7 @@ public class UpdateTemplateCommand : IRequest<domain.Template>
     public required Guid Id { get; init; }
     public required string Name { get; init; }
             
-    public required List<(Guid Id, Guid ItemId, string Name, string Amount)> Items { get; init; }
+    public required List<(Guid Id, string Name, string Qualifier)> Items { get; init; }
             
     public required string Instructions { get; init; }
 
@@ -30,7 +30,7 @@ public class UpdateTemplateCommandHandler : IRequestHandler<UpdateTemplateComman
     public async Task<domain.Template> Handle(UpdateTemplateCommand request, CancellationToken cancellationToken)
     {
         // Get the template from the database
-        var existingTemplate = await _context.Templates.Include(_ => _.TemplateItems).ThenInclude(_ => _.Item).FirstOrDefaultAsync(_ => _.Id.Equals(request.Id), cancellationToken: cancellationToken);
+        var existingTemplate = await _context.Templates.Include(_ => _.TemplateItems).FirstOrDefaultAsync(_ => _.Id.Equals(request.Id), cancellationToken: cancellationToken);
         if (existingTemplate is null) throw new ArgumentException($"Couldn't find template with id {request.Id}.");
 
         RemoveTemplateItems(request, existingTemplate);
@@ -54,52 +54,35 @@ public class UpdateTemplateCommandHandler : IRequestHandler<UpdateTemplateComman
     {
         var oldTemplateItems= existingTemplate.TemplateItems.Select(_ => _.Id).ToList();
         var newTemplateItems = request.Items.Select(_ => _.Id).ToHashSet();
-        foreach (var oldTemplateItem in oldTemplateItems)
+        foreach (var itemIdToRemove in oldTemplateItems.Except(newTemplateItems))
         {
-            // Skip if the TemplateItem should still be there.
-            if (newTemplateItems.Contains(oldTemplateItem))
-            {
-                continue;
-            }
-            
-            existingTemplate.RemoveTemplateItem(oldTemplateItem);
+            existingTemplate.RemoveTemplateItem(itemIdToRemove);
         }
     }
 
-    private async Task UpdateTemplateItems(UpdateTemplateCommand request, CancellationToken cancellationToken,
+    private Task UpdateTemplateItems(UpdateTemplateCommand request, CancellationToken cancellationToken,
         domain.Template existingTemplate)
     {
         // Update the existing items
-        var templateItemsToUpdate = request.Items.Where(_ => _.ItemId != Guid.Empty).ToList();
+        var templateItemsToUpdate = request.Items.Where(_ => _.Id != Guid.Empty).ToList();
         foreach (var templateItemToUpdate in templateItemsToUpdate)
         {
-            var item = await _context.Items.FindAsync(new object?[] {templateItemToUpdate.ItemId},
-                cancellationToken: cancellationToken);
-            existingTemplate.UpdateTemplateItem(templateItemToUpdate.Id, item, templateItemToUpdate.Name,
-                templateItemToUpdate.Amount);
+            existingTemplate.UpdateTemplateItem(templateItemToUpdate.Id, templateItemToUpdate.Name,
+                templateItemToUpdate.Qualifier);
         }
+
+        return Task.CompletedTask;
     }
 
-    private async Task AddNewTemplateItems(UpdateTemplateCommand request, CancellationToken cancellationToken,
+    private Task AddNewTemplateItems(UpdateTemplateCommand request, CancellationToken cancellationToken,
         domain.Template existingTemplate)
     {
-        var newTemplateItems = request.Items.Where(_ => _.ItemId == Guid.Empty).ToList();
+        var newTemplateItems = request.Items.Where(_ => _.Id == Guid.Empty).ToList();
         foreach (var newTemplateItem in newTemplateItems)
         {
-            // Try to get the item from the database
-            var item = await _context.Items.FindAsync(new object?[] {newTemplateItem.ItemId},
-                cancellationToken: cancellationToken);
-
-            // If the item is not in the database yet, create a new one.
-            if (item is null)
-            {
-                item = Item.Create(newTemplateItem.Name);
-                await _context.AddAsync(item, cancellationToken);
-            }
-
-            ;
-
-            existingTemplate.AddTemplateItem(item, newTemplateItem.Name, newTemplateItem.Amount);
+            existingTemplate.AddTemplateItem(newTemplateItem.Name, newTemplateItem.Qualifier);
         }
+
+        return Task.CompletedTask;
     }
 }
