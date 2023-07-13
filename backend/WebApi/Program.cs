@@ -6,12 +6,12 @@ using WebApi.api;
 using WebApi.hubs;
 using WebApi.jobs;
 
-var usesSqliteDatabase = (WebApplication app) =>
+bool UsesSqliteDatabase(WebApplication app)
 {
     var scope = app.Services.CreateScope();
     var ctx = scope.ServiceProvider.GetRequiredService<MealMateContext>();
     return ctx.Database.IsSqlite();
-};
+}
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,7 +75,7 @@ app.MapTemplateEndpoints();
 // This is just used here because there is only one backend instance. If there will be multiple intances
 // the migration should be moved to the deployment process.
 // Todo: The unit tests still use a sqlite database for tests. In this situation no migration should be executed. But it would be better to use a postgresql container for testing purposes.
-if (!usesSqliteDatabase(app))
+if (!UsesSqliteDatabase(app))
     app.MigrateDatabase();
 
 app.MapHub<MealMateHub>("/shoppingListHub");
