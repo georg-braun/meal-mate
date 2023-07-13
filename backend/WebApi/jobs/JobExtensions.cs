@@ -14,7 +14,7 @@ public static class JobExtensions
             q.AddTrigger(opts => opts
                 .ForJob(jobKey)
                 .WithIdentity("CleanUpSignalRConnectionsJob-trigger")
-                .WithCronSchedule("0 1 * * *"));
+                .WithCronSchedule("0 0 12 * * ?"));
         });
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
     }
