@@ -16,6 +16,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
         <PackageReference Include="Microsoft.NET.Build.Containers" Version="0.3.2" />
+        <PackageReference Include="Quartz.AspNetCore" Version="3.6.3" />
         <PackageReference Include="Serilog.aspnetcore" Version="6.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
@@ -25,5 +26,6 @@
       <ProjectReference Include="..\domain\domain.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
+
 
 </Project>

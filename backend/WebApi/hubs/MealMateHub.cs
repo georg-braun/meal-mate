@@ -11,7 +11,7 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
     ///     This is just an informative overview over connected clients.
     ///     The purpose is to be able to detect if a client is still connected.
     /// </summary>
-    public static readonly List<SignalRConnectionInfo> ConnectedIds = new();
+    public static readonly List<SignalRConnectionInfo> Connections = new();
 
     public MealMateHub(MealMateContext mealMateContext)
     {
@@ -26,7 +26,7 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
         
         await Groups.AddToGroupAsync(Context.ConnectionId, id);
         
-        ConnectedIds.Add(new SignalRConnectionInfo(id, Context.ConnectionId, DateTime.UtcNow));
+        Connections.Add(new SignalRConnectionInfo(id, Context.ConnectionId, DateTime.UtcNow));
         
         Console.WriteLine($"{Context.ConnectionId} starts listening to shopping list {id}.");
         return true;
@@ -41,10 +41,15 @@ public class MealMateHub : Hub<IMealMateHubClientMethods>
             return false;
         
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, id);
-        ConnectedIds.RemoveAll(_ => _.GroupId.Equals(id) && _.ConnectionId.Equals(Context.ConnectionId));
+        Connections.RemoveAll(_ => _.GroupId.Equals(id) && _.ConnectionId.Equals(Context.ConnectionId));
         
         Console.WriteLine($"{Context.ConnectionId} stop listening to shopping list {id}.");
         return true;
+    }
+
+    public void RemoveConnectionFromGroup()
+    {
+      
     }
 }
 

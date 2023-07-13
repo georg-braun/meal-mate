@@ -4,6 +4,7 @@ using Serilog;
 using WebApi;
 using WebApi.api;
 using WebApi.hubs;
+using WebApi.jobs;
 
 var usesSqliteDatabase = (WebApplication app) =>
 {
@@ -31,6 +32,7 @@ builder.Services.AddSingleton<DomainEventInterceptor>();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddJobs();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -63,7 +65,7 @@ app.UseCors();
 
 
 app.MapGet("/", () => Results.Ok("Everything is fine"));
-app.MapGet("/connections", () => Results.Ok(MealMateHub.ConnectedIds));
+app.MapGet("/connections", () => Results.Ok(MealMateHub.Connections));
 app.MapCommands();
 app.MapQueries();
 app.MapTemplateEndpoints();
