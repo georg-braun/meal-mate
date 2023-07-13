@@ -38,6 +38,20 @@
     }
   });
 
+  window.addEventListener("freeze", (event) => {
+    console.log("tab is in freeze mode")
+    if (!!id) {
+      stopSignal(id);
+    }
+  });
+
+  window.addEventListener("resume", (event) => {
+    console.log("tab is in resume mode")
+    if (!!id) {
+      startSignal(id);
+    }
+  });
+
   $: {
     if (!!id) {
       startSignal(id);
@@ -94,21 +108,19 @@
 </script>
 
 {#if !!shoppingList}
-
-    <p class="text-center text-2xl" title={shoppingList.id}>Liste {shoppingList.name}</p>
-  
-
+  <p class="text-center text-2xl" title={shoppingList.id}>
+    Liste {shoppingList.name}
+  </p>
 
   {#if isListeningToChanges}
-  <div class="border rounded text-xs w-fit px-2 bg-teal-400 mx-auto">
-    Verbunden
-  </div>
+    <div class="border rounded text-xs w-fit px-2 bg-teal-400 mx-auto">
+      Verbunden
+    </div>
   {:else}
-  <div class="border rounded text-xs w-fit px-2 bg-amber-300 mx-auto">
-    Nicht verbunden
-  </div>
+    <div class="border rounded text-xs w-fit px-2 bg-amber-300 mx-auto">
+      Nicht verbunden
+    </div>
   {/if}
-
 
   <!-- New entry menu -->
   <div class="border border-black w-max mx-auto p-4 mb-10 mt-4">
@@ -165,30 +177,14 @@
     {/if}
   </div>
 
-   <div class="flex flex-wrap gap-4 justify-center">
+  <div class="flex flex-wrap gap-4 justify-center">
     {#each shoppingList.entries as entry (entry.id)}
       <ShoppingListEntry shoppingListId={shoppingList.id} {entry} />
     {/each}
-  </div> 
+  </div>
 {:else}
   Lade Liste ({id}) ...
 {/if}
 
 <style>
-  .connection-status {
-    display: block;
-    background-color: greenyellow;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-  }
-
-  .connection-status--connected {
-    background-color: greenyellow;
-  }
-
-  .connection-status--disconnected {
-    background-color: orangered;
-  }
 </style>
