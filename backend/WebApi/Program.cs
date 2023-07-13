@@ -23,10 +23,11 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+builder.Services.AddLogging();
 
 builder.AddSolutionDependencies();
 
-builder.Services.AddLogging();
+
 builder.Services.AddSingleton<MealMateHubToClients>();
 builder.Services.AddSingleton<DomainEventInterceptor>();
 
