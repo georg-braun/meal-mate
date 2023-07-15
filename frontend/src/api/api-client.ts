@@ -1,7 +1,7 @@
 import type { ShoppingListQueryResponse } from './queries/ShoppingListQueryResponse';
 import axios from 'axios';
-import { itemsStore } from '../../store';
-import type { Template } from '../../components/template/Template';
+import { itemsStore } from '../lib/store';
+import type { Template } from '../lib/components/template/Template';
 
 
 export const serverUrl = import.meta.env.VITE_API_SERVER;

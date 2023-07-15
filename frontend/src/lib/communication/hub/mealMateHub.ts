@@ -1,7 +1,7 @@
 import { HubConnectionState, HubConnectionBuilder, LogLevel } from "@microsoft/signalr"
 import { shoppingListStore } from "../../store";
 import { removeEntryWithId } from "../../utilities/array";
-import { serverUrl } from "../api/api-client";
+import { serverUrl } from "../../../api/api-client";
 import type { EntryCreatedDto } from "./EntryCreatedDto";
 
 let connectedShoppingList: string;

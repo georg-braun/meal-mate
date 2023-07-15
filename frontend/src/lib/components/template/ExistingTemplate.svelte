@@ -1,6 +1,6 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import apiClient from "../../communication/api/api-client";
+    import apiClient from "../../../api/api-client";
     import type { Template } from "./Template";
     import TemplateData from "./TemplateData.svelte";
     import { navigate } from "svelte-routing";

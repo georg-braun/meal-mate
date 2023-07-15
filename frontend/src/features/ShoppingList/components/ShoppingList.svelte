@@ -6,10 +6,10 @@
     startSignalR,
     stopListeningToShoppingListChanges,
     stopSignalR,
-  } from "../../communication/hub/mealMateHub";
-  import { shoppingListStore } from "../../store";
-  import ShoppingListEntry from "./ShoppingListEntry.svelte";
-  import apiClient from "../../communication/api/api-client";
+  } from "../../../lib/communication/hub/mealMateHub";
+  import { shoppingListStore } from "../../../lib/store";
+  import ShoppingListEntry from "../../../lib/components/shopping-list/ShoppingListEntry.svelte";
+  import apiClient from "@src/api/api-client";
 
   let isListeningToChanges = false;
   let selectedTemplate;

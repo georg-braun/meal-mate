@@ -1,6 +1,6 @@
 <script lang="ts">
-  import apiClient from "../../communication/api/api-client";
-  import type { ShoppingListQueryResponseEntry } from "../../communication/api/queries/ShoppingListQueryResponseEntry";
+  import apiClient from "../../../api/api-client";
+  import type { ShoppingListQueryResponseEntry } from "../../../api/queries/ShoppingListQueryResponseEntry";
   import ActionButton from "../ActionButton.svelte";
 
   export let shoppingListId: string;

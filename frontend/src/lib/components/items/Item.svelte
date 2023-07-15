@@ -1,6 +1,6 @@
 <script lang="ts">
-  import apiClient from "../../communication/api/api-client";
-  import type { ItemsQueryResponse } from "../../communication/api/queries/ItemsQueryResponse";
+  import apiClient from "../../../api/api-client";
+  import type { ItemsQueryResponse } from "../../../api/queries/ItemsQueryResponse";
   import ActionButton from "../ActionButton.svelte";
 
   export let item: ItemsQueryResponse;

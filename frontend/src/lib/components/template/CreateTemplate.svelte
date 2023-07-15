@@ -1,6 +1,6 @@
 <script>
     import { navigate } from "svelte-routing";
-    import apiClient from "../../communication/api/api-client";
+    import apiClient from "../../../api/api-client";
     import { Template } from "./Template";
     import TemplateData from "./TemplateData.svelte";
 

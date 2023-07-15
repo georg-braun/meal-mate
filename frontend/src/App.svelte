@@ -3,7 +3,7 @@
   import Items from "./lib/components/items/Items.svelte";
   import { Router, Link, Route, navigate } from "svelte-routing";
   import CreateShoppingList from "./lib/components/shopping-list/CreateShoppingList.svelte";
-  import ShoppingList from "./lib/components/shopping-list/ShoppingList.svelte";
+  import ShoppingList from "@src/features/ShoppingList/components/ShoppingList.svelte";
   import CreateTemplate from "./lib/components/template/CreateTemplate.svelte";
   import TemplateOverview from "./lib/components/template/TemplateOverview.svelte";
   import ExistingTemplate from "./lib/components/template/ExistingTemplate.svelte";
@@ -14,7 +14,6 @@
 </script>
 <Router {url}>
   <main>
-
     <div class="flex flex-row gap-6 justify-center items-center h-16 bg-slate-700 text-slate-100">
       <div>
         <button
