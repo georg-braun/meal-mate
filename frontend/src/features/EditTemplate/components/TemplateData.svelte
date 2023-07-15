@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import { v4 as uuidv4 } from "uuid";
-  import type { Template } from "./Template";
-  import { removeEntryWithId } from "../../utilities/array";
+  import type { Template } from "../types/Template";
+  import { removeEntryWithId } from "../../../lib/utilities/array";
 
   export let template: Template;
 

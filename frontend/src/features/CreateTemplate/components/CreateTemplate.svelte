@@ -1,8 +1,8 @@
 <script>
     import { navigate } from "svelte-routing";
     import apiClient from "../../../api/api-client";
-    import { Template } from "./Template";
-    import TemplateData from "./TemplateData.svelte";
+    import { Template } from "../../EditTemplate/types/Template";
+    import TemplateData from "../../EditTemplate/components/TemplateData.svelte";
 
     async function handleSubmit(event){
         const modifiedTemplate = event.detail;

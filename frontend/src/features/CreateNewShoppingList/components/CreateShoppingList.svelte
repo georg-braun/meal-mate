@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Link } from "svelte-routing";
   import apiClient from "../../../api/api-client";
-  import ActionButton from "../ActionButton.svelte";
+  import ActionButton from "../../../lib/components/ActionButton.svelte";
 
   let name: string = "";
   let newListId: string;

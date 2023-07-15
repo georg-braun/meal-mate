@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
     import apiClient from "../../../api/api-client";
-    import ActionButton from "../ActionButton.svelte";
+    import ActionButton from "../../../lib/components/ActionButton.svelte";
 
     let templates: Template[] = [];
     onMount(async () => {

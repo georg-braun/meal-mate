@@ -1,12 +1,12 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  import Items from "./lib/components/items/Items.svelte";
+  import Items from "@/features/ItemsOverview/components/Items.svelte";
   import { Router, Link, Route, navigate } from "svelte-routing";
-  import CreateShoppingList from "./lib/components/shopping-list/CreateShoppingList.svelte";
-  import ShoppingList from "@src/features/ShoppingList/components/ShoppingList.svelte";
-  import CreateTemplate from "./lib/components/template/CreateTemplate.svelte";
-  import TemplateOverview from "./lib/components/template/TemplateOverview.svelte";
-  import ExistingTemplate from "./lib/components/template/ExistingTemplate.svelte";
+  import CreateShoppingList from "./features/CreateNewShoppingList/components/CreateShoppingList.svelte";
+  import ShoppingList from "@/features/ShoppingList/components/ShoppingList.svelte";
+  import CreateTemplate from "@/features/CreateTemplate/components/CreateTemplate.svelte";
+  import TemplateOverview from "@/features/TemplatesOverview/components/TemplateOverview.svelte";
+  import ExistingTemplate from "@/features/EditTemplate/components/EditTemplate.svelte";
 
   export let url = "";
 

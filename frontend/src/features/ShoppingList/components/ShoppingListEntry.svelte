@@ -1,7 +1,7 @@
 <script lang="ts">
   import apiClient from "../../../api/api-client";
   import type { ShoppingListQueryResponseEntry } from "../../../api/queries/ShoppingListQueryResponseEntry";
-  import ActionButton from "../ActionButton.svelte";
+  import ActionButton from "../../../lib/components/ActionButton.svelte";
 
   export let shoppingListId: string;
   export let entry: ShoppingListQueryResponseEntry;

@@ -8,8 +8,8 @@
     stopSignalR,
   } from "../../../lib/communication/hub/mealMateHub";
   import { shoppingListStore } from "../../../lib/store";
-  import ShoppingListEntry from "../../../lib/components/shopping-list/ShoppingListEntry.svelte";
-  import apiClient from "@src/api/api-client";
+  import ShoppingListEntry from "./ShoppingListEntry.svelte";
+  import apiClient from "@/api/api-client";
 
   let isListeningToChanges = false;
   let selectedTemplate;

@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import apiClient from "../../../api/api-client";
 
-    import { itemsStore } from "../../store";
+    import { itemsStore } from "../../../lib/store";
     import Item from "./Item.svelte";
 
     onMount(async () => {
