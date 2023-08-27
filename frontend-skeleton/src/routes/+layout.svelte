@@ -14,12 +14,13 @@
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar>
-			<h2 class="h2">MealMate</h2>
-		</AppBar>
+		<h1 class="h1 text-center my-4">MealMate</h1>
 	</svelte:fragment>
 	<!-- Page Route Content -->
-	<slot />
+	<div class="h-full">
+		<slot />
+	</div>
+
 	<!-- Navigation -->
 	<TabGroup
 		justify="justify-center"

@@ -2,11 +2,11 @@
 
 <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
-		<h2 class="h2">Schnelles Einakufszettel-Schreiben</h2>
+		<h3 class="h3">Schnelles Einakufszettel-Schreiben</h3>
 		<p>Vorlagen helfen dabei den Einkaufszettel zu füllen und sparen dir Zeit</p>
-		<h2 class="h2">Überblick über deinen Einkauf</h2>
+		<h3 class="h3">Überblick über deinen Einkauf</h3>
 		<p>Du hast immer im Blick was du bei deinem nächsten Einkauf besogen musst.</p>
-		<h2 class="h2">Live Aktualisierung</h2>
+		<h3 class="h3">Live Aktualisierung</h3>
 		<p>Hake Gegenstände von deiner Liste während des Einkaufs ab und schicke Live-Aktualisierungen an Interessierte.</p>
 	</div>
 </div>
