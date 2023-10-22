@@ -1,3 +1,4 @@
+using api_integration_test.backend;
 using budget_backend_integration_tests.backend;
 using FluentAssertions;
 using WebApi.api.templates;

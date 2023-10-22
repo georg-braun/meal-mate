@@ -15,9 +15,7 @@ public static class ApiExtensions
     {
         app.MapPost($"/{CreateItemCommand.Route}", CreateItemCommand.Handler.Handle).WithTags("Category");
         app.MapPost($"/{DeleteItemCommand.Route}", DeleteItemCommand.Handler.Handle).WithTags("Category");
-
-        app.MapPost($"/{CreateCategoryCommand.Route}", CreateCategoryCommand.Handler.Handle)
-            .WithTags("Category");
+        
         app.MapPost($"/{CreateShoppingListCommand.Route}", CreateShoppingListCommand.Handler.Handle)
             .WithTags("ShoppingList");
         app.MapPost($"/{CreateEntryCommand.Route}", CreateEntryCommand.Handler.Handle).WithTags("ShoppingList");
@@ -30,10 +28,7 @@ public static class ApiExtensions
 
     public static void MapQueries(this WebApplication app)
     {
-        app.MapGet($"/{ItemsQuery.Route}", ItemsQuery.Handler.Handle).WithTags("Category");
-        app.MapGet($"/{CategoriesQuery.Route}", CategoriesQuery.Handler.Handle).WithTags("Category");
-        app.MapGet($"/{CategoriesWithDetailQuery.Route}", CategoriesWithDetailQuery.Handler.Handle)
-            .WithTags("Category");
+      
         app.MapGet($"/{ShoppingListQuery.Route}", ShoppingListQueryHandler.Handle).WithTags("ShoppingList");
         app.MapGet($"/{AvailableTemplatesQuery.Route}", AvailableTemplatesQuery.Handler.Handle).WithTags("Template");
     }

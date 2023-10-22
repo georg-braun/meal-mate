@@ -16,7 +16,6 @@ public class MealMateContext : DbContext
     }
 
     public DbSet<Item> Items { get; init; } = null!;
-    public DbSet<Category> Categories { get; init; } = null!;
     public DbSet<ShoppingList> ShoppingLists { get; init; } = null!;
     public DbSet<Entry> Entries { get; init; } = null!;
     public DbSet<Template> Templates { get; init; } = null!;
@@ -33,7 +32,6 @@ public class MealMateContext : DbContext
 
         // PostgreSQL can't handle the GUIDs. Therefore we have to add a conversion
         var guidToStringConverter = new GuidToStringConverter();
-        modelBuilder.Entity<Category>().Property(_ => _.Id).HasConversion(guidToStringConverter);
         modelBuilder.Entity<Item>().Property(_ => _.Id).HasConversion(guidToStringConverter);
         modelBuilder.Entity<ShoppingList>().Property(_ => _.Id).HasConversion(guidToStringConverter);
         modelBuilder.Entity<Entry>().Property(_ => _.Id).HasConversion(guidToStringConverter);
@@ -52,15 +50,7 @@ public class MealMateContext : DbContext
 
     public async Task<Item> CreateItem(string itemName, Guid categoryId)
     {
-        var category = await Categories.FindAsync(categoryId);
-
         var item = Item.Create(itemName);
-
-        if (category != null)
-        {
-            item.SetCategory(category);
-            category.AddItem(item);
-        }
         
         await Items.AddAsync(item);
         await SaveChangesAsync();
