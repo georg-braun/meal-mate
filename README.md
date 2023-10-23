@@ -10,7 +10,7 @@ I didn't want to repeat the following things regarding the meal plan and shoppin
 - "What ingredients do I need for the planned meals?"
 - Then I have to check the recipes and add the items to my shopping list
 
-This procedure consumes time that I rather spend somewhere elese. Therefore I create a little app that helps me with the following stuff: 
+This procedure consumes time that I rather spend somewhere else. Therefore I create a little app that helps me with the following stuff: 
 
 **Roadmap**
 
