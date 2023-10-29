@@ -66,7 +66,7 @@ public static class ApiExtensions
                 {
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items.Select(_ => (_.Name, Amount: _.Qualifier)).ToList()
+                    Items = templateDto.Items.Select(_ => (_.Name)).ToList()
                 });
 
                 return Results.Ok(TemplateDto.FromEntity(template));
@@ -81,7 +81,7 @@ public static class ApiExtensions
                     Id = id,
                     Name = templateDto.Name,
                     Instructions = templateDto.Instructions,
-                    Items = templateDto.Items.Select(_ => (_.Id, _.Name, _.Qualifier)).ToList()
+                    Items = templateDto.Items.Select(_ => (_.Id, _.Name)).ToList()
                 });
 
 

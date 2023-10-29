@@ -27,7 +27,6 @@ public record CreateEntryWithFreeTextCommand : IRequest
             }
             
             var itemName = string.Empty;
-            var qualifier = string.Empty;
             var parts = request.FreeText.Split(" ");
 
             if (parts.Length == 1)
@@ -37,7 +36,6 @@ public record CreateEntryWithFreeTextCommand : IRequest
             else
             {
                 itemName = string.Join(" ", parts[..^1]);
-                qualifier = parts[^1];
             }
 
             var item = await _context.CreateItemIfDoesntExistAsync(itemName);
@@ -50,7 +48,7 @@ public record CreateEntryWithFreeTextCommand : IRequest
                 return;
             }
             
-            shoppingList.CreateEntry(item, qualifier);
+            shoppingList.CreateEntry(item);
             // update the shopping list aggregate
             _context.ShoppingLists.Update(shoppingList);
 

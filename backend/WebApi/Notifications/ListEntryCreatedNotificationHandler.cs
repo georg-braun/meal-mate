@@ -20,7 +20,6 @@ public class ListEntryCreatedNotificationHandler : INotificationHandler<ListEntr
             new ListEntryCreatedDto()
             {
                 Id = notification.Entry.Id,
-                Qualifier = notification.Entry.Qualifier,
                 ShoppingListId = notification.ShoppingListId,
                 ItemName = notification.Entry.Item.Name,
                 ItemId = notification.Entry.Item.Id

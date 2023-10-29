@@ -9,9 +9,9 @@ public class ShoppingList : AggregateRoot, IEntity
     public List<Entry> Entries { get; init; } = new();
     public Guid Id { get; init; }
 
-    public Entry CreateEntry(Item item, string qualifier)
+    public Entry CreateEntry(Item item)
     {
-        var entry = Entry.Create(item, this, qualifier);
+        var entry = Entry.Create(item, this);
         Entries.Add(entry);
 
         RaiseDomainEvent(new EntryCreatedOnShoppingListDomainEvent(Id, entry));

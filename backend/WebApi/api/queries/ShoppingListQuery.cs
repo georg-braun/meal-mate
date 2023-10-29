@@ -39,7 +39,6 @@ public static class ShoppingListQueryHandler
             Id = entry.Id,
             ItemName = entry.Item.Name,
             ItemId = entry.Item.Id,
-            Qualifier = entry.Qualifier
         };
     }
 }
@@ -49,7 +48,6 @@ public record ShoppingListQueryEntryDto
     public Guid Id { get; init; }
     public Guid ItemId { get; init; }
     public string ItemName { get; init; } = null!;
-    public string Qualifier { get; init; } = null!;
 }
 
 public record ShoppingListQueryResponse

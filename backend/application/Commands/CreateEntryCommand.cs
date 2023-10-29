@@ -11,7 +11,6 @@ public record CreateEntryCommand : IRequest
     
     public required string Name { get; init; }
     
-    public required string Qualifier { get; init; }
 
     public class CreateEntryCommandHandler : IRequestHandler<CreateEntryCommand>
     {
@@ -40,7 +39,7 @@ public record CreateEntryCommand : IRequest
                 return;
             }
             
-            shoppingList.CreateEntry(item, request.Qualifier);
+            shoppingList.CreateEntry(item);
             // update the shopping list aggregate
             _context.ShoppingLists.Update(shoppingList);
             

@@ -11,7 +11,7 @@ public class UpdateTemplateCommand : IRequest<domain.Template>
     public required Guid Id { get; init; }
     public required string Name { get; init; }
             
-    public required List<(Guid Id, string Name, string Qualifier)> Items { get; init; }
+    public required List<(Guid Id, string Name)> Items { get; init; }
             
     public required string Instructions { get; init; }
 
@@ -67,8 +67,7 @@ public class UpdateTemplateCommandHandler : IRequestHandler<UpdateTemplateComman
         var templateItemsToUpdate = request.Items.Where(_ => _.Id != Guid.Empty).ToList();
         foreach (var templateItemToUpdate in templateItemsToUpdate)
         {
-            existingTemplate.UpdateTemplateItem(templateItemToUpdate.Id, templateItemToUpdate.Name,
-                templateItemToUpdate.Qualifier);
+            existingTemplate.UpdateTemplateItem(templateItemToUpdate.Id, templateItemToUpdate.Name);
         }
 
         return Task.CompletedTask;
@@ -80,7 +79,7 @@ public class UpdateTemplateCommandHandler : IRequestHandler<UpdateTemplateComman
         var newTemplateItems = request.Items.Where(_ => _.Id == Guid.Empty).ToList();
         foreach (var newTemplateItem in newTemplateItems)
         {
-            existingTemplate.AddTemplateItem(newTemplateItem.Name, newTemplateItem.Qualifier);
+            existingTemplate.AddTemplateItem(newTemplateItem.Name);
         }
 
         return Task.CompletedTask;

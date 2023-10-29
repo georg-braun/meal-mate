@@ -44,7 +44,6 @@ public record ApplyTemplateCommand : IRequest
                 await _mediator.Send(new CreateEntryCommand()
                 {
                     Name = templateItem.Name,
-                    Qualifier = templateItem.Qualifier,
                     ShoppingListId = list.Id
                 }, cancellationToken);
             }

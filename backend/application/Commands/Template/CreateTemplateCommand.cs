@@ -9,7 +9,7 @@ public class CreateTemplateCommand : IRequest<domain.Template>
 
     public required string Name { get; init; }
             
-    public required List<(string Name, string Qualifier)> Items { get; init; }
+    public required List<string> Items { get; init; }
             
     public required string Instructions { get; init; }
 
@@ -39,7 +39,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
         // Get the items from the database
         foreach(var templateItemInfos in request.Items)
         {
-            template.AddTemplateItem(templateItemInfos.Name, templateItemInfos.Qualifier);
+            template.AddTemplateItem(templateItemInfos);
         }
         
         await _context.Templates.AddAsync(template, cancellationToken);

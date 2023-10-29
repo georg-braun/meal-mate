@@ -24,7 +24,6 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Qualifier = "1kg"
                 }
             }
         };
@@ -54,7 +53,6 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Qualifier = "1kg"
                 }
             }
         };
@@ -75,7 +73,6 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Tomate",
-                    Qualifier = "1kg"
                 }
             }
         };
@@ -105,13 +102,11 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Qualifier = "1kg"
                 },
                 new()
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Qualifier = "1kg"
                 }
             }
         };
@@ -132,7 +127,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Kartoffeln",
-                    Qualifier = "1kg"
+                
                 }
             }
         };
@@ -181,7 +176,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Qualifier = "1kg"
+                
                 }
             }
         };
@@ -215,7 +210,7 @@ public class TemplateSpec
                 {
                     Id = Guid.Empty,
                     Name = "Zwiebel",
-                    Qualifier = "1kg"
+                
                 }
             }
         };

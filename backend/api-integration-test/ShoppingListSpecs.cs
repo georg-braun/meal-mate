@@ -15,8 +15,7 @@ public class ShoppingListSpecs
 
         // act
         const string itemName = "Sugar";
-        const string itemQualifier = "300g";
-        const string entryFreeText = $"{itemName} {itemQualifier}";
+        const string entryFreeText = $"{itemName}";
         await client.CreateEntryAsync(list.Id, entryFreeText);
 
 
@@ -24,7 +23,6 @@ public class ShoppingListSpecs
         var newList = await client.GetShoppingListAsync(list.Id);
 
         newList.Entries.First().ItemName.Should().Be(itemName);
-        newList.Entries.First().Qualifier.Should().Be(itemQualifier);
     }
 
     [Fact]
@@ -36,14 +34,12 @@ public class ShoppingListSpecs
 
         // act
         const string itemName = "Hot chocolate";
-        const string itemQualifier = "200ml";
-        const string entryFreeText = $"{itemName} {itemQualifier}";
+        const string entryFreeText = $"{itemName}";
         await client.CreateEntryAsync(list.Id, entryFreeText);
 
 
         // assert
         var newList = await client.GetShoppingListAsync(list.Id);
         newList.Entries.First().ItemName.Should().Be(itemName);
-        newList.Entries.First().Qualifier.Should().Be(itemQualifier);
     }
 }

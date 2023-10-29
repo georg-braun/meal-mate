@@ -15,22 +15,20 @@ public class Template : IEntity
         TemplateItems.RemoveAll(_ => _.Id.Equals(templateItemId));
     }
 
-    public void UpdateTemplateItem(Guid templateItemId, string templateItemsName, string templateItemsAmount)
+    public void UpdateTemplateItem(Guid templateItemId, string templateItemsName)
     {
         var templateItem = TemplateItems.FirstOrDefault(_ => _.Id.Equals(templateItemId));
         if (templateItem is null) return;
         
         templateItem.Name = templateItemsName;
-        templateItem.Qualifier = templateItemsAmount;
     }
 
-    public void AddTemplateItem(string itemName, string qualifier)
+    public void AddTemplateItem(string itemName)
     {
         TemplateItems.Add(new TemplateItem()
         {
             Id = Guid.NewGuid(),
             Name = itemName,
-            Qualifier = qualifier
         });
     }
 }
@@ -38,6 +36,6 @@ public class Template : IEntity
 public class TemplateItem
 {
     public Guid Id { get; set; }
-    public string Qualifier { get; set; } = null!;
+
     public string Name { get; set; } = null!;
 }

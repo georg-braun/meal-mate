@@ -13,8 +13,6 @@ public class TemplateItemDto
     public Guid ItemId { get; set; }
     
     public string Name { get; set; } = null!;
-    
-    public string Qualifier { get; set; } = null!;
 }
 public class TemplateDto
 {
@@ -32,7 +30,7 @@ public class TemplateDto
         {
             Id = template.Id,
             Name = template.Name,
-            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, Name = _.Name, Qualifier = _.Qualifier}).ToList(),
+            Items = template.TemplateItems.Select(_ => new TemplateItemDto() {Id = _.Id, Name = _.Name}).ToList(),
             Instructions = template.Instructions
         };
     }

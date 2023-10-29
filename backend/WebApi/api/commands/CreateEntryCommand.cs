@@ -13,8 +13,6 @@ public record CreateEntryCommand
     
     public string Name { get; init; } = null!;
     
-    public string Qualifier { get; init; } = null!;
-
     public static class Handler
     {
         public static async Task<IResult> Handle(CreateEntryCommand command, IMediator mediator)
@@ -23,7 +21,7 @@ public record CreateEntryCommand
             {
                 Name = command.Name,
                 ShoppingListId = command.ShoppingListId,
-                Qualifier = command.Qualifier
+
             });
             
             return Results.Empty;
